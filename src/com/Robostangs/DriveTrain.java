@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.Gyro;
 public class DriveTrain {
     private static DriveTrain instance = null;
     private static Encoder leftEncoder, rightEncoder;
-    private static Gyro gyro;
+   // private static Gyro gyro;
     private static boolean newGyroReading = false;
     private static double initGyro;
     private static double leftMod = 1;
@@ -23,7 +23,7 @@ public class DriveTrain {
     private DriveTrain() {
         DriveMotors.getInstance();
         Shifting.getInstance();
-        gyro = new Gyro(Constants.GYRO_POS);
+        //gyro = new Gyro(Constants.GYRO_POS);
 	leftEncoder = new Encoder(Constants.DRIVE_LEFT_ENCODER_1, Constants.DRIVE_LEFT_ENCODER_2);
         rightEncoder = new Encoder(Constants.DRIVE_RIGHT_ENCODER_1, Constants.DRIVE_RIGHT_ENCODER_2);
         
@@ -48,7 +48,7 @@ public class DriveTrain {
     @param right right motor speed
     */
     public static void drive (double left, double right) {
-        DriveMotors.set(-right, -right, left, left);
+        DriveMotors.set(-right, left, left, -right);
     }
     
     /**
@@ -69,7 +69,7 @@ public class DriveTrain {
     /**
     drive straight
     @param speed motor speed
-    */ 
+    *
     public static void driveStraight(double speed) {
         if (!newGyroReading) {
             initGyro = gyro.getAngle();
@@ -126,8 +126,8 @@ public class DriveTrain {
     /**
     get gyro angle
     @return gyro angle
-    */
+    *
     public static double getGyro() {
         return gyro.getAngle();
-    }    
+    }  */  
 }

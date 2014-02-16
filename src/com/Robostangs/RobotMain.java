@@ -33,13 +33,14 @@ public class RobotMain extends IterativeRobot {
 	//xboxManip = new XBoxController(Constants.XBOX_MANIP_POS);
 	DriveTrain.getInstance();
 	Shifting.getInstance();
-        Arm.getInstance();
+        //Arm.getInstance();
 	Pneumatics.getInstance();
-        Ingestor.getInstance();
+        /*Ingestor.getInstance();
 	Shooter.getInstance();
 	LiveWindow.addActuator("Arm", "Motor", ArmMotors.arm_jag);
 	LiveWindow.addSensor("Arm", "Pot", Arm.apot);
 	LiveWindow.addSensor("Arm", "PID", Arm.pid);
+        */
     }
 
     /**
@@ -55,7 +56,7 @@ public class RobotMain extends IterativeRobot {
     public void teleopPeriodic() {
         
 	DriveTrain.driveXbox(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
-	
+	/*
 	if (xboxDriver.aButton()) {
 	    Arm.setArmLimited(-0.25);
 	} else if(xboxDriver.bButton()) {
@@ -63,13 +64,13 @@ public class RobotMain extends IterativeRobot {
 	} else {
 	    Arm.stop();
 	}
-	
+	*/
 	if (xboxDriver.xButton()) {
 	    Shifting.LowGear();
 	} else if (xboxDriver.yButton()) {
 	    Shifting.HighGear();
 	}
-	
+	/*
 	if (xboxDriver.lBumper()) {
 	    Shooter.load();
 	} else if (xboxDriver.rBumper()) {
@@ -85,22 +86,25 @@ public class RobotMain extends IterativeRobot {
 	} else {
 	    Ingestor.setSpeed(0);
 	} 
-	
+	*/
 	Pneumatics.checkPressure();
-	
+	/*
 	SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
     	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
 	SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
 	SmartDashboard.putNumber("Right Encoder", DriveTrain.getRightEncoder());
 	SmartDashboard.putNumber("Shooter Encoder", Shooter.getEncoderDistance());
+        */
     }
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
+        /*
 	    LiveWindow.run();
 	    SmartDashboard.putNumber("Pot", Arm.getArmAngle());
+        */
     }
     
 }

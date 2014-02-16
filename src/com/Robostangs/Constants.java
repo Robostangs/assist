@@ -20,10 +20,10 @@ public class Constants {
     public static final double NORMAL_ARM_SPEED = 0.5;
     
     //DriveTrain
-    public static final int DRIVE_LEFT_ENCODER_1 = 4;
-    public static final int DRIVE_LEFT_ENCODER_2 = 5;
-    public static final int DRIVE_RIGHT_ENCODER_1 = 7;
-    public static final int DRIVE_RIGHT_ENCODER_2 = 8;
+    public static final int DRIVE_LEFT_ENCODER_1 = 1;
+    public static final int DRIVE_LEFT_ENCODER_2 = 2;
+    public static final int DRIVE_RIGHT_ENCODER_1 = 3;
+    public static final int DRIVE_RIGHT_ENCODER_2 = 4;
     public static final int DRIVE_JAG_1_POS = 1;
     public static final int DRIVE_JAG_2_POS = 2;
     public static final int DRIVE_JAG_3_POS = 3;
@@ -76,7 +76,7 @@ public class Constants {
     public static final boolean SHOOTER_AIR_SHOOT = true;
     
     //Pneumatics
-    public static final int RELAY_COMPRESSOR_POS = 1           ;
+    public static final int RELAY_COMPRESSOR_POS = 1;
     public static final int DIGITAL_INPUT_PRESSURE = 9;
     
     //Shifting
