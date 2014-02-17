@@ -13,20 +13,20 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
  * @author Laptop
  */
 public class DriveMotors implements PIDOutput{
-    public static CANJaguar jag1, jag2, jag3, jag4;
+    public static CANJaguar rightJag1, rightJag2, leftJag1, leftJag2;
     public static DriveMotors instance = null;
     
     public DriveMotors() {
         try {
-            jag1 = new CANJaguar(Constants.DRIVE_JAG_1_POS);
-            jag2 = new CANJaguar(Constants.DRIVE_JAG_2_POS);
-            jag3 = new CANJaguar(Constants.DRIVE_JAG_3_POS);
-            jag4 = new CANJaguar(Constants.DRIVE_JAG_4_POS);
+            rightJag1 = new CANJaguar(Constants.DT_RIGHT_JAG_1_POS);
+            rightJag2 = new CANJaguar(Constants.DT_RIGHT_JAG_2_POS);
+            leftJag1 = new CANJaguar(Constants.DT_LEFT_JAG_1_POS);
+            leftJag2 = new CANJaguar(Constants.DT_LEFT_JAG_2_POS);
             // fault time should be a constant
-            jag1.configFaultTime(0.5);
-            jag2.configFaultTime(0.5);
-            jag3.configFaultTime(0.5);
-            jag4.configFaultTime(0.5);
+            rightJag1.configFaultTime(0.5);
+            rightJag2.configFaultTime(0.5);
+            leftJag1.configFaultTime(0.5);
+            leftJag2.configFaultTime(0.5);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -45,10 +45,10 @@ public class DriveMotors implements PIDOutput{
     */
     public void pidWrite(double output) {
         try {
-            jag1.setX(output);
-            jag2.setX(output);
-            jag3.setX(output);
-            jag4.setX(output);
+            rightJag1.setX(output);
+            rightJag2.setX(output);
+            leftJag1.setX(output);
+            leftJag2.setX(output);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -63,10 +63,10 @@ public class DriveMotors implements PIDOutput{
     */
     public static void set(double a, double b, double c, double d) {
         try {
-            jag1.setX(a);
-            jag2.setX(b);
-            jag3.setX(c);
-            jag4.setX(d);
+            rightJag1.setX(a);
+            rightJag2.setX(b);
+            leftJag1.setX(c);
+            leftJag2.setX(d);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }

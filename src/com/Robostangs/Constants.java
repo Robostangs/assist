@@ -24,11 +24,11 @@ public class Constants {
     public static final int DRIVE_LEFT_ENCODER_2 = 2;
     public static final int DRIVE_RIGHT_ENCODER_1 = 3;
     public static final int DRIVE_RIGHT_ENCODER_2 = 4;
-    public static final int DRIVE_JAG_1_POS = 1;
-    public static final int DRIVE_JAG_2_POS = 2;
-    public static final int DRIVE_JAG_3_POS = 3;
-    public static final int DRIVE_JAG_4_POS = 4;
-    public static final int GYRO_POS = 1;
+    public static final int DT_RIGHT_JAG_1_POS = 1;
+    public static final int DT_RIGHT_JAG_2_POS = 4;
+    public static final int DT_LEFT_JAG_1_POS = 2;
+    public static final int DT_LEFT_JAG_2_POS = 3;
+    public static final int GYRO_POS = 2;
     public static final double LEFT_DISTANCE_PER_PULSE = 0.001;
     public static final double RIGHT_DISTANCE_PER_PULSE = 0.001;
     
@@ -44,7 +44,7 @@ public class Constants {
     public static final int ARM_LOAD = 0;
     public static final int ARM_SHOOT = 0;
     
-    public static final int ARM_POT_POS = 2;
+    public static final int ARM_POT_POS = 1;
     public static final int ARM_POT_MAX = 0;
     public static final int ARM_POT_MIN = 0;
     

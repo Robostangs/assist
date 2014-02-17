@@ -5,6 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+//COMP BOT
 package com.Robostangs;
 
 
@@ -88,13 +89,12 @@ public class RobotMain extends IterativeRobot {
 	} 
 	*/
 	Pneumatics.checkPressure();
-	/*
+	
 	SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
-    	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
+    	//SmartDashboard.putNumber("Pot", Arm.getArmAngle());
 	SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
 	SmartDashboard.putNumber("Right Encoder", DriveTrain.getRightEncoder());
-	SmartDashboard.putNumber("Shooter Encoder", Shooter.getEncoderDistance());
-        */
+	//SmartDashboard.putNumber("Shooter Encoder", Shooter.getEncoderDistance());
     }
     
     /**
