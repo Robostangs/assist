@@ -5,6 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+//PRACTICE BOT
+
 package com.Robostangs;
 
 
@@ -93,6 +95,7 @@ public class RobotMain extends IterativeRobot {
 	SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
 	SmartDashboard.putNumber("Right Encoder", DriveTrain.getRightEncoder());
 	SmartDashboard.putNumber("Shooter Encoder", Shooter.getEncoderDistance());
+        SmartDashboard.getBoolean("Shooter Limit Switch", Shooter.getLimit());
     }
     
     /**

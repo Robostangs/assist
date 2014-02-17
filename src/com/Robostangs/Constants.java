@@ -67,6 +67,7 @@ public class Constants {
     public static final int SHOOTER_JAG_POS = 7;
     public static final int SHOOTER_ENCODER_1 = 11;
     public static final int SHOOTER_ENCODER_2 = 12;
+    public static final int SHOOTER_LIMIT_POS = 14;
     public static final int SHOOTER_CYCLINDER_IN_POS = 3;
     public static final int SHOOTER_CYCLINDER_OUT_POS = 4;
     public static final double SHOOTER_KP = 0;

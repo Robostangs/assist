@@ -5,6 +5,7 @@
 package com.Robostangs;
 
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -20,6 +21,7 @@ public class Shooter {
     private static Encoder shooterEncoder;
     private static Solenoid shooterSolenoidOn, shooterSolenoidOff;
     private static PIDController shooterPID;
+    private static DigitalInput shooterLimit;
     
     private Shooter() {
         try {
@@ -30,7 +32,7 @@ public class Shooter {
         }
         
         shooterEncoder = new Encoder(Constants.SHOOTER_ENCODER_1, Constants.SHOOTER_ENCODER_2);
-        
+        shooterLimit = new DigitalInput(Constants.SHOOTER_LIMIT_POS);
         shooterSolenoidOn = new Solenoid(Constants.SHOOTER_CYCLINDER_IN_POS);
         shooterSolenoidOff = new Solenoid(Constants.SHOOTER_CYCLINDER_OUT_POS);
 	shooterEncoder.reset();
@@ -81,5 +83,9 @@ public class Shooter {
     
     public static double getEncoderDistance() {
 	return shooterEncoder.getRaw();
+    }
+    
+    public static boolean getLimit() {
+        return shooterLimit.get();
     }
 }
