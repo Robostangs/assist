@@ -28,7 +28,7 @@ public class Constants {
     public static final int DT_RIGHT_JAG_2_POS = 4;
     public static final int DT_LEFT_JAG_1_POS = 2;
     public static final int DT_LEFT_JAG_2_POS = 3;
-    public static final int GYRO_POS = 2;
+    public static final int GYRO_POS = 1;
     public static final double LEFT_DISTANCE_PER_PULSE = 0.001;
     public static final double RIGHT_DISTANCE_PER_PULSE = 0.001;
     
@@ -44,7 +44,7 @@ public class Constants {
     public static final int ARM_LOAD = 0;
     public static final int ARM_SHOOT = 0;
     
-    public static final int ARM_POT_POS = 1;
+    public static final int ARM_POT_POS = 2;
     public static final int ARM_POT_MAX = 0;
     public static final int ARM_POT_MIN = 0;
     
@@ -77,7 +77,7 @@ public class Constants {
     
     //Pneumatics
     public static final int RELAY_COMPRESSOR_POS = 1;
-    public static final int DIGITAL_INPUT_PRESSURE = 9;
+    public static final int DIGITAL_INPUT_PRESSURE = 5;
     
     //Shifting
     public static final int HIGH_GEAR_SOLENOID_POS = 1;

@@ -23,7 +23,7 @@ public class DriveTrain {
     private DriveTrain() {
         DriveMotors.getInstance();
         Shifting.getInstance();
-        //gyro = new Gyro(Constants.GYRO_POS);
+        gyro = new Gyro(Constants.GYRO_POS);
 	leftEncoder = new Encoder(Constants.DRIVE_LEFT_ENCODER_1, Constants.DRIVE_LEFT_ENCODER_2);
         rightEncoder = new Encoder(Constants.DRIVE_RIGHT_ENCODER_1, Constants.DRIVE_RIGHT_ENCODER_2);
         
