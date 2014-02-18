@@ -56,11 +56,17 @@ public class Shooter {
     }
 
     public static void load() {
+        if (shooterLimit.get()) {
+            set(0.75);
+        } else {
+            set(0);
+        }
+        /*
     	if(shooterEncoder.getRaw() < 8400) {
 	    set(0.75);
         } else {
 	    set(0);    
-        } 
+        }*/
     }
 
     public static void shoot() {
