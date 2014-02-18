@@ -58,6 +58,7 @@ public class RobotMain extends IterativeRobot {
         
 	DriveTrain.driveXbox(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
 	
+        
 	if (xboxDriver.aButton()) {
 	    Arm.setArmLimited(-0.25);
 	} else if(xboxDriver.bButton()) {
@@ -75,19 +76,27 @@ public class RobotMain extends IterativeRobot {
 	if (xboxDriver.lBumper()) {
 	    Shooter.load();
 	} else if (xboxDriver.rBumper()) {
-	    Shooter.solenoidEnable();
-	    Shooter.set(0);
+	    Shooter.shoot();
 	} else {
-	    Shooter.solenoidDisable();
+            Shooter.solenoidDisable();
+            Shooter.resetShoot();
 	    Shooter.set(0);
 	}
-	
-	if (Math.abs(xboxDriver.triggerAxis()) > 0.2) {
+        
+        if (Math.abs(xboxDriver.triggerAxis()) > 0.2) {
 	    Ingestor.setSpeed(-xboxDriver.triggerAxis());
-	} else {
-	    Ingestor.setSpeed(0);
-	} 
+        }
+        
+        if(!xboxDriver.rBumper() && Math.abs(xboxDriver.triggerAxis()) < 0.2) {
+            Ingestor.setSpeed(0.2);
+        }
 	
+        if(xboxDriver.startButton()) {
+            Shooter.increaseShooterTime();
+        } else if (xboxDriver.backButton()) {
+            Shooter.decreaseShooterTime();
+        } 
+        
 	Pneumatics.checkPressure();
 	
 	SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
@@ -96,6 +105,7 @@ public class RobotMain extends IterativeRobot {
 	SmartDashboard.putNumber("Right Encoder", DriveTrain.getRightEncoder());
 	SmartDashboard.putNumber("Shooter Encoder", Shooter.getEncoderDistance());
         SmartDashboard.putBoolean("Shooter Limit Switch", Shooter.getLimit());
+        SmartDashboard.putNumber("Shooter Timer", Constants.SHOOTER_SHOOT_DELAY_TIME);
     }
     
     /**

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 /**
@@ -22,6 +23,8 @@ public class Shooter {
     private static Solenoid shooterSolenoidOn, shooterSolenoidOff;
     private static PIDController shooterPID;
     private static DigitalInput shooterLimit;
+    private static Timer shooterTimer;
+    private static boolean shooshoo;
     
     private Shooter() {
         try {
@@ -38,6 +41,9 @@ public class Shooter {
 	shooterEncoder.reset();
 	shooterEncoder.start();
 	shooterPID = new PIDController(Constants.SHOOTER_KP, Constants.SHOOTER_KI, Constants.SHOOTER_KD, shooterEncoder, shooterJag);
+        shooterTimer = new Timer();
+        shooshoo = false;
+        Ingestor.getInstance();
     }
     
     public static Shooter getInstance() {
@@ -70,10 +76,23 @@ public class Shooter {
     }
 
     public static void shoot() {
-	if(shooterPID.isEnable()){
-	    shooterPID.disable();
-	}
-	shooterSolenoidOn.set(Constants.SHOOTER_AIR_SHOOT);
+        if (shooshoo) {
+            shooterTimer.start();
+            solenoidEnable();
+            set(0);
+            shooshoo = false;
+        }
+       
+        if (shooterTimer.get() > Constants.SHOOTER_SHOOT_DELAY_TIME) {
+            Ingestor.setSpeed(Constants.INGESTOR_SHOOT_EXGEST_SPEED);
+        } else if (shooterTimer.get() > Constants.SHOOTER_SHOOT_STOP_TIME) {
+            shooterTimer.stop();     
+        }
+    }
+    
+    public static void resetShoot() {
+        shooterTimer.reset();
+        shooshoo = true;
     }
 
     public static void solenoidEnable() {
@@ -93,5 +112,13 @@ public class Shooter {
     
     public static boolean getLimit() {
         return shooterLimit.get();
+    }
+    
+    public static void increaseShooterTime() {
+        Constants.SHOOTER_SHOOT_DELAY_TIME += 0.001;
+    }
+    
+    public static void decreaseShooterTime() {
+        Constants.SHOOTER_SHOOT_DELAY_TIME -= 0.001;
     }
 }
