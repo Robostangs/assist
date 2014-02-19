@@ -62,7 +62,7 @@ public class Constants {
     //Ingestor
     public static final int INGESTOR_RIGHT_JAG = 5;
     public static final int INGESTOR_LEFT_JAG = 8;
-    public static final double INGESTOR_SHOOT_EXGEST_SPEED = -1.0;
+    public static final double INGESTOR_SHOOT_EXGEST_SPEED = 1.0;
     
     //Shooter
     public static double SHOOTER_SHOOT_DELAY_TIME = 0;

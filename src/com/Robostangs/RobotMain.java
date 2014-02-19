@@ -62,7 +62,7 @@ public class RobotMain extends IterativeRobot {
 	if (xboxDriver.aButton()) {
 	    Arm.setArmLimited(-0.25);
 	} else if(xboxDriver.bButton()) {
-	    Arm.setArmLimited(0.5);
+	    Arm.setArmLimited(0.4);
 	} else {
 	    Arm.stop();
 	}
@@ -88,7 +88,7 @@ public class RobotMain extends IterativeRobot {
         }
         
         if(!xboxDriver.rBumper() && Math.abs(xboxDriver.triggerAxis()) < 0.2) {
-            Ingestor.setSpeed(0.2);
+            Ingestor.setSpeed(-0.2);
         }
 	
         if(xboxDriver.startButton()) {
