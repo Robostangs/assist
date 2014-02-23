@@ -31,7 +31,7 @@ public class RobotMain extends IterativeRobot {
 
     public void teleopPeriodic() {
         
-	DriveTrain.driveXbox(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
+	DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
 	
         if (xboxDriver.lBumper()) {
 	    Shifting.LowGear();
@@ -40,7 +40,7 @@ public class RobotMain extends IterativeRobot {
 	}
         
 	if (Math.abs(xboxManip.rightStickYAxis()) > 0.2) {
-	    Arm.setArmSpeed(-(0.5 * xboxManip.rightStickYAxis()));
+	    Arm.setArmSpeed(-(Constants.ARM_SLOW_SPEED * xboxManip.rightStickYAxis()));
 	} else if (xboxManip.aButton()) {
             Arm.setPIDStaticShot();
         } else if (xboxManip.bButton()) {

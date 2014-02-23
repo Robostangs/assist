@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Robostangs;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -15,27 +11,28 @@ public class DriveTrain {
     private static DriveTrain instance = null;
     private static Encoder leftEncoder, rightEncoder;
     private static Gyro gyro;
-    private static boolean newGyroReading = false;
+    private static boolean newGyroReadingDriveStraight = false;
+    private static boolean newGyroReadingTurn = false;
     private static double initGyro;
-    private static double leftMod = 1;
-    private static double rightMod = 1;
+    private static double delta = 1.0;
+    private static boolean encoderInit = false;
     
     private DriveTrain() {
         DriveMotors.getInstance();
         Shifting.getInstance();
-        gyro = new Gyro(Constants.GYRO_POS);
-	leftEncoder = new Encoder(Constants.DRIVE_LEFT_ENCODER_1, Constants.DRIVE_LEFT_ENCODER_2);
-        rightEncoder = new Encoder(Constants.DRIVE_RIGHT_ENCODER_1, Constants.DRIVE_RIGHT_ENCODER_2);
+        gyro = new Gyro(Constants.DT_GYRO_POS);
+	leftEncoder = new Encoder(Constants.DT_LEFT_ENCODER_1, Constants.DT_LEFT_ENCODER_2);
+        rightEncoder = new Encoder(Constants.DT_RIGHT_ENCODER_1, Constants.DT_RIGHT_ENCODER_2);
         
-        leftEncoder.setDistancePerPulse(Constants.LEFT_DISTANCE_PER_PULSE);
-        rightEncoder.setDistancePerPulse(Constants.RIGHT_DISTANCE_PER_PULSE);
+        leftEncoder.setDistancePerPulse(Constants.DT_LEFT_ENCODER_DPP);
+        rightEncoder.setDistancePerPulse(Constants.DT_RIGHT_ENCODER_DPP);
         leftEncoder.reset();
 	rightEncoder.reset();
         leftEncoder.start();
         rightEncoder.start();
     }
     
-    public static DriveTrain getInstance(){ 
+    public static DriveTrain getInstance() {
         if(instance == null){
             instance = new DriveTrain();
         }
@@ -43,90 +40,157 @@ public class DriveTrain {
     }
     
     /**
-    drive motors
-    @param left left motor speed
-    @param right right motor speed
-    */
-    public static void drive (double left, double right) {
-        DriveMotors.set(-right, -right, left, left);
+     * drive motors
+     * @param left left motor speed
+     * @param right right motor speed
+     */
+    public static void drive (double leftPower, double rightPower) {
+        DriveMotors.set(leftPower, leftPower, -rightPower, -rightPower);
     }
     
     /**
-    drive motors according to outputs of xbox controller
-    @param leftStick value of Xbox left stick
-    @param rightStick value of Xbox right Stick
+     * drive motors according to outputs of xbox controller
+     * @param leftSpeed value of Xbox left stick
+     * @param rightSpeed value of Xbox right Stick
     */
-    public static void driveXbox(double leftStick, double rightStick) {
-        if (Math.abs(leftStick) < .2) {
-            leftStick = 0;
+    public static void humanDrive(double leftPower, double rightPower) {
+        if (Math.abs(leftPower) < 0.2) {
+            leftPower = 0;
         }
-        if (Math.abs(rightStick) < .2) {
-            rightStick = 0;
+        if (Math.abs(rightPower) < 0.2) {
+            rightPower = 0;
         }
-        drive(leftStick, rightStick);
+        drive(leftPower, rightPower);
     }
     
     /**
-    drive straight
-    @param speed motor speed
-    */ 
-    public static void driveStraight(double speed) {
-        if (!newGyroReading) {
+     * drive straight using gyro
+     * @param power motor speed
+     */ 
+    public static void driveStraightGyro(double power) {
+        double leftMod = 1.0;
+        double rightMod = 1.0;
+    
+        if (!newGyroReadingDriveStraight) {
             initGyro = gyro.getAngle();
-            newGyroReading = true;
-            leftMod = 1;
-            rightMod = 1;
+            newGyroReadingDriveStraight = true;
         }
         
-        if (speed < 0) {
+        if (power < 0) {
             if ((gyro.getAngle() - initGyro) < -5) {
-                leftMod*=1.15;
-                rightMod*=0.85;
+                leftMod*=Constants.DT_GYRO_FAST_MOD;
+                rightMod*=Constants.DT_GYRO_SLOW_MOD;
             } else if ((gyro.getAngle() - initGyro) > 5) {
-                rightMod*=1.15;
-                leftMod*=0.85;
+                rightMod*=Constants.DT_GYRO_FAST_MOD;
+                leftMod*=Constants.DT_GYRO_SLOW_MOD;
             }
-        } else if (speed < 0) {
+        } else if (power < 0) {
             if ((gyro.getAngle() - initGyro) < -5) {
-                leftMod*=0.85;
-                rightMod*=1.15;
+                leftMod*=Constants.DT_GYRO_SLOW_MOD;
+                rightMod*=Constants.DT_GYRO_FAST_MOD;
             } else if ((gyro.getAngle() - initGyro) > 5) {
-                rightMod*=0.85;
-                leftMod*=1.15;
+                rightMod*=Constants.DT_GYRO_SLOW_MOD;
+                leftMod*=Constants.DT_GYRO_FAST_MOD;
             }
         }   
         
-        drive((speed * leftMod), (speed * rightMod));
+        drive((power * leftMod), (power * rightMod));
     }
     
     /**
-    resets left and right encoders
-    */
-    public static void resetEncoder() {
+     * drive straight using encoders
+     * @param power motor speed
+     */
+    public static void driveStraightEncoder(double power) {
+        delta = leftEncoder.getRate() - rightEncoder.getRate();
+        
+        if (delta > 0.02) {
+            drive(power * Constants.DT_ENCODER_SLOW_MOD, power * Constants.DT_ENCODER_FAST_MOD);
+        } else if (delta < -0.02) {
+            drive(power * Constants.DT_ENCODER_FAST_MOD, power * Constants.DT_ENCODER_SLOW_MOD);
+        }
+        drive(power, power);
+    }
+    
+    /**
+     * drive straight for a certain distance
+     * @param power motor speed
+     * @param distance distance you want to travel
+     */
+    public static void driveStraightDistance(double power, double distance) {
+        double currentDistance = (leftEncoder.getRaw() + rightEncoder.getRaw()) / 2;
+        
+        if (!encoderInit) {
+            resetEncoders();
+            encoderInit = true;
+        }
+        
+        if (currentDistance < distance) {
+            driveStraightEncoder(power);
+        }
+    }
+    
+    /**
+     * turn in a station for a certain angle
+     * @param power
+     * @param angle 
+     */
+    public static void turn(double power, double angle) {
+        if (!newGyroReadingTurn) {
+            initGyro = gyro.getAngle();
+            newGyroReadingTurn = true;
+        }
+                
+        if (angle >= 0) {
+            if ((gyro.getAngle() - initGyro) < angle) {
+                drive(power, -power);
+            } else {
+                stop();
+            }
+        } else {
+            if ((gyro.getAngle() - initGyro) > angle) {
+                drive(-power, power);
+            } else {
+                stop();
+            }
+        }
+    }
+    
+    /**
+     * reset left and right encoders
+     */
+    public static void resetEncoders() {
         leftEncoder.reset();
         rightEncoder.reset();
     }
     
     /**
-    get distance of left encoder
-    @return left encoder distance
-    */
+     * stop driving
+     */
+    public static void stop() {
+        drive(0,0);
+    }
+    
+    /**
+     * get distance of left encoder
+     * @return left encoder distance
+     */
     public static double getLeftEncoder() {
         return leftEncoder.getRaw();
     }
     
     /**
-    get distance of right encoder
-    @return right encoder distance
-    */
+     * get distance of right encoder
+     * @return right encoder distance
+     */
     public static double getRightEncoder() {
         return rightEncoder.getRaw();
     }
 
     /**
-    get gyro angle
-    @return gyro angle
-    */
+     * get gyro angle
+     * @return gyro angle
+     */
     public static double getGyro() {
         return gyro.getAngle();
     }    

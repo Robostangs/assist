@@ -180,14 +180,6 @@ public class Arm {
     public static boolean pidEnabled() {
         return pid.isEnable();
     }
-    
-    public static void enablePID() {
-	pid.enable();
-    }
-    
-    public static void disablePID() {
-	pid.disable();
-    }
         
     /**
     Stop PID and arm
