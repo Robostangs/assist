@@ -56,8 +56,10 @@ public class Constants {
     public static final double DT_ENCODER_FAST_MOD = 1.20;
     
     //Ingestor
-    public static final int INGESTOR_RIGHT_JAG = 5;
     public static final int INGESTOR_LEFT_JAG = 8;
+    public static final int INGESTOR_RIGHT_JAG = 5;
+    public static final double INGESTOR_INGEST_SPEED = -0.8;
+    public static final double INGESTOR_EXGEST_SPEED = 1.0;
     public static final double INGESTOR_SHOOT_EXGEST_SPEED = 1.0;
     public static final double INGESTOR_CONSTANT_INGEST_SPEED = -0.2;
     
@@ -74,17 +76,14 @@ public class Constants {
     public static final int LOW_GEAR_SOLENOID_POS = 2;
     
     //Shooter
-    public static double SHOOTER_SHOOT_DELAY_TIME = 0;
-    public static final double SHOOTER_SHOOT_STOP_TIME = 1.0;
     public static final int SHOOTER_JAG_POS = 7;
     public static final int SHOOTER_ENCODER_1 = 11;
     public static final int SHOOTER_ENCODER_2 = 12;
     public static final int SHOOTER_LIMIT_POS = 14;
     public static final int SHOOTER_CYCLINDER_IN_POS = 3;
     public static final int SHOOTER_CYCLINDER_OUT_POS = 4;
-    public static final double SHOOTER_KP = 0;
-    public static final double SHOOTER_KI = 0;
-    public static final double SHOOTER_KD = 0;
-    public static final double SHOOTER_LOAD_POSITION = 0;
-    public static final boolean SHOOTER_AIR_SHOOT = true;
+
+    public static final double SHOOTER_LOAD_POWER = 0.75;
+    public static double SHOOTER_SHOOT_DELAY_TIME = 0;
+    public static final double SHOOTER_SHOOT_STOP_TIME = 1.0;    
 }

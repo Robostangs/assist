@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Robostangs;
 
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
@@ -21,7 +16,6 @@ public class Shooter {
     private static Shooter instance = null;
     private static Encoder shooterEncoder;
     private static Solenoid shooterSolenoidOn, shooterSolenoidOff;
-    private static PIDController shooterPID;
     private static DigitalInput shooterLimit;
     private static Timer shooterTimer;
     private static boolean shooshoo;
@@ -30,20 +24,19 @@ public class Shooter {
         try {
             shooterJag = new CANJaguar(Constants.SHOOTER_JAG_POS);
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
-            System.out.println("Shooter CAN error");
+            System.out.println("SHOOTER CAN ERROR");
         }
         
+        Ingestor.getInstance();        
         shooterEncoder = new Encoder(Constants.SHOOTER_ENCODER_1, Constants.SHOOTER_ENCODER_2);
         shooterLimit = new DigitalInput(Constants.SHOOTER_LIMIT_POS);
         shooterSolenoidOn = new Solenoid(Constants.SHOOTER_CYCLINDER_IN_POS);
         shooterSolenoidOff = new Solenoid(Constants.SHOOTER_CYCLINDER_OUT_POS);
+        shooterTimer = new Timer();
+        
 	shooterEncoder.reset();
 	shooterEncoder.start();
-	shooterPID = new PIDController(Constants.SHOOTER_KP, Constants.SHOOTER_KI, Constants.SHOOTER_KD, shooterEncoder, shooterJag);
-        shooterTimer = new Timer();
         shooshoo = false;
-        Ingestor.getInstance();
     }
     
     public static Shooter getInstance() {
@@ -53,28 +46,33 @@ public class Shooter {
         return instance;
     }
 
+    /**
+     * sets the shooter motor speed
+     * @param power motor speed
+     */
     public static void set(double power) {
 	    try {
-		    shooterJag.setX(power);
+		shooterJag.setX(power);
 	    } catch (CANTimeoutException ex) {
-		    ex.printStackTrace();
+                System.out.println("SHOOTER CAN ERROR");
 	    }
     }
 
+    /**
+     * pull the ratchet at the constant power
+     * stop when the shooter hits the limit switch
+     */
     public static void load() {
         if (shooterLimit.get()) {
-            set(0.75);
+            set(Constants.SHOOTER_LOAD_POWER);
         } else {
             set(0);
         }
-        /*
-    	if(shooterEncoder.getRaw() < 8400) {
-	    set(0.75);
-        } else {
-	    set(0);    
-        }*/
     }
 
+    /**
+     * release the ratchet and spin the ingestor outward after a delay
+     */
     public static void shoot() {
         if (shooshoo) {
             shooterTimer.start();
@@ -82,7 +80,9 @@ public class Shooter {
             set(0);
             shooshoo = false;
         }
-       
+        
+        //Ingestor.stop();
+        
         if (shooterTimer.get() > Constants.SHOOTER_SHOOT_DELAY_TIME) {
             Ingestor.setSpeed(Constants.INGESTOR_SHOOT_EXGEST_SPEED);
         } else if (shooterTimer.get() > Constants.SHOOTER_SHOOT_STOP_TIME) {
@@ -104,6 +104,15 @@ public class Shooter {
     public static void solenoidDisable() {
 	shooterSolenoidOff.set(true);
 	shooterSolenoidOn.set(false);
+    }
+    
+    /**
+     * disable solenoid, reset shoot boolean, and stop the shooter motor
+     */
+    public static void stop() {
+        solenoidDisable();
+        resetShoot();
+        set(0);
     }
     
     public static double getEncoderDistance() {

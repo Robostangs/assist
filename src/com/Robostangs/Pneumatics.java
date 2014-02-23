@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Robostangs;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -16,7 +12,7 @@ public class Pneumatics {
     private static DigitalInput pressureSensor;
     private static Pneumatics instance = null;
     
-    public Pneumatics() {
+    private Pneumatics() {
         compressor = new Relay(Constants.RELAY_COMPRESSOR_POS);
         pressureSensor = new DigitalInput(Constants.DIGITAL_INPUT_PRESSURE);
     }

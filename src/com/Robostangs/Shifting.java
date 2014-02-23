@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Robostangs;
 
 import edu.wpi.first.wpilibj.Solenoid;
@@ -45,5 +41,4 @@ public class Shifting {
         highGear.set(false);
         lowGear.set(true);
     }
-    
 }

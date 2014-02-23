@@ -60,19 +60,21 @@ public class RobotMain extends IterativeRobot {
 	} else if (xboxDriver.rBumper()) {
 	    Shooter.shoot();
 	} else {
-            Shooter.solenoidDisable();
-            Shooter.resetShoot();
-	    Shooter.set(0);
-	}
+	    Shooter.stop();
+        }
         
-        if (Math.abs(xboxManip.triggerAxis()) > 0.2) {
-	    Ingestor.setSpeed(-xboxDriver.triggerAxis());
+        if (xboxManip.triggerAxis() > 0.2) {
+	    Ingestor.ingest();
+        } else if (xboxManip.triggerAxis() < -0.2) {
+            Ingestor.exgest();
         }
         
         if(!xboxManip.rBumper() && !xboxDriver.rBumper() && Math.abs(xboxManip.triggerAxis()) < 0.2) {
             Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
         }
 	
+        Pneumatics.checkPressure();
+        
         /*
         if(xboxDriver.startButton()) {
             Shooter.increaseShooterTime();
@@ -80,8 +82,7 @@ public class RobotMain extends IterativeRobot {
             Shooter.decreaseShooterTime();
         } 
         */
-	Pneumatics.checkPressure();
-	
+        	
 	SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
     	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
 	SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
