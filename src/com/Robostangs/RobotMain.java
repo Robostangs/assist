@@ -40,10 +40,15 @@ public class RobotMain extends IterativeRobot {
 	}
         
 	if (Math.abs(xboxManip.rightStickYAxis()) > 0.2) {
-	    Arm.setArmLimited(-(0.5 * xboxManip.rightStickYAxis()));
+	    Arm.setArmSpeed(-(0.5 * xboxManip.rightStickYAxis()));
 	} else if (xboxManip.aButton()) {
-            Arm.setPIDShoot();
-            Arm.setPIDPosition(Constants.ARM_SHOOT);
+            Arm.setPIDStaticShot();
+        } else if (xboxManip.bButton()) {
+            Arm.setPIDFenderShot();
+        } else if (xboxManip.xButton()) {
+            Arm.setPIDIngest();
+        } else if (xboxManip.yButton()) {
+            Arm.setPIDTrussPass();
         } else {
 	    Arm.stop();
 	}

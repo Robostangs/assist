@@ -55,4 +55,12 @@ public class ArmMotors implements PIDOutput{
         }
         return 0;
     }
+    
+    public static void stop() {
+        try {
+            armJag.setX(0.0);
+        } catch (CANTimeoutException ex) {
+            System.out.println("Arm Motor Error");
+        }
+    }
 }

@@ -40,26 +40,31 @@ public class Constants {
     public static final int ARM_MIN_ANGLE = 450;
     public static final int ARM_MAX_ANGLE  = 800;
     
-    public static final int ARM_POWER_COEFFICIENT = 0;
+    public static final float ARM_POWER_COEFFICIENT = 1.0f;
     
-    public static final int ARM_INGEST = 0;
-    public static final int ARM_LOAD = 0;
-    public static final int ARM_SHOOT = 824;
+    public static final int ARM_INGEST = 475;
+    public static final int ARM_LOAD = 600;
+    public static final int ARM_MAX_STATIC_SHOT = 781;
+    public static final int ARM_FENDER_SHOT = 824;
+    public static final int ARM_CLOSE_SHOT = 837;
+    public static final int ARM_TRUSS_PASS = 801;
     
     public static final int ARM_POT_POS = 2;
-    public static final int ARM_POT_MAX = 0;
-    public static final int ARM_POT_MIN = 0;
+    public static final int ARM_POT_IN_MIN = ARM_INGEST - 25;
+    public static final int ARM_POT_IN_MAX = ARM_CLOSE_SHOT + 25;
+    public static final int ARM_POT_OUT_MIN = -1;
+    public static final int ARM_POT_OUT_MAX = 1;
     
     //Arm PID
-    public static final double ARM_SHOOT_AKp = 0.05;
-    public static final double ARM_SHOOT_AKi = 0;
-    public static final double ARM_SHOOT_AKd = 0;    
-    public static final double ARM_LOAD_AKp = 0;
-    public static final double ARM_LOAD_AKi = 0;
-    public static final double ARM_LOAD_AKd = 0; 
-    public static final double ARM_INGEST_AKp = 0;
-    public static final double ARM_INGEST_AKi = 0;
-    public static final double ARM_INGEST_AKd = 0;   
+    public static final double ARM_SHOOT_AKp = 0.003;
+    public static final double ARM_SHOOT_AKi = 0.0000028;
+    public static final double ARM_SHOOT_AKd = 0.0;    
+    public static final double ARM_LOAD_AKp = 0.003;
+    public static final double ARM_LOAD_AKi = 0.0000028;
+    public static final double ARM_LOAD_AKd = 0.0;
+    public static final double ARM_INGEST_AKp = 0.003;
+    public static final double ARM_INGEST_AKi = 0.0000028;
+    public static final double ARM_INGEST_AKd = 0.0;   
     
     //Ingestor
     public static final int INGESTOR_RIGHT_JAG = 5;
