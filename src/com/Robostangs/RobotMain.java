@@ -1,80 +1,57 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) FIRST 2008. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 //PRACTICE BOT
 
 package com.Robostangs;
-
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
- * directory.
- */
 public class RobotMain extends IterativeRobot {
-    /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
-     */
     private static XBoxController xboxDriver;
-    //private static XBoxController xboxManip;
-    private static boolean enable = false;
+    private static XBoxController xboxManip;
     
     public void robotInit() {
         xboxDriver = new XBoxController(Constants.XBOX_DRIVER_POS);
-	//xboxManip = new XBoxController(Constants.XBOX_MANIP_POS);
-	DriveTrain.getInstance();
-	Shifting.getInstance();
+	xboxManip = new XBoxController(Constants.XBOX_MANIP_POS);
         Arm.getInstance();
-	Pneumatics.getInstance();
+	DriveTrain.getInstance();
         Ingestor.getInstance();
+	Pneumatics.getInstance();
+	Shifting.getInstance();
 	Shooter.getInstance();
-	LiveWindow.addActuator("Arm", "Motor", ArmMotors.arm_jag);
+        
+	LiveWindow.addActuator("Arm", "Motor", ArmMotors.armJag);
 	LiveWindow.addSensor("Arm", "Pot", Arm.apot);
 	LiveWindow.addSensor("Arm", "PID", Arm.pid);
     }
 
-    /**
-     * This function is called periodically during autonomous
-     */
     public void autonomousPeriodic() {
 
     }
 
-    /**
-     * This function is called periodically during operator control
-     */
     public void teleopPeriodic() {
         
 	DriveTrain.driveXbox(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
 	
-        
-	if (xboxDriver.aButton()) {
-	    Arm.setArmLimited(-0.25);
-	} else if(xboxDriver.bButton()) {
-	    Arm.setArmLimited(0.4);
-	} else {
-	    Arm.stop();
-	}
-	
-	if (xboxDriver.xButton()) {
+        if (xboxDriver.lBumper()) {
 	    Shifting.LowGear();
-	} else if (xboxDriver.yButton()) {
+	} else {
 	    Shifting.HighGear();
+	}
+        
+	if (Math.abs(xboxManip.rightStickYAxis()) > 0.2) {
+	    Arm.setArmLimited(-(0.5 * xboxManip.rightStickYAxis()));
+	} else if (xboxManip.aButton()) {
+            Arm.setPIDShoot();
+            Arm.setPIDPosition(Constants.ARM_SHOOT);
+        } else {
+	    Arm.stop();
 	}
 	
 	if (xboxDriver.lBumper()) {
 	    Shooter.load();
+        } else if (xboxManip.rBumper()) {
+            Shooter.shoot();
 	} else if (xboxDriver.rBumper()) {
 	    Shooter.shoot();
 	} else {
@@ -83,20 +60,21 @@ public class RobotMain extends IterativeRobot {
 	    Shooter.set(0);
 	}
         
-        if (Math.abs(xboxDriver.triggerAxis()) > 0.2) {
+        if (Math.abs(xboxManip.triggerAxis()) > 0.2) {
 	    Ingestor.setSpeed(-xboxDriver.triggerAxis());
         }
         
-        if(!xboxDriver.rBumper() && Math.abs(xboxDriver.triggerAxis()) < 0.2) {
-            Ingestor.setSpeed(-0.2);
+        if(!xboxManip.rBumper() && !xboxDriver.rBumper() && Math.abs(xboxManip.triggerAxis()) < 0.2) {
+            Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
         }
 	
+        /*
         if(xboxDriver.startButton()) {
             Shooter.increaseShooterTime();
         } else if (xboxDriver.backButton()) {
             Shooter.decreaseShooterTime();
         } 
-        
+        */
 	Pneumatics.checkPressure();
 	
 	SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
@@ -107,10 +85,7 @@ public class RobotMain extends IterativeRobot {
         SmartDashboard.putBoolean("Shooter Limit Switch", Shooter.getLimit());
         SmartDashboard.putNumber("Shooter Timer", Constants.SHOOTER_SHOOT_DELAY_TIME);
     }
-    
-    /**
-     * This function is called periodically during test mode
-     */
+
     public void testPeriodic() {
 	    LiveWindow.run();
 	    SmartDashboard.putNumber("Pot", Arm.getArmAngle());

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Robostangs;
 
 import edu.wpi.first.wpilibj.CANJaguar;
@@ -9,55 +5,53 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 /**
- *
  * @author Laptop
  */
 public class ArmMotors implements PIDOutput{
+    public static CANJaguar armJag;
     
-    public static CANJaguar arm_jag;
-    
-     public ArmMotors() {
+    public ArmMotors() {
         try {
-            arm_jag = new CANJaguar(Constants.ARM_JAG);
+            armJag = new CANJaguar(Constants.ARM_JAG);
+            armJag.configFaultTime(Constants.JAG_FAULT_TIME);
         } catch (CANTimeoutException ex) {
-            System.out.println("Arm Failure");
-            ex.printStackTrace();
+            System.out.println("Arm Motor Error");
+        }
+    }
+ 
+    /**
+     * Sets arm speed according to output
+     * @param output arm speed
+     */
+     public void pidWrite(double output) {
+        try {
+            armJag.setX(output);
+        } catch (CANTimeoutException ex) {
+            System.out.println("Arm Motor Error");
         }
     }
      
     /**
-    Sets arm speed according to output
-    @param output arm speed
-    */
-     public void pidWrite(double output) {
+     * Sets arm speed according to value
+     * @param set arm speed
+     */
+    public static void set(double value) {
         try {
-            arm_jag.setX(output);
+            armJag.setX(value);
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            System.out.println("Arm Motor Error");
         }
     }
      
-     /**
-     Sets arm speed according to value
-     @param set arm speed
+    /**
+     * get average voltage of motor jags
+     * @return average voltage of jags
      */
-     public static void set(double value) {
+    public static double getPower() {
         try {
-            arm_jag.setX(value);
+            return (armJag.getOutputVoltage());
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
-        }
-    }
-     
-     /**
-     get average voltage of motor jags
-     @return average voltage of jags
-     */
-     public static double getPower() {
-        try {
-            return (arm_jag.getOutputVoltage());
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            System.out.println("Arm Motor Error");
         }
         return 0;
     }

@@ -79,11 +79,9 @@ public class Arm {
     /**
     Sets arm positions to top, middle, load, or ingest
     */
-    public static void setPidShoot(int setpoint) {
+    public static void setPIDShoot() {
         pid.reset();
         pid.setPID(Constants.ARM_SHOOT_AKp, Constants.ARM_SHOOT_AKi, Constants.ARM_SHOOT_AKd);
-        pid.setSetpoint(setpoint);  //constant
-	pid.enable();
     }
     
     /**
@@ -151,7 +149,12 @@ public class Arm {
 	pid.setPID(p, i, d);
 	pid.setSetpoint(setpoint);
     }
-
+    
+    public static void setPIDPosition(double pos) {
+        pid.setSetpoint(pos);
+        pid.enable();
+    }
+    
     public static void enablePID() {
 	pid.enable();
     }

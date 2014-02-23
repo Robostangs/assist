@@ -9,6 +9,8 @@ package com.Robostangs;
  * @author Laptop
  */
 public class Constants {
+    //CANJaguars
+    public static final double JAG_FAULT_TIME = 5.0;
     
     //Robot Main
     public static final int XBOX_DRIVER_POS = 1;
@@ -42,7 +44,7 @@ public class Constants {
     
     public static final int ARM_INGEST = 0;
     public static final int ARM_LOAD = 0;
-    public static final int ARM_SHOOT = 0;
+    public static final int ARM_SHOOT = 824;
     
     public static final int ARM_POT_POS = 2;
     public static final int ARM_POT_MAX = 0;
@@ -63,6 +65,7 @@ public class Constants {
     public static final int INGESTOR_RIGHT_JAG = 5;
     public static final int INGESTOR_LEFT_JAG = 8;
     public static final double INGESTOR_SHOOT_EXGEST_SPEED = 1.0;
+    public static final double INGESTOR_CONSTANT_INGEST_SPEED = -0.2;
     
     //Shooter
     public static double SHOOTER_SHOOT_DELAY_TIME = 0;
