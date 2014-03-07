@@ -14,6 +14,7 @@ public class RobotMain extends IterativeRobot {
         xboxDriver = new XBoxController(Constants.XBOX_DRIVER_POS);
 	xboxManip = new XBoxController(Constants.XBOX_MANIP_POS);
         Arm.getInstance();
+	Autonomous.getInstance();
 	DriveTrain.getInstance();
         Ingestor.getInstance();
 	Pneumatics.getInstance();
@@ -26,7 +27,7 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void autonomousPeriodic() {
-
+	Autonomous.fallBack();
     }
 
     public void teleopPeriodic() {
@@ -40,24 +41,32 @@ public class RobotMain extends IterativeRobot {
 	}
         
 	if (Math.abs(xboxManip.rightStickYAxis()) > 0.2) {
-	    Arm.setArmSpeed(-(Constants.ARM_SLOW_SPEED * xboxManip.rightStickYAxis()));
+	    Arm.setArmCoarseAdjustment(-xboxManip.rightStickYAxis());
+	} else if (Math.abs(xboxManip.leftStickYAxis()) > 0.2) {
+	    Arm.setArmFineAdjustment(-xboxManip.leftStickYAxis());
 	} else if (xboxManip.aButton()) {
-            Arm.setPIDStaticShot();
-        } else if (xboxManip.bButton()) {
-            Arm.setPIDFenderShot();
-        } else if (xboxManip.xButton()) {
             Arm.setPIDIngest();
+	} else if (xboxManip.bButton()) {
+            Arm.setPIDShoot();
+        } else if (xboxManip.xButton()) {
+            Arm.setPIDHumanLoad();
         } else if (xboxManip.yButton()) {
-            Arm.setPIDTrussPass();
+            Arm.setPIDShooShot();
+	} else if (xboxManip.startButton()) {
+	    Arm.setPIDTrussPass();
+	} else if (xboxManip.backButton()) {
+	    Arm.setPIDGoalLineShot();
         } else {
 	    Arm.stop();
 	}
 	
-	if (xboxDriver.lBumper()) {
-	    Shooter.load();
+	if (xboxManip.lBumper()) {
+	    Shooter.manualLoad();
         } else if (xboxManip.rBumper()) {
-            Shooter.shoot();
+            Shooter.shooShoot();
 	} else if (xboxDriver.rBumper()) {
+	    Shooter.shooShoot();
+	} else if (xboxDriver.startButton()) {
 	    Shooter.shoot();
 	} else {
 	    Shooter.stop();
@@ -75,21 +84,65 @@ public class RobotMain extends IterativeRobot {
 	
         Pneumatics.checkPressure();
         
+	if (xboxDriver.backButton()) {
+	    DriveTrain.resetEncoders();
+	    Autonomous.reset();
+	}
         /*
         if(xboxDriver.startButton()) {
             Shooter.increaseShooterTime();
         } else if (xboxDriver.backButton()) {
             Shooter.decreaseShooterTime();
         } 
-        */
-        	
-	SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
+        
+	if(xboxDriver.backButton()) {
+	    DriveTrain.driveStraightEncoder(-0.8);
+	} else {
+	    DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
+	}
+	
+	if(xboxDriver.bButton()) {
+	    Constants.DT_DELTA_OFFSET += 0.1;
+	} else if (xboxDriver.aButton()) {
+	    Constants.DT_DELTA_OFFSET -= 0.1;
+        } else if (xboxDriver.yButton()) {
+	    Constants.DT_ENCODER_SLOW_MOD += 0.01;
+	} else if (xboxDriver.xButton()) {
+	    Constants.DT_ENCODER_SLOW_MOD -= 0.01;
+	}
+        
+	if (xboxManip.aButton()) {
+	    Constants.ARM_CUSTOM_SECOND_P+=0.001;
+	} else if (xboxManip.bButton()) {
+	    Constants.ARM_CUSTOM_SECOND_P-=0.001;
+	} else if (xboxManip.xButton()) {
+	    Constants.ARM_CUSTOM_SECOND_I+=0.0001;
+	} else if (xboxManip.yButton()) {
+	    Constants.ARM_CUSTOM_SECOND_I-=0.0001;
+	} else if (xboxManip.startButton()) {
+	    Constants.ARM_CUSTOM_SECOND_D+=0.0005;
+	} else if (xboxManip.backButton()) {
+	    Constants.ARM_CUSTOM_SECOND_D-=0.0005;
+	}
+	*/
+	//SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
     	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
 	SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
 	SmartDashboard.putNumber("Right Encoder", DriveTrain.getRightEncoder());
-	SmartDashboard.putNumber("Shooter Encoder", Shooter.getEncoderDistance());
+	//SmartDashboard.putNumber("Shooter Encoder", Shooter.getEncoderDistance());
         SmartDashboard.putBoolean("Shooter Limit Switch", Shooter.getLimit());
-        SmartDashboard.putNumber("Shooter Timer", Constants.SHOOTER_SHOOT_DELAY_TIME);
+        //SmartDashboard.putNumber("Shooter Timer", Constants.SHOOTER_SHOOT_DELAY_TIME);
+        //SmartDashboard.putNumber("Offset", Constants.DT_DELTA_OFFSET);
+        //SmartDashboard.putNumber("Mod", Constants.DT_ENCODER_SLOW_MOD);
+	//SmartDashboard.putNumber("delta", DriveTrain.delta);
+	SmartDashboard.putNumber("pidDiff", Arm.pidDiff);
+	SmartDashboard.putNumber("P", Arm.pid.getP());
+	SmartDashboard.putNumber("I", Arm.pid.getI());
+	SmartDashboard.putNumber("D", Arm.pid.getD());
+	SmartDashboard.putNumber("second P", Constants.ARM_CUSTOM_SECOND_P);
+	SmartDashboard.putNumber("second I", Constants.ARM_CUSTOM_SECOND_I);
+	SmartDashboard.putNumber("second D", Constants.ARM_CUSTOM_SECOND_D);
+	System.out.println(Constants.ARM_CUSTOM_SECOND_I);
     }
 
     public void testPeriodic() {

@@ -18,7 +18,7 @@ public class Shooter {
     private static Solenoid shooterSolenoidOn, shooterSolenoidOff;
     private static DigitalInput shooterLimit;
     private static Timer shooterTimer;
-    private static boolean shooshoo;
+    private static boolean shooshoo, loadCompleted = false;
     
     private Shooter() {
         try {
@@ -69,11 +69,27 @@ public class Shooter {
             set(0);
         }
     }
+    
+    public static void manualLoad() {
+	if (!loadCompleted) {
+	    if (shooterLimit.get()) {
+		set(Constants.SHOOTER_LOAD_POWER);
+	    } else {
+		set(0);
+		loadCompleted = true;
+	    }
+	}
+    }
 
     /**
      * release the ratchet and spin the ingestor outward after a delay
      */
     public static void shoot() {
+	solenoidEnable();
+	set(0);
+	Ingestor.stop();
+	
+	/*
         if (shooshoo) {
             shooterTimer.start();
             solenoidEnable();
@@ -87,7 +103,23 @@ public class Shooter {
             Ingestor.setSpeed(Constants.INGESTOR_SHOOT_EXGEST_SPEED);
         } else if (shooterTimer.get() > Constants.SHOOTER_SHOOT_STOP_TIME) {
             shooterTimer.stop();     
-        }
+        }*/
+    }
+    
+    public static void shooShoot() {
+	if (shooshoo) {
+	    Shooter.load();
+	        if (!shooterLimit.get()) {
+	            shooshoo = false;
+	        }
+	} else {
+	    shoot();
+	    shooterTimer.start();
+	    loadCompleted = false;
+	    if (shooterTimer.get() > Constants.SHOOTER_SHOOT_DELAY_TIME) {
+		shooterTimer.reset();
+	    }
+	}
     }
     
     public static void resetShoot() {
@@ -123,11 +155,12 @@ public class Shooter {
         return shooterLimit.get();
     }
     
+    /*
     public static void increaseShooterTime() {
         Constants.SHOOTER_SHOOT_DELAY_TIME += 0.001;
     }
     
     public static void decreaseShooterTime() {
         Constants.SHOOTER_SHOOT_DELAY_TIME -= 0.001;
-    }
+    }*/
 }

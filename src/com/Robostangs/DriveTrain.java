@@ -14,7 +14,7 @@ public class DriveTrain {
     private static boolean newGyroReadingDriveStraight = false;
     private static boolean newGyroReadingTurn = false;
     private static double initGyro;
-    private static double delta = 1.0;
+    public static double delta = 1.0;
     private static boolean encoderInit = false;
     
     private DriveTrain() {
@@ -41,17 +41,17 @@ public class DriveTrain {
     
     /**
      * drive motors
-     * @param left left motor speed
-     * @param right right motor speed
+     * @param leftPower left motor speed
+     * @param rightPower right motor speed
      */
     public static void drive (double leftPower, double rightPower) {
-        DriveMotors.set(leftPower, leftPower, -rightPower, -rightPower);
+        DriveMotors.set(leftPower, leftPower, rightPower, rightPower);
     }
     
     /**
      * drive motors according to outputs of xbox controller
-     * @param leftSpeed value of Xbox left stick
-     * @param rightSpeed value of Xbox right Stick
+     * @param leftPower value of Xbox left stick
+     * @param rightPower value of Xbox right Stick
     */
     public static void humanDrive(double leftPower, double rightPower) {
         if (Math.abs(leftPower) < 0.2) {
@@ -103,12 +103,18 @@ public class DriveTrain {
      */
     public static void driveStraightEncoder(double power) {
         delta = leftEncoder.getRate() - rightEncoder.getRate();
-        
-        if (delta > 0.02) {
-            drive(power * Constants.DT_ENCODER_SLOW_MOD, power * Constants.DT_ENCODER_FAST_MOD);
-        } else if (delta < -0.02) {
-            drive(power * Constants.DT_ENCODER_FAST_MOD, power * Constants.DT_ENCODER_SLOW_MOD);
-        }
+        double leftPower, rightPower;
+	
+        if (delta > Constants.DT_DELTA_OFFSET + 0.2) {
+	    leftPower = power * Constants.DT_ENCODER_SLOW_MOD;
+	    rightPower = power;
+        } else if (delta < Constants.DT_DELTA_OFFSET - 0.2) {
+	    leftPower = power;
+	    rightPower = power * Constants.DT_ENCODER_SLOW_MOD;
+        } else {
+	    leftPower = power;
+	    rightPower = power;
+	}
         drive(power, power);
     }
     
@@ -118,16 +124,17 @@ public class DriveTrain {
      * @param distance distance you want to travel
      */
     public static void driveStraightDistance(double power, double distance) {
-        double currentDistance = (leftEncoder.getRaw() + rightEncoder.getRaw()) / 2;
-        
         if (!encoderInit) {
             resetEncoders();
             encoderInit = true;
         }
-        
+
+	double currentDistance = (Math.abs(leftEncoder.getRaw()) + Math.abs(rightEncoder.getRaw())) / 2;        
         if (currentDistance < distance) {
-            driveStraightEncoder(power);
-        }
+            drive(-power, -power);
+        } else {
+	    stop();
+	}
     }
     
     /**

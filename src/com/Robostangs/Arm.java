@@ -11,7 +11,8 @@ public class Arm {
     public static Potentiometer apot;
     private static ArmMotors motorOutput;
     public static PIDController pid;
-    private static int currentPID = 0;
+    public static int currentPID = 0;
+    public static double pidDiff = 0;
 
     private Arm(){
         apot = new Potentiometer(Constants.ARM_POT_POS);
@@ -20,6 +21,7 @@ public class Arm {
         
         pid.setInputRange(Constants.ARM_POT_IN_MIN, Constants.ARM_POT_IN_MAX);
         pid.setOutputRange(Constants.ARM_POT_OUT_MIN, Constants.ARM_POT_OUT_MAX);
+	pid.setAbsoluteTolerance(0.0);
         pid.disable();
     }
 
@@ -32,22 +34,24 @@ public class Arm {
     
     /**
      * sets arm speed
-     * @param speed arm speed
+     * @param power arm speed
      */
-    public static void setArmSpeed(double speed) {
+    public static void setArmSpeed(double power) {
         if (pid.isEnable()) {
             pid.disable();
         }
         
-        if (speed > 0) {
-            if (getArmAngle() > Constants.ARM_MAX_ANGLE) {
-                ArmMotors.set(speed);
-            } else {
+        if (power > 0) {
+            if (getArmAngle() > (Constants.ARM_MAX_ANGLE - 40) && getArmAngle() < Constants.ARM_MAX_ANGLE) {
+                ArmMotors.set(power * 0.3);
+            } else if (getArmAngle() < Constants.ARM_MAX_ANGLE) {
+		ArmMotors.set(power);
+	    } else {
                 ArmMotors.stop();
             }
-        } else if (speed < 0) {
-           if (getArmAngle() < Constants.ARM_MIN_ANGLE) {
-               ArmMotors.set(speed);
+        } else if (power < 0) {
+           if (getArmAngle() > Constants.ARM_MIN_ANGLE) {
+               ArmMotors.set(power);
            } else {
                ArmMotors.stop();
            }
@@ -55,12 +59,41 @@ public class Arm {
             ArmMotors.stop();
         }
     }
+    
+    public static void setArmCoarseAdjustment(double power) {
+	setArmSpeed(Constants.ARM_FAST_SPEED * power);
+    }
+    
+    public static void setArmFineAdjustment(double power) {
+	setArmSpeed(Constants.ARM_SLOW_SPEED * power);
+    }
         
     public static void setPIDPosition(double pos) {
         pid.setSetpoint(pos);
         pid.enable();
     }
-
+    
+    public static void setPIDShoot() {
+	pid.setSetpoint(Constants.ARM_SHOOT_ANGLE);
+	pidDiff = pid.getError();
+	
+	if (pidDiff < -20 || pidDiff > 0) {
+	    if (currentPID != 9) {
+		pid.reset();
+		pid.setPID(Constants.ARM_CUSTOM_FIRST_P, Constants.ARM_CUSTOM_FIRST_I, Constants.ARM_CUSTOM_FIRST_D);
+		currentPID = 9;
+	    }
+	} else {
+	    if (currentPID != 10) {
+		pid.reset();
+		pid.setPID(Constants.ARM_CUSTOM_SECOND_P, Constants.ARM_CUSTOM_SECOND_I, Constants.ARM_CUSTOM_SECOND_D);
+		currentPID = 10;
+	    }
+	}
+	pid.setSetpoint(Constants.ARM_SHOOT_ANGLE);
+	pid.enable();
+    }
+    
     /**
      * Sets arm position to ingest
      */
@@ -69,22 +102,20 @@ public class Arm {
             pid.reset();
             pid.setPID(Constants.ARM_INGEST_AKp, Constants.ARM_INGEST_AKi, Constants.ARM_INGEST_AKd);
             currentPID = 1;
-        }
-        
-        pid.setSetpoint(Constants.ARM_INGEST);
+	}
+	pid.setSetpoint(Constants.ARM_INGEST);
         pid.enable();
     }
     
     /**
      * Sets arm position to load
      */
-    public static void setPIDLoad() {
+    public static void setPIDHumanLoad() {
         if (currentPID != 2) {
             pid.reset();
             pid.setPID(Constants.ARM_LOAD_AKp, Constants.ARM_LOAD_AKi, Constants.ARM_LOAD_AKd);
             currentPID = 2;
-        }
-        
+        }        
         pid.setSetpoint(Constants.ARM_LOAD);
         pid.enable();
     }
@@ -92,42 +123,39 @@ public class Arm {
     /**
      * Sets arm positions to top, middle, load, or ingest
      */
-    public static void setPIDStaticShot() {
+    public static void setPIDShooShot() {
         if (currentPID != 3) {
             pid.reset();
             pid.setPID(Constants.ARM_SHOOT_AKp, Constants.ARM_SHOOT_AKi, Constants.ARM_SHOOT_AKd);
-            currentPID = 3;
-        }
-        
-        pid.setSetpoint(Constants.ARM_MAX_STATIC_SHOT);
+	    currentPID = 3;
+        }        
+        pid.setSetpoint(Constants.ARM_SHOO_SHOT);
         pid.enable();
     }    
     
     /**
      * Sets arm positions to top, middle, load, or ingest
      */
-    public static void setPIDFenderShot() {
+    public static void setPIDRunningShot() {
         if (currentPID != 4) {
             pid.reset();
             pid.setPID(Constants.ARM_SHOOT_AKp, Constants.ARM_SHOOT_AKi, Constants.ARM_SHOOT_AKd);
             currentPID = 4;
-        }
-        
-        pid.setSetpoint(Constants.ARM_FENDER_SHOT);
+        }    
+        pid.setSetpoint(Constants.ARM_RUN_SHOT);
         pid.enable();
     }
     
     /**
      * Sets arm positions to top, middle, load, or ingest
      */
-    public static void setPIDCloseShot() {
+    public static void setPIDGoalLineShot() {
         if (currentPID != 5) {
             pid.reset();
             pid.setPID(Constants.ARM_SHOOT_AKp, Constants.ARM_SHOOT_AKi, Constants.ARM_SHOOT_AKd);
             currentPID = 5;
-        }
-        
-        pid.setSetpoint(Constants.ARM_CLOSE_SHOT);
+        }    
+        pid.setSetpoint(Constants.ARM_GOAL_LINE_SHOT);
         pid.enable();
     }
     
@@ -140,8 +168,20 @@ public class Arm {
             pid.setPID(Constants.ARM_SHOOT_AKp, Constants.ARM_SHOOT_AKi, Constants.ARM_SHOOT_AKd);
             currentPID = 6;
         }
-        
         pid.setSetpoint(Constants.ARM_TRUSS_PASS);
+        pid.enable();
+    }
+    
+    /**
+     * Sets arm positions to top, middle, load, or ingest
+     */
+    public static void setPIDAutonShot() {
+        if (currentPID != 7) {
+            pid.reset();
+            pid.setPID(Constants.ARM_SHOOT_AKp, Constants.ARM_SHOOT_AKi, Constants.ARM_SHOOT_AKd);
+            currentPID = 7;
+        }        
+        pid.setSetpoint(Constants.ARM_AUTON_SHOT);
         pid.enable();
     }
     
@@ -189,6 +229,5 @@ public class Arm {
             pid.disable();
         }
         ArmMotors.stop();
-        currentPID = 1;
     }
 }

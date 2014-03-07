@@ -10,7 +10,7 @@ public class Shifting {
     private static Solenoid highGear, lowGear;
     private static Shifting instance = null;
     
-    public Shifting() {
+    private Shifting() {
         highGear = new Solenoid(Constants.HIGH_GEAR_SOLENOID_POS);
         lowGear = new Solenoid(Constants.LOW_GEAR_SOLENOID_POS);
     }
