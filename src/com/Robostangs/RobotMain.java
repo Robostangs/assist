@@ -94,7 +94,7 @@ public class RobotMain extends IterativeRobot {
         Pneumatics.checkPressure();
         
 	if (xboxDriver.backButton()) {
-	    DriveTrain.resetEncoders();
+	    DriveTrain.encoderInit = false;
 	    Autonomous.reset();
 	}
         /*

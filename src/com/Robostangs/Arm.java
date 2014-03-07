@@ -292,8 +292,9 @@ public class Arm {
     }
     
     public static boolean isArmInShootAngle() {
-        if (getArmAngle() < (Constants.ARM_SHOOT_ANGLE + Constants.ARM_SHOOT_ANGLE_TOLERANCE)
-                && getArmAngle() > (Constants.ARM_SHOOT_ANGLE - Constants.ARM_SHOOT_ANGLE_TOLERANCE)) {
+        //3 right now because we don't have setPIDAccurateShot()
+        if (getArmAngle() < (Constants.ARM_SHOOT_ANGLE + 3/*Constants.ARM_SHOOT_ANGLE_TOLERANCE*/)
+                && getArmAngle() > (Constants.ARM_SHOOT_ANGLE - 3/*Constants.ARM_SHOOT_ANGLE_TOLERANCE*/)) {
             return true;
         }
         return false;

@@ -15,7 +15,7 @@ public class DriveTrain {
     private static boolean newGyroReadingTurn = false;
     private static double initGyro;
     public static double delta = 1.0;
-    private static boolean encoderInit = false;
+    public static boolean encoderInit = false;
     
     private DriveTrain() {
         DriveMotors.getInstance();
