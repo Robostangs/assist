@@ -2,7 +2,7 @@ package com.Robostangs;
 
 /**
  *
- * @author Laptop
+ * @author Thunderbird
  */
 public class Constants {
     //Arm
