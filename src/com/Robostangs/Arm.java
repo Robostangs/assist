@@ -73,20 +73,23 @@ public class Arm {
         pid.enable();
     }
     
+    /**
+     * DON'T TOUCH THIS
+     */
     public static void setPIDShoot() {
 	pid.setSetpoint(Constants.ARM_SHOOT_ANGLE);
 	pidDiff = pid.getError();
 	
-	if (pidDiff < -20 || pidDiff > 0) {
+	if (pidDiff < Constants.ARM_SHOOT_UP_TOLERANCE || pidDiff > Constants.ARM_SHOOT_DOWN_TOLERANCE) {
 	    if (currentPID != 9) {
 		pid.reset();
-		pid.setPID(Constants.ARM_CUSTOM_FIRST_P, Constants.ARM_CUSTOM_FIRST_I, Constants.ARM_CUSTOM_FIRST_D);
+		pid.setPID(Constants.ARM_SHOOT_FIRST_P, Constants.ARM_SHOOT_FIRST_I, Constants.ARM_SHOOT_FIRST_D);
 		currentPID = 9;
 	    }
 	} else {
 	    if (currentPID != 10) {
 		pid.reset();
-		pid.setPID(Constants.ARM_CUSTOM_SECOND_P, Constants.ARM_CUSTOM_SECOND_I, Constants.ARM_CUSTOM_SECOND_D);
+		pid.setPID(Constants.ARM_SHOOT_SECOND_P, Constants.ARM_SHOOT_SECOND_I, Constants.ARM_SHOOT_SECOND_D);
 		currentPID = 10;
 	    }
 	}

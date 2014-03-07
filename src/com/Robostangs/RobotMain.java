@@ -139,10 +139,10 @@ public class RobotMain extends IterativeRobot {
 	SmartDashboard.putNumber("P", Arm.pid.getP());
 	SmartDashboard.putNumber("I", Arm.pid.getI());
 	SmartDashboard.putNumber("D", Arm.pid.getD());
-	SmartDashboard.putNumber("second P", Constants.ARM_CUSTOM_SECOND_P);
-	SmartDashboard.putNumber("second I", Constants.ARM_CUSTOM_SECOND_I);
-	SmartDashboard.putNumber("second D", Constants.ARM_CUSTOM_SECOND_D);
-	System.out.println(Constants.ARM_CUSTOM_SECOND_I);
+	//SmartDashboard.putNumber("second P", Constants.ARM_CUSTOM_SECOND_P);
+	//SmartDashboard.putNumber("second I", Constants.ARM_CUSTOM_SECOND_I);
+	//SmartDashboard.putNumber("second D", Constants.ARM_CUSTOM_SECOND_D);
+	//System.out.println(Constants.ARM_CUSTOM_SECOND_I);
     }
 
     public void testPeriodic() {

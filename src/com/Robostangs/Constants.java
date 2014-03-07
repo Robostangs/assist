@@ -12,10 +12,10 @@ public class Constants {
     public static final double ARM_SLOW_SPEED = 0.3;
     public static final double ARM_FAST_SPEED = 0.75;
     public static final int ARM_MIN_ANGLE = 130;
-    public static final int ARM_MAX_ANGLE  = 520;    
+    public static final int ARM_MAX_ANGLE  = 520;
+    
     public static final int ARM_INGEST = 130;
     public static final int ARM_LOAD = 490;
-    public static final int ARM_SHOOT_ANGLE = 365;
     public static final int ARM_TRUSS_PASS = 406;
     public static final int ARM_AUTON_SHOT = 366;
     
@@ -42,13 +42,18 @@ public class Constants {
     public static final double ARM_AUTON_AKp = 0.006;
     public static final double ARM_AUTON_AKi = 0.0003;
     public static final double ARM_AUTON_AKd = 0.01;   
-    public static final double ARM_CUSTOM_FIRST_P = 0.008;
-    public static final double ARM_CUSTOM_FIRST_I = 0.0;
-    public static final double ARM_CUSTOM_FIRST_D = 0.005;
-    public static final double ARM_CUSTOM_SECOND_P = 0.010;
-    public static final double ARM_CUSTOM_SECOND_I = 0.0002;
-    public static final double ARM_CUSTOM_SECOND_D = 0.02;
-
+    
+    //PID Shoot
+    public static final int ARM_SHOOT_ANGLE = 365;    
+    public static final int ARM_SHOOT_UP_TOLERANCE = -20;
+    public static final int ARM_SHOOT_DOWN_TOLERANCE = 0;
+    public static final double ARM_SHOOT_FIRST_P = 0.008;
+    public static final double ARM_SHOOT_FIRST_I = 0.0;
+    public static final double ARM_SHOOT_FIRST_D = 0.005;
+    public static final double ARM_SHOOT_SECOND_P = 0.010;
+    public static final double ARM_SHOOT_SECOND_I = 0.0002;
+    public static final double ARM_SHOOT_SECOND_D = 0.02;
+    
     //Autonomous
     public static final double AUTON_DRIVE_DISTANCE = 2500;
     public static final double AUTON_DRIVE_POWER = 0.4;
