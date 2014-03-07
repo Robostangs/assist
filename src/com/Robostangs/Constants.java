@@ -11,48 +11,91 @@ public class Constants {
 
     public static final double ARM_SLOW_SPEED = 0.3;
     public static final double ARM_FAST_SPEED = 0.75;
-    public static final int ARM_MIN_ANGLE = 130;
+    public static final int ARM_MIN_ANGLE = 120;
     public static final int ARM_MAX_ANGLE  = 520;
+    public static final int ARM_ANGLE_THRESHOLD = 20;
     
-    public static final int ARM_INGEST = 130;
-    public static final int ARM_LOAD = 490;
-    public static final int ARM_TRUSS_PASS = 406;
-    public static final int ARM_AUTON_SHOT = 366;
+    //Arm PID Coarse
+    public static final double ARM_COARSE_P = 0.008;
+    public static final double ARM_COARSE_I = 0.0;
+    public static final double ARM_COARSE_D = 0.005;
+    //If 1 fine PID works for everything, just change the boundaries
     
-    public static final int ARM_SHOO_SHOT = 407;
+    //Arm PID Autonomous
+    public static final int ARM_AUTON_SHOT_ANGLE = 366;
+    public static final double ARM_AUTON_P = 0.006;
+    public static final double ARM_AUTON_I = 0.0003;
+    public static final double ARM_AUTON_D = 0.01;
+
+    //Arm PID Ingest
+    public static final int ARM_INGEST_ANGLE = 130;
+    public static final int ARM_INGEST_UPPER_BOUNDARY = -30;
+    public static final double ARM_INGEST_FINE_P = 0.008;
+    public static final double ARM_INGEST_FINE_I = 0.0;
+    public static final double ARM_INGEST_FINE_D = 0.01;
+    
+    public static final double ARM_INGEST_P = 0.008;
+    public static final double ARM_INGEST_I = 0.0;
+    public static final double ARM_INGEST_D = 0.01;
+    
+    //Arm PID Load
+    public static final int ARM_LOAD_ANGLE = 490;
+    public static final int ARM_LOAD_UPPER_BOUNDARY = -5;
+    public static final int ARM_LOAD_LOWER_BOUNDARY = 10;
+    public static final double ARM_LOAD_FINE_P = 0.008;
+    public static final double ARM_LOAD_FINE_I = 0.0;
+    public static final double ARM_LOAD_FINE_D = 0.01;
+    
+    public static final double ARM_LOAD_P = 0.008;
+    public static final double ARM_LOAD_I = 0.0;
+    public static final double ARM_LOAD_D = 0.01;
+    
+    //Arm PID Shoot
+    public static final int ARM_SHOOT_ANGLE = 365;
+    public static final int ARM_SHOOT_ANGLE_TOLERANCE = 5;
+    public static final int ARM_SHOOT_UPPER_BOUNDARY = -20;
+    public static final int ARM_SHOOT_LOWER_BOUNDARY = 0;
+    public static final double ARM_SHOOT_FINE_P = 0.010;
+    public static final double ARM_SHOOT_FINE_I = 0.0002;
+    public static final double ARM_SHOOT_FINE_D = 0.02;
+    //Accurate Shot
+    public static final double ARM_ACCURATE_SHOT_P = 0.008;
+    public static final double ARM_ACCURATE_SHOT_I = 0.0;
+    public static final double ARM_ACCURATE_SHOT_D = 0.005;
+    //Long Shot
+    public static final int ARM_LONG_SHOT_ANGLE = 407;
+    public static final int ARM_LONG_SHOT_UPPER_BOUNDARY = -5;
+    public static final int ARM_LONG_SHOT_LOWER_BOUNDARY = 10;
+    public static final double ARM_LONG_SHOT_FINE_P = 0.008;
+    public static final double ARM_LONG_SHOT_FINE_I = 0.0;
+    public static final double ARM_LONG_SHOT_FINE_D = 0.01;    
+    //Goal Line
+    public static final int ARM_GOAL_LINE_ANGLE = 530;
+    public static final int ARM_GOAL_LINE_UPPER_BOUNDARY = -5;
+    public static final int ARM_GOAL_LINE_LOWER_BOUNDARY = 10;
+    public static final double ARM_GOAL_LINE_FINE_P = 0.008;
+    public static final double ARM_GOAL_LINE_FINE_I = 0.0;
+    public static final double ARM_GOAL_LINE_FINE_D = 0.01;
+
     public static final int ARM_RUN_SHOT = 365;
-    public static final int ARM_GOAL_LINE_SHOT = 530;
-    public static final int ARM_CUSTOM_SHOT = 365;
     
-    public static final int ARM_POT_IN_MIN = ARM_INGEST - 25;
-    public static final int ARM_POT_IN_MAX = ARM_GOAL_LINE_SHOT + 25;
+    public static final double ARM_SHOOT_P = 0.008;
+    public static final double ARM_SHOOT_I = 0.0;
+    public static final double ARM_SHOOT_D = 0.01;
+    
+    //Arm PID Truss Pass
+    public static final int ARM_TRUSS_ANGLE = 490;
+    public static final int ARM_TRUSS_UPPER_BOUNDARY = -5;
+    public static final int ARM_TRUSS_LOWER_BOUNDARY = 10;
+    public static final double ARM_TRUSS_FINE_P = 0.008;
+    public static final double ARM_TRUSS_FINE_I = 0.0;
+    public static final double ARM_TRUSS_FINE_D = 0.01;
+    
+    //Arm Pot input and output
+    public static final int ARM_POT_IN_MIN = ARM_INGEST_ANGLE - 25;
+    public static final int ARM_POT_IN_MAX = ARM_GOAL_LINE_ANGLE + 25;
     public static final int ARM_POT_OUT_MIN = -1;
     public static final int ARM_POT_OUT_MAX = 1;
-    
-    //Arm PID
-    public static final double ARM_SHOOT_AKp = 0.008;
-    public static final double ARM_SHOOT_AKi = 0.0;
-    public static final double ARM_SHOOT_AKd = 0.01;    
-    public static final double ARM_LOAD_AKp = 0.008;
-    public static final double ARM_LOAD_AKi = 0.0;
-    public static final double ARM_LOAD_AKd = 0.01;
-    public static final double ARM_INGEST_AKp = 0.008;
-    public static final double ARM_INGEST_AKi = 0.0;
-    public static final double ARM_INGEST_AKd = 0.01;   
-    public static final double ARM_AUTON_AKp = 0.006;
-    public static final double ARM_AUTON_AKi = 0.0003;
-    public static final double ARM_AUTON_AKd = 0.01;   
-    
-    //PID Shoot
-    public static final int ARM_SHOOT_ANGLE = 365;    
-    public static final int ARM_SHOOT_UP_TOLERANCE = -20;
-    public static final int ARM_SHOOT_DOWN_TOLERANCE = 0;
-    public static final double ARM_SHOOT_FIRST_P = 0.008;
-    public static final double ARM_SHOOT_FIRST_I = 0.0;
-    public static final double ARM_SHOOT_FIRST_D = 0.005;
-    public static final double ARM_SHOOT_SECOND_P = 0.010;
-    public static final double ARM_SHOOT_SECOND_I = 0.0002;
-    public static final double ARM_SHOOT_SECOND_D = 0.02;
     
     //Autonomous
     public static final double AUTON_DRIVE_DISTANCE = 2500;

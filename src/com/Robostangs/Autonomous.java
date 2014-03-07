@@ -29,17 +29,20 @@ public class Autonomous {
     public static void fallBack() {
 	if (!dunzo) {
 	    timer.start();
-	    while (timer.get() < 2.0) {
+	    while (timer.get() < 1.0) {
 		DriveTrain.driveStraightDistance(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_DISTANCE);
 	    }
-	    while (timer.get() < 5.0) {
+	    while (timer.get() < 3.0) {
 		Arm.setPIDAutonShot();
 		DriveTrain.stop();
 	    }
-	    while (timer.get() < 9.0) {
+	    while (timer.get() < 7.0) {
 		Shooter.shooShoot();
 		Arm.stop();
 	    }
+            while (timer.get() < 10.0) {
+                Shooter.load();
+            }
 	    Shooter.stop();
 	    dunzo = true;
 	}

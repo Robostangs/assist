@@ -45,21 +45,30 @@ public class RobotMain extends IterativeRobot {
 	} else if (Math.abs(xboxManip.leftStickYAxis()) > 0.2) {
 	    Arm.setArmFineAdjustment(-xboxManip.leftStickYAxis());
 	} else if (xboxManip.aButton()) {
+            //Arm.setPIDCustomIngest();
             Arm.setPIDIngest();
 	} else if (xboxManip.bButton()) {
+            //Arm.setPIDAccurateShot();
             Arm.setPIDShoot();
         } else if (xboxManip.xButton()) {
+            //Arm.setPIDCustomLoad();
             Arm.setPIDHumanLoad();
         } else if (xboxManip.yButton()) {
-            Arm.setPIDShooShot();
+            //Arm.setPIDCustomLongShot();
+            Arm.setPIDLongShot();
 	} else if (xboxManip.startButton()) {
-	    Arm.setPIDTrussPass();
-	} else if (xboxManip.backButton()) {
-	    Arm.setPIDGoalLineShot();
+	    //Arm.setPIDCustomTruss();
+            Arm.setPIDTrussPass();
+        } else if (!Arm.isArmInShootAngle() && Arm.autoPID) {
+            Arm.setPIDShoot();
         } else {
 	    Arm.stop();
 	}
 	
+        if (xboxManip.backButton()) {
+            Arm.switchAutoShootPosition();
+        }
+        
 	if (xboxManip.lBumper()) {
 	    Shooter.manualLoad();
         } else if (xboxManip.rBumper()) {
@@ -135,6 +144,7 @@ public class RobotMain extends IterativeRobot {
         //SmartDashboard.putNumber("Offset", Constants.DT_DELTA_OFFSET);
         //SmartDashboard.putNumber("Mod", Constants.DT_ENCODER_SLOW_MOD);
 	//SmartDashboard.putNumber("delta", DriveTrain.delta);
+        SmartDashboard.putBoolean("PID AUTOMATICALLY IN SHOOT POSITION", Arm.autoPID);
 	SmartDashboard.putNumber("pidDiff", Arm.pidDiff);
 	SmartDashboard.putNumber("P", Arm.pid.getP());
 	SmartDashboard.putNumber("I", Arm.pid.getI());
