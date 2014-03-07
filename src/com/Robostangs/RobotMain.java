@@ -34,6 +34,12 @@ public class RobotMain extends IterativeRobot {
         
 	DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
 	
+        if (xboxDriver.bButton()) {
+            DriveTrain.maintainPosition();
+        } else if (xboxDriver.yButton()) {
+            DriveTrain.encoderInit = false;
+        }
+        
         if (xboxDriver.lBumper()) {
 	    Shifting.LowGear();
 	} else {
@@ -66,7 +72,7 @@ public class RobotMain extends IterativeRobot {
 	}
 	
         if (xboxManip.backButton()) {
-            Arm.switchAutoShootPosition();
+            Arm.switchAutoPositioning();
         }
         
 	if (xboxManip.lBumper()) {

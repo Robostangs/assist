@@ -317,7 +317,7 @@ public class Arm {
         ArmMotors.stop();
     }
     
-    public static void switchAutoShootPosition() {
+    public static void switchAutoPositioning() {
         autoPID = !autoPID;
     }
     

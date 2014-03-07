@@ -59,9 +59,9 @@ public class Constants {
     public static final double ARM_SHOOT_FINE_I = 0.0002;
     public static final double ARM_SHOOT_FINE_D = 0.02;
     //Accurate Shot
-    public static final double ARM_ACCURATE_SHOT_P = 0.008;
-    public static final double ARM_ACCURATE_SHOT_I = 0.0;
-    public static final double ARM_ACCURATE_SHOT_D = 0.005;
+    public static final double ARM_ACCURATE_SHOT_P = 0.006;
+    public static final double ARM_ACCURATE_SHOT_I = 0.0004;
+    public static final double ARM_ACCURATE_SHOT_D = 0.01;
     //Long Shot
     public static final int ARM_LONG_SHOT_ANGLE = 407;
     public static final int ARM_LONG_SHOT_UPPER_BOUNDARY = -5;
@@ -120,6 +120,7 @@ public class Constants {
     public static final double DT_GYRO_FAST_MOD = 1.15;
     public static double DT_ENCODER_SLOW_MOD = 0.98;
     public static double DT_DELTA_OFFSET = 0.0;
+    public static double DT_PUSH_POWER = 0.8;
     
     //Ingestor
     public static final int INGESTOR_LEFT_JAG = 8;

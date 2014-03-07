@@ -164,6 +164,26 @@ public class DriveTrain {
     }
     
     /**
+     * robot tries to maintain its position using encoders
+     */
+    public static void maintainPosition() {
+        if (!encoderInit) {
+            resetEncoders();
+            encoderInit = true;
+        }
+        
+        Shifting.LowGear();
+        
+        if (getEncoderAverage() < -100) {
+            drive(Constants.DT_PUSH_POWER, Constants.DT_PUSH_POWER);
+        } else if (getEncoderAverage() > 100) {
+            drive(-Constants.DT_PUSH_POWER, -Constants.DT_PUSH_POWER);
+        } else {
+            stop();
+        }
+    }
+    
+    /**
      * reset left and right encoders
      */
     public static void resetEncoders() {
@@ -192,6 +212,10 @@ public class DriveTrain {
      */
     public static double getRightEncoder() {
         return rightEncoder.getRaw();
+    }
+    
+    public static double getEncoderAverage() {
+        return (leftEncoder.getRaw() - rightEncoder.getRaw()) / 2;
     }
 
     /**
