@@ -73,6 +73,7 @@ public class Shooter {
     public static void manualLoad() {
 	if (!loadCompleted) {
 	    if (shooterLimit.get()) {
+		solenoidDisable();
 		set(Constants.SHOOTER_LOAD_POWER);
 	    } else {
 		set(0);

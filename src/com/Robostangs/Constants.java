@@ -9,7 +9,7 @@ public class Constants {
     public static final int ARM_JAG = 6;
     public static final int ARM_POT_POS = 2;
 
-    public static final double ARM_SLOW_SPEED = 0.3;
+    public static final double ARM_SLOW_SPEED = 0.5;
     public static final double ARM_FAST_SPEED = 0.75;
     public static final int ARM_MIN_ANGLE = 120;
     public static final int ARM_MAX_ANGLE  = 520;
@@ -51,7 +51,7 @@ public class Constants {
     public static final double ARM_LOAD_D = 0.01;
     
     //Arm PID Shoot
-    public static final int ARM_SHOOT_ANGLE = 365;
+    public static final int ARM_SHOOT_ANGLE = 370;
     public static final int ARM_SHOOT_ANGLE_TOLERANCE = 5;
     public static final int ARM_SHOOT_UPPER_BOUNDARY = -20;
     public static final int ARM_SHOOT_LOWER_BOUNDARY = 0;
@@ -151,6 +151,6 @@ public class Constants {
     public static final int SHOOTER_CYCLINDER_OUT_POS = 4;
 
     public static final double SHOOTER_LOAD_POWER = 1.0;
-    public static final double SHOOTER_SHOOT_DELAY_TIME = 1.0;
+    public static final double SHOOTER_SHOOT_DELAY_TIME = 0.5;
     public static final double SHOOTER_SHOOT_STOP_TIME = 1.0;    
 }

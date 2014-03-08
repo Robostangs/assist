@@ -175,9 +175,9 @@ public class DriveTrain {
         Shifting.LowGear();
         
         if (getEncoderAverage() < -100) {
-            drive(Constants.DT_PUSH_POWER, Constants.DT_PUSH_POWER);
-        } else if (getEncoderAverage() > 100) {
             drive(-Constants.DT_PUSH_POWER, -Constants.DT_PUSH_POWER);
+        } else if (getEncoderAverage() > 100) {
+            drive(Constants.DT_PUSH_POWER, Constants.DT_PUSH_POWER);
         } else {
             stop();
         }
@@ -215,7 +215,7 @@ public class DriveTrain {
     }
     
     public static double getEncoderAverage() {
-        return (leftEncoder.getRaw() - rightEncoder.getRaw()) / 2;
+        return (rightEncoder.getRaw() + (-leftEncoder.getRaw())) / 2;
     }
 
     /**

@@ -13,7 +13,7 @@ public class Arm {
     public static PIDController pid;
     public static int currentPID = 0;
     public static double pidDiff = 0;
-    public static boolean autoPID = true;
+    public static boolean autoPID = true, isLow = false;
 
     private Arm(){
         apot = new Potentiometer(Constants.ARM_POT_POS);
@@ -295,7 +295,8 @@ public class Arm {
         //3 right now because we don't have setPIDAccurateShot()
         if (getArmAngle() < (Constants.ARM_SHOOT_ANGLE + 3/*Constants.ARM_SHOOT_ANGLE_TOLERANCE*/)
                 && getArmAngle() > (Constants.ARM_SHOOT_ANGLE - 3/*Constants.ARM_SHOOT_ANGLE_TOLERANCE*/)) {
-            return true;
+            isLow = false;
+	    return true;
         }
         return false;
     }

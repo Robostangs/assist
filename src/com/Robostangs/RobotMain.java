@@ -21,6 +21,8 @@ public class RobotMain extends IterativeRobot {
 	Shifting.getInstance();
 	Shooter.getInstance();
         
+	Shooter.solenoidDisable();
+	
 	LiveWindow.addActuator("Arm", "Motor", ArmMotors.armJag);
 	LiveWindow.addSensor("Arm", "Pot", Arm.apot);
 	LiveWindow.addSensor("Arm", "PID", Arm.pid);
@@ -31,18 +33,21 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void teleopPeriodic() {
-        
-	DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
-	
-        if (xboxDriver.bButton()) {
+
+	if (xboxDriver.bButton()) {
             DriveTrain.maintainPosition();
-        } else if (xboxDriver.yButton()) {
+	} else {
+	    DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
+	}
+	
+        if (xboxDriver.yButton()) {
             DriveTrain.encoderInit = false;
+	    Autonomous.reset();
         }
         
         if (xboxDriver.lBumper()) {
 	    Shifting.LowGear();
-	} else {
+	} else if (!xboxDriver.bButton()) {
 	    Shifting.HighGear();
 	}
         
@@ -53,6 +58,7 @@ public class RobotMain extends IterativeRobot {
 	} else if (xboxManip.aButton()) {
             //Arm.setPIDCustomIngest();
             Arm.setPIDIngest();
+	    Arm.isLow = true;
 	} else if (xboxManip.bButton()) {
             //Arm.setPIDAccurateShot();
             Arm.setPIDShoot();
@@ -65,7 +71,7 @@ public class RobotMain extends IterativeRobot {
 	} else if (xboxManip.startButton()) {
 	    //Arm.setPIDCustomTruss();
             Arm.setPIDTrussPass();
-        } else if (!Arm.isArmInShootAngle() && Arm.autoPID) {
+        } else if (!Arm.isArmInShootAngle() && Arm.isLow && Arm.autoPID) {
             Arm.setPIDShoot();
         } else {
 	    Arm.stop();
@@ -76,7 +82,7 @@ public class RobotMain extends IterativeRobot {
         }
         
 	if (xboxManip.lBumper()) {
-	    Shooter.manualLoad();
+	    Shooter.stop();
         } else if (xboxManip.rBumper()) {
             Shooter.shooShoot();
 	} else if (xboxDriver.rBumper()) {
@@ -84,7 +90,7 @@ public class RobotMain extends IterativeRobot {
 	} else if (xboxDriver.startButton()) {
 	    Shooter.shoot();
 	} else {
-	    Shooter.stop();
+	    Shooter.manualLoad();
         }
         
         if (xboxManip.triggerAxis() > 0.2) {
@@ -98,7 +104,7 @@ public class RobotMain extends IterativeRobot {
         }
 	
         Pneumatics.checkPressure();
-        
+        /*
 	if (xboxDriver.backButton()) {
 	    DriveTrain.encoderInit = false;
 	    Autonomous.reset();
@@ -144,6 +150,7 @@ public class RobotMain extends IterativeRobot {
     	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
 	SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
 	SmartDashboard.putNumber("Right Encoder", DriveTrain.getRightEncoder());
+	SmartDashboard.putNumber("Encoder Average", DriveTrain.getEncoderAverage());
 	//SmartDashboard.putNumber("Shooter Encoder", Shooter.getEncoderDistance());
         SmartDashboard.putBoolean("Shooter Limit Switch", Shooter.getLimit());
         //SmartDashboard.putNumber("Shooter Timer", Constants.SHOOTER_SHOOT_DELAY_TIME);
