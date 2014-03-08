@@ -54,11 +54,11 @@ public class Constants {
     //Arm PID Shoot
     public static final int ARM_SHOOT_ANGLE = 370;
     public static final int ARM_SHOOT_ANGLE_TOLERANCE = 5;
-    public static final int ARM_SHOOT_UPPER_BOUNDARY = -20;
-    public static final int ARM_SHOOT_LOWER_BOUNDARY = 0;
-    public static final double ARM_SHOOT_FINE_P = 0.010;
-    public static final double ARM_SHOOT_FINE_I = 0.0002;
-    public static final double ARM_SHOOT_FINE_D = 0.02;
+    public static int ARM_SHOOT_UPPER_BOUNDARY = -10;
+    public static int ARM_SHOOT_LOWER_BOUNDARY = 20;
+    public static double ARM_SHOOT_FINE_P = 0.010;
+    public static double ARM_SHOOT_FINE_I = 0.0005;
+    public static double ARM_SHOOT_FINE_D = 0.03;
     //Accurate Shot
     public static final double ARM_ACCURATE_SHOT_P = 0.006;
     public static final double ARM_ACCURATE_SHOT_I = 0.0004;

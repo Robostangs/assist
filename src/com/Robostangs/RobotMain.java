@@ -29,13 +29,13 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void autonomousPeriodic() {
-	Autonomous.fallBack();
+	Autonomous.twoBallz();
     }
 
     public void teleopPeriodic() {
 
 	if (xboxDriver.bButton()) {
-            DriveTrain.maintainPosition();
+            //DriveTrain.maintainPosition();
 	} else {
 	    DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
 	}
@@ -52,10 +52,14 @@ public class RobotMain extends IterativeRobot {
 	}
         
 	if (Math.abs(xboxManip.rightStickYAxis()) > 0.2) {
-	    Arm.setArmCoarseAdjustment(-xboxManip.rightStickYAxis());
+	    Arm.setArmCoarseAdjustment(xboxManip.rightStickYAxis());
 	} else if (Math.abs(xboxManip.leftStickYAxis()) > 0.2) {
-	    Arm.setArmFineAdjustment(-xboxManip.leftStickYAxis());
-	} else if (xboxManip.aButton()) {
+	    Arm.setArmFineAdjustment(xboxManip.leftStickYAxis());
+	} else if (xboxDriver.aButton()) {
+	    Arm.setPIDShoot();
+	} else if (xboxDriver.bButton()) {
+	    Arm.setPIDCustomIngest();
+	/*} else if (xboxManip.aButton()) {
             //Arm.setPIDCustomIngest();
             Arm.setPIDIngest();
 	    Arm.isLow = true;
@@ -73,14 +77,14 @@ public class RobotMain extends IterativeRobot {
             Arm.setPIDTrussPass();
         } else if (!Arm.isArmInShootAngle() && Arm.isLow) {
             Arm.setPIDShoot();
-        } else {
+        */} else {
 	    Arm.stop();
 	}
 
 	if (xboxManip.lBumper()) {
 	    Shooter.stop();
-        } else if (xboxManip.rBumper()) {
-            Shooter.shooShoot();
+        //} else if (xboxManip.rBumper()) {
+        //    Shooter.shooShoot();
 	} else if (xboxDriver.rBumper()) {
 	    Shooter.shooShoot();
 	} else if (xboxDriver.startButton()) {
@@ -95,7 +99,8 @@ public class RobotMain extends IterativeRobot {
             Ingestor.exgest();
         }
         
-        if(!xboxManip.rBumper() && !xboxDriver.rBumper() && Math.abs(xboxManip.triggerAxis()) < 0.2) {
+        if(!xboxManip.rBumper() && !xboxDriver.rBumper() && Math.abs(xboxManip.triggerAxis()) < 0.2
+		&& !xboxDriver.startButton()) {
             Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
         }
 	
@@ -118,6 +123,7 @@ public class RobotMain extends IterativeRobot {
 	    DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
 	}
 	
+	//DRIVE STRAIGHT
 	if(xboxDriver.bButton()) {
 	    Constants.DT_DELTA_OFFSET += 0.1;
 	} else if (xboxDriver.aButton()) {
@@ -128,20 +134,25 @@ public class RobotMain extends IterativeRobot {
 	    Constants.DT_ENCODER_SLOW_MOD -= 0.01;
 	}
         
+	//ARM PID
 	if (xboxManip.aButton()) {
-	    Constants.ARM_CUSTOM_SECOND_P+=0.001;
+	    Constants.ARM_SHOOT_FINE_P+=0.001;
 	} else if (xboxManip.bButton()) {
-	    Constants.ARM_CUSTOM_SECOND_P-=0.001;
+	    Constants.ARM_SHOOT_FINE_P-=0.001;
 	} else if (xboxManip.xButton()) {
-	    Constants.ARM_CUSTOM_SECOND_I+=0.0001;
+	    Constants.ARM_SHOOT_FINE_I+=0.0001;
 	} else if (xboxManip.yButton()) {
-	    Constants.ARM_CUSTOM_SECOND_I-=0.0001;
+	    Constants.ARM_SHOOT_FINE_I-=0.0001;
 	} else if (xboxManip.startButton()) {
-	    Constants.ARM_CUSTOM_SECOND_D+=0.0005;
+	    Constants.ARM_SHOOT_FINE_D+=0.0005;
 	} else if (xboxManip.backButton()) {
-	    Constants.ARM_CUSTOM_SECOND_D-=0.0005;
-	}
-	*/
+	    Constants.ARM_SHOOT_FINE_D-=0.0005;
+	} else if (xboxManip.lBumper()) {
+	    Constants.ARM_SHOOT_UPPER_BOUNDARY+=1;
+	} else if (xboxManip.rBumper()) {
+	    Constants.ARM_SHOOT_UPPER_BOUNDARY-=1;
+	}*/
+	
 	//SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
     	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
 	SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
@@ -157,10 +168,11 @@ public class RobotMain extends IterativeRobot {
 	SmartDashboard.putNumber("P", Arm.pid.getP());
 	SmartDashboard.putNumber("I", Arm.pid.getI());
 	SmartDashboard.putNumber("D", Arm.pid.getD());
-	//SmartDashboard.putNumber("second P", Constants.ARM_CUSTOM_SECOND_P);
-	//SmartDashboard.putNumber("second I", Constants.ARM_CUSTOM_SECOND_I);
-	//SmartDashboard.putNumber("second D", Constants.ARM_CUSTOM_SECOND_D);
-	//System.out.println(Constants.ARM_CUSTOM_SECOND_I);
+	SmartDashboard.putNumber("second P", Constants.ARM_INGEST_FINE_P);
+	SmartDashboard.putNumber("second I", Constants.ARM_INGEST_FINE_I);
+	SmartDashboard.putNumber("second D", Constants.ARM_INGEST_FINE_D);
+	SmartDashboard.putNumber("HIGH Boundary", Constants.ARM_INGEST_UPPER_BOUNDARY);
+	System.out.println(Constants.ARM_SHOOT_FINE_I);
     }
 
     public void testPeriodic() {

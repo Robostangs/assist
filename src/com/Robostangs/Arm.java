@@ -115,7 +115,7 @@ public class Arm {
 
     /**
      * TEST CONSTANTS
-     *
+     */
     public static void setPIDCustomIngest() {
 	pid.setSetpoint(Constants.ARM_INGEST_ANGLE);
 	pidDiff = pid.getError();
@@ -135,7 +135,7 @@ public class Arm {
  
     /**
      * TEST CONSTANTS
-     *
+     */
     public static void setPIDCustomLoad() {
 	pid.setSetpoint(Constants.ARM_LOAD_ANGLE);
 	pidDiff = pid.getError();
@@ -151,11 +151,11 @@ public class Arm {
 	}
 	pid.setSetpoint(Constants.ARM_LOAD_ANGLE);
 	pid.enable();
-    }*/
+    }
     
     /**
      * TEST CONSTANTS
-     *
+     */
     public static void setPIDCustomLongShot() {
 	pid.setSetpoint(Constants.ARM_LONG_SHOT_ANGLE);
 	pidDiff = pid.getError();
@@ -175,7 +175,7 @@ public class Arm {
     
     /**
      * TEST CONSTANTS
-     *
+     */
     public static void setPIDCustomTruss() {
 	pid.setSetpoint(Constants.ARM_TRUSS_ANGLE);
 	pidDiff = pid.getError();
@@ -195,7 +195,7 @@ public class Arm {
     
     /**
      * TEST CONSTANTS
-     *
+     */
     public static void setPIDCustomGoalLine() {
 	pid.setSetpoint(Constants.ARM_GOAL_LINE_ANGLE);
 	pidDiff = pid.getError();
@@ -212,7 +212,7 @@ public class Arm {
 	pid.setSetpoint(Constants.ARM_GOAL_LINE_ANGLE);
 	pid.enable();
     }
-    */   
+
     /**
      * Sets arm position to ingest
      */

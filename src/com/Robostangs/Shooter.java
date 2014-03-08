@@ -18,7 +18,7 @@ public class Shooter {
     private static Solenoid shooterSolenoidOn, shooterSolenoidOff;
     private static DigitalInput shooterLimit;
     private static Timer shooterTimer;
-    public static boolean shooshoo, loadCompleted = false;
+    public static boolean shooshoo, loadCompleted = false, isShooting = false;
     
     private Shooter() {
         try {
@@ -71,6 +71,14 @@ public class Shooter {
     }
     
     public static void manualLoad() {
+	if (isShooting) {
+	    shooterTimer.reset();
+	    shooterTimer.start();
+	    if (shooterTimer.get() > 0.5) {
+		isShooting = false;
+		shooterTimer.stop();
+	    }
+	}
 	if (!loadCompleted) {
 	    if (shooterLimit.get()) {
 		solenoidDisable();
@@ -114,12 +122,9 @@ public class Shooter {
 	            shooshoo = false;
 	        }
 	} else {
+            isShooting = true;
 	    shoot();
-	    shooterTimer.start();
 	    loadCompleted = false;
-	    if (shooterTimer.get() > Constants.SHOOTER_SHOOT_DELAY_TIME) {
-		shooterTimer.reset();
-	    }
 	}
     }
     
