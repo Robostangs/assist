@@ -71,16 +71,12 @@ public class RobotMain extends IterativeRobot {
 	} else if (xboxManip.startButton()) {
 	    //Arm.setPIDCustomTruss();
             Arm.setPIDTrussPass();
-        } else if (!Arm.isArmInShootAngle() && Arm.isLow && Arm.autoPID) {
+        } else if (!Arm.isArmInShootAngle() && Arm.isLow) {
             Arm.setPIDShoot();
         } else {
 	    Arm.stop();
 	}
-	
-        if (xboxManip.backButton()) {
-            Arm.switchAutoPositioning();
-        }
-        
+
 	if (xboxManip.lBumper()) {
 	    Shooter.stop();
         } else if (xboxManip.rBumper()) {
@@ -157,7 +153,6 @@ public class RobotMain extends IterativeRobot {
         //SmartDashboard.putNumber("Offset", Constants.DT_DELTA_OFFSET);
         //SmartDashboard.putNumber("Mod", Constants.DT_ENCODER_SLOW_MOD);
 	//SmartDashboard.putNumber("delta", DriveTrain.delta);
-        SmartDashboard.putBoolean("PID AUTOMATICALLY IN SHOOT POSITION", Arm.autoPID);
 	SmartDashboard.putNumber("pidDiff", Arm.pidDiff);
 	SmartDashboard.putNumber("P", Arm.pid.getP());
 	SmartDashboard.putNumber("I", Arm.pid.getI());

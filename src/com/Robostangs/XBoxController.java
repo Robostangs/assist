@@ -49,13 +49,13 @@ public class XBoxController extends Joystick{
         return getRawAxis(1);
     }
     public double leftStickYAxis(){
-        return getRawAxis(2);
+        return -getRawAxis(2);
     }
     public double rightStickXAxis(){
         return getRawAxis(4);
     }
     public double rightStickYAxis(){
-        return getRawAxis(5);
+        return -getRawAxis(5);
     }
     public double triggerAxis(){
         return getRawAxis(3);

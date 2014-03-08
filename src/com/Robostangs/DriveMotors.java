@@ -45,10 +45,10 @@ public class DriveMotors implements PIDOutput{
      */
     public static void set(double leftSpeed1, double leftSpeed2, double rightSpeed1, double rightSpeed2) {
         try {
-            leftJag1.setX(leftSpeed1);
-            leftJag2.setX(leftSpeed2);
-            rightJag1.setX(-rightSpeed1);
-            rightJag2.setX(-rightSpeed2);
+            leftJag1.setX(-leftSpeed1);
+            leftJag2.setX(-leftSpeed2);
+            rightJag1.setX(rightSpeed1);
+            rightJag2.setX(rightSpeed2);
         } catch (CANTimeoutException ex) {
             System.out.println("CANJAG ERROR IN DRIVEMOTORS");
         }

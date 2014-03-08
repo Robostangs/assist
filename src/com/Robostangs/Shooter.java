@@ -18,7 +18,7 @@ public class Shooter {
     private static Solenoid shooterSolenoidOn, shooterSolenoidOff;
     private static DigitalInput shooterLimit;
     private static Timer shooterTimer;
-    private static boolean shooshoo, loadCompleted = false;
+    public static boolean shooshoo, loadCompleted = false;
     
     private Shooter() {
         try {

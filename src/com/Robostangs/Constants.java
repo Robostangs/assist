@@ -23,6 +23,7 @@ public class Constants {
     
     //Arm PID Autonomous
     public static final int ARM_AUTON_SHOT_ANGLE = 366;
+    public static final int ARM_AUTON_LOW_ANGLE = 250;
     public static final double ARM_AUTON_P = 0.006;
     public static final double ARM_AUTON_I = 0.0003;
     public static final double ARM_AUTON_D = 0.01;

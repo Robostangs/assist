@@ -13,7 +13,7 @@ public class Arm {
     public static PIDController pid;
     public static int currentPID = 0;
     public static double pidDiff = 0;
-    public static boolean autoPID = true, isLow = false;
+    public static boolean goodAngle = false, isLow = false;
 
     private Arm(){
         apot = new Potentiometer(Constants.ARM_POT_POS);
@@ -291,6 +291,19 @@ public class Arm {
         pid.enable();
     }
     
+    /**
+     * Sets arm position to autonomous shot
+     */
+    public static void setPIDAutonLow() {
+        if (currentPID != 8) {
+            pid.reset();
+            pid.setPID(Constants.ARM_SHOOT_P, Constants.ARM_SHOOT_I, Constants.ARM_SHOOT_D);
+            currentPID = 8;
+        }        
+        pid.setSetpoint(Constants.ARM_AUTON_LOW_ANGLE);
+        pid.enable();
+    }
+    
     public static boolean isArmInShootAngle() {
         //3 right now because we don't have setPIDAccurateShot()
         if (getArmAngle() < (Constants.ARM_SHOOT_ANGLE + 3/*Constants.ARM_SHOOT_ANGLE_TOLERANCE*/)
@@ -318,13 +331,16 @@ public class Arm {
         ArmMotors.stop();
     }
     
-    public static void switchAutoPositioning() {
-        autoPID = !autoPID;
+    public static boolean isInPosition(int setpoint) {
+	if (pid.getSetpoint() != setpoint) {
+	    pid.setSetpoint(setpoint);
+	}
+	return getArmAngle() < (pid.getSetpoint() + 2) && getArmAngle() > (pid.getSetpoint() - 2);
     }
     
     public static void setPIDConstants(double p, double i, double d, double setpoint) {
 	pid.reset();
 	pid.setPID(p, i, d);
 	pid.setSetpoint(setpoint);
-    }
+    }   
 }

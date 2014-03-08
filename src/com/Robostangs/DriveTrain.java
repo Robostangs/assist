@@ -120,21 +120,24 @@ public class DriveTrain {
     
     /**
      * drive straight for a certain distance
-     * @param power motor speed
      * @param distance distance you want to travel
+     * @return true if completed
      */
-    public static void driveStraightDistance(double power, double distance) {
-        if (!encoderInit) {
-            resetEncoders();
-            encoderInit = true;
-        }
+    public static boolean driveStraightDistance(double distance) {
+	double currentDistance = 0;
+        resetEncoders();
 
-	double currentDistance = (Math.abs(leftEncoder.getRaw()) + Math.abs(rightEncoder.getRaw())) / 2;        
-        if (currentDistance < distance) {
-            drive(-power, -power);
-        } else {
-	    stop();
+	if (distance > 0) {
+	    while (currentDistance < distance) {
+                currentDistance = getEncoderAverage();
+	    }
+	} else if (distance < 0) {
+	    while (currentDistance > distance) {
+                currentDistance = getEncoderAverage();
+	    }
 	}
+	
+	return true;
     }
     
     /**
@@ -175,9 +178,9 @@ public class DriveTrain {
         Shifting.LowGear();
         
         if (getEncoderAverage() < -100) {
-            drive(-Constants.DT_PUSH_POWER, -Constants.DT_PUSH_POWER);
-        } else if (getEncoderAverage() > 100) {
             drive(Constants.DT_PUSH_POWER, Constants.DT_PUSH_POWER);
+        } else if (getEncoderAverage() > 100) {
+            drive(-Constants.DT_PUSH_POWER, -Constants.DT_PUSH_POWER);
         } else {
             stop();
         }
@@ -203,7 +206,7 @@ public class DriveTrain {
      * @return left encoder distance
      */
     public static double getLeftEncoder() {
-        return leftEncoder.getRaw();
+        return -leftEncoder.getRaw();
     }
     
     /**
@@ -215,7 +218,7 @@ public class DriveTrain {
     }
     
     public static double getEncoderAverage() {
-        return (rightEncoder.getRaw() + (-leftEncoder.getRaw())) / 2;
+        return (getRightEncoder() + getLeftEncoder()) / 2;
     }
 
     /**
