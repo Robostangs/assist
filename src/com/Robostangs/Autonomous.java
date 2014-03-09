@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.Timer;
 public class Autonomous {
     public static Autonomous instance = null;
     public static boolean dunzo = false;
-    public static Timer timer;
+    private static Timer timer;
+    private static boolean hot = true;
     
     private Autonomous() {
 	Arm.getInstance();
@@ -28,19 +29,42 @@ public class Autonomous {
     public static void fallBack() {
 	if (!dunzo) {
 	    timer.start();
-	    while (timer.get() < 2.0 && !DriveTrain.driveStraightDistance(Constants.AUTON_DRIVE_DISTANCE)) {
-		DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
+	    
+	    if (hot) {
+		while (timer.get() < 2.0 && !DriveTrain.driveStraightDistance(Constants.AUTON_DRIVE_DISTANCE)) {
+		    DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
+		}
+		while (timer.get() < 3.0) {
+		    Arm.setPIDAutonShot();
+		    DriveTrain.stop();
+		}
+		while (timer.get() < 5.0) {
+		    Shooter.shooShoot();
+		    Arm.stop();
+		}
+		Shooter.manualLoad();
+		dunzo = true;
+	    } else {
+		while (timer.get() < 2.0 && !DriveTrain.driveStraightDistance(Constants.AUTON_DRIVE_DISTANCE)) {
+		    DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
+		}
+		while (timer.get() < 3.0) {
+		    Arm.setPIDAutonShot();
+		    DriveTrain.stop();
+		}
+		while (timer.get() < 5.0) {
+		    Shooter.manualLoad();
+		    Arm.stop();
+		    DriveTrain.stop();
+		}
+		while (timer.get() < 8.0) {
+		    if (Shooter.loadCompleted) {
+    		        Shooter.shooShoot();
+		    }
+		}
+		Shooter.manualLoad();
+		dunzo = true;
 	    }
-	    while (timer.get() < 4.0) {
-		Arm.setPIDAutonShot();
-		DriveTrain.stop();
-	    }
-	    while (timer.get() < 5.0) {
-		Shooter.shooShoot();
-		Arm.stop();
-	    }
-            Shooter.manualLoad();
-	    dunzo = true;
 	}
     }
     
@@ -74,30 +98,25 @@ public class Autonomous {
 		DriveTrain.stop();
 		Ingestor.stop();
 		Arm.setPIDShoot();
+		Shooter.manualLoad();
 	    }
             while (timer.get() < 5.0) {
                 Arm.stop();
-		Shooter.shooShoot();
+		if (Shooter.loadCompleted) {
+	            Shooter.shooShoot();
+		}
             }
             while (timer.get() < 6.0 && !Arm.isInPosition(Constants.ARM_INGEST_ANGLE)) {
 		DriveTrain.stop();
                 Arm.setPIDIngest();
-		if (!Shooter.loadCompleted) {
-		    Shooter.manualLoad();
-		} else {
-		    Shooter.stop();
-		}
+                Shooter.manualLoad();
             }
 	    DriveTrain.resetEncoders();
             while (timer.get() < 7.0 && !DriveTrain.driveStraightDistance(2000)) {
                 Arm.stop();
                 Ingestor.ingest();
 		DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
-		if (!Shooter.loadCompleted) {
-		    Shooter.manualLoad();
-		} else {
-		    Shooter.stop();
-		}
+                Shooter.manualLoad();
             }
             while (timer.get() < 8.0 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
                 DriveTrain.stop();
@@ -107,7 +126,9 @@ public class Autonomous {
             while (timer.get() < 9.0) {
 		Ingestor.stop();
                 Arm.stop();
-                Shooter.shooShoot();
+		if (Shooter.loadCompleted) {
+	            Shooter.shooShoot();
+		}
             }
             dunzo = true;
         }

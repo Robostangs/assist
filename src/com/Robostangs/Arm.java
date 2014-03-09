@@ -53,7 +53,7 @@ public class Arm {
         } else if (power < 0) {
             if (getArmAngle() < (Constants.ARM_MIN_ANGLE + Constants.ARM_ANGLE_THRESHOLD) 
                     && getArmAngle() > Constants.ARM_MIN_ANGLE) {
-                ArmMotors.set(power * 0.3);
+                ArmMotors.set(power * 0.2);
             } else if (getArmAngle() > Constants.ARM_MIN_ANGLE) {
                 ArmMotors.set(power);
             } else {

@@ -33,7 +33,7 @@ public class ArmMotors implements PIDOutput{
      
     /**
      * Sets arm speed according to value
-     * @param set arm speed
+     * @param value set arm speed
      */
     public static void set(double value) {
         try {
