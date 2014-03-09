@@ -1,7 +1,6 @@
 package com.Robostangs;
 
 /**
- *
  * @author Thunderbird
  */
 public class Constants {
@@ -23,17 +22,20 @@ public class Constants {
     
     //Arm PID Autonomous
     public static final int ARM_AUTON_SHOT_ANGLE = 366;
-    public static final int ARM_AUTON_LOW_ANGLE = 250;
+    public static final int ARM_AUTON_LOW_ANGLE = 300;
     public static final double ARM_AUTON_P = 0.006;
     public static final double ARM_AUTON_I = 0.0003;
     public static final double ARM_AUTON_D = 0.01;
 
     //Arm PID Ingest
-    public static final int ARM_INGEST_ANGLE = 130;
-    public static final int ARM_INGEST_UPPER_BOUNDARY = -30;
-    public static final double ARM_INGEST_FINE_P = 0.008;
-    public static final double ARM_INGEST_FINE_I = 0.0;
-    public static final double ARM_INGEST_FINE_D = 0.01;
+    public static final int ARM_INGEST_ANGLE = 125;
+    public static int ARM_INGEST_UPPER_BOUNDARY = -20;
+    public static double ARM_INGEST_COARSE_P = 0.0035;
+    public static double ARM_INGEST_COARSE_I = 0.0;
+    public static double ARM_INGEST_COARSE_D = 0.01;
+    public static double ARM_INGEST_FINE_P = 0.004;
+    public static double ARM_INGEST_FINE_I = 0.0004;
+    public static double ARM_INGEST_FINE_D = 0.01;
     
     public static final double ARM_INGEST_P = 0.008;
     public static final double ARM_INGEST_I = 0.0;
@@ -54,11 +56,11 @@ public class Constants {
     //Arm PID Shoot
     public static final int ARM_SHOOT_ANGLE = 370;
     public static final int ARM_SHOOT_ANGLE_TOLERANCE = 5;
-    public static int ARM_SHOOT_UPPER_BOUNDARY = -10;
-    public static int ARM_SHOOT_LOWER_BOUNDARY = 20;
-    public static double ARM_SHOOT_FINE_P = 0.010;
-    public static double ARM_SHOOT_FINE_I = 0.0005;
-    public static double ARM_SHOOT_FINE_D = 0.03;
+    public static final int ARM_SHOOT_UPPER_BOUNDARY = -20;
+    public static final int ARM_SHOOT_LOWER_BOUNDARY = 20;
+    public static final double ARM_SHOOT_FINE_P = 0.010;
+    public static final double ARM_SHOOT_FINE_I = 0.0002;
+    public static final double ARM_SHOOT_FINE_D = 0.02;
     //Accurate Shot
     public static final double ARM_ACCURATE_SHOT_P = 0.006;
     public static final double ARM_ACCURATE_SHOT_I = 0.0004;

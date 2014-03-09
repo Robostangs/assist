@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 /**
- *
  * @author Laptop
  */
 public class DriveMotors implements PIDOutput{

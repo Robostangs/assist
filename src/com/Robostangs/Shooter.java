@@ -8,8 +8,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 /**
- *
- * @author Laptop
+ * @author Thunderbird
  */
 public class Shooter {
     private static CANJaguar shooterJag;

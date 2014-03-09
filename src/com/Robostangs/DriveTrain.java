@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 
 /**
- *
  * @author Laptop
  */
 public class DriveTrain {
@@ -123,17 +122,18 @@ public class DriveTrain {
      * @param distance distance you want to travel
      * @return true if completed
      */
+    private static double currentDistance = 0;
     public static boolean driveStraightDistance(double distance) {
-	double currentDistance = 0;
-        resetEncoders();
 
 	if (distance > 0) {
 	    while (currentDistance < distance) {
                 currentDistance = getEncoderAverage();
+		return false;
 	    }
 	} else if (distance < 0) {
 	    while (currentDistance > distance) {
                 currentDistance = getEncoderAverage();
+		return false;
 	    }
 	}
 	

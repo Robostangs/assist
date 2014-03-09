@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 /**
- *
  * @author Laptop
  */
 public class Ingestor {

@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Robostangs;
 
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
- *
  * @author Laptop
  */
 public class XBoxController extends Joystick{

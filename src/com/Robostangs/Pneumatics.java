@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Relay;
 
 /**
- *
  * @author Laptop
  */
 public class Pneumatics {

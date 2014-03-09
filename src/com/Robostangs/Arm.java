@@ -3,17 +3,16 @@ package com.Robostangs;
 import edu.wpi.first.wpilibj.PIDController;
 
 /**
- *
- * @author Laptop
+ * @author Thunderbird
  */
 public class Arm {
     private static Arm instance = null;
     public static Potentiometer apot;
     private static ArmMotors motorOutput;
     public static PIDController pid;
-    public static int currentPID = 0;
+    private static int currentPID = 0;
     public static double pidDiff = 0;
-    public static boolean goodAngle = false, isLow = false;
+    public static boolean isLow = false;
 
     private Arm(){
         apot = new Potentiometer(Constants.ARM_POT_POS);
@@ -121,12 +120,16 @@ public class Arm {
 	pidDiff = pid.getError();
 	
 	if (pidDiff < Constants.ARM_INGEST_UPPER_BOUNDARY) {
-            setPIDCoarse();
+            if (currentPID != 13) {
+		pid.reset();
+		pid.setPID(Constants.ARM_INGEST_COARSE_P, Constants.ARM_INGEST_COARSE_I, Constants.ARM_INGEST_COARSE_D);
+		currentPID = 13;
+	    }
 	} else {
-	    if (currentPID != 13) {
+	    if (currentPID != 14) {
 		pid.reset();
 		pid.setPID(Constants.ARM_INGEST_FINE_P, Constants.ARM_INGEST_FINE_I, Constants.ARM_INGEST_FINE_D);
-		currentPID = 13;
+		currentPID = 14;
 	    }
 	}
 	pid.setSetpoint(Constants.ARM_INGEST_ANGLE);
@@ -143,10 +146,10 @@ public class Arm {
 	if (pidDiff < Constants.ARM_LOAD_UPPER_BOUNDARY || pidDiff > Constants.ARM_LOAD_LOWER_BOUNDARY) {
             setPIDCoarse();
 	} else {
-	    if (currentPID != 14) {
+	    if (currentPID != 15) {
 		pid.reset();
 		pid.setPID(Constants.ARM_LOAD_FINE_P, Constants.ARM_LOAD_FINE_I, Constants.ARM_LOAD_FINE_D);
-		currentPID = 14;
+		currentPID = 15;
 	    }
 	}
 	pid.setSetpoint(Constants.ARM_LOAD_ANGLE);
@@ -163,10 +166,10 @@ public class Arm {
 	if (pidDiff < Constants.ARM_LONG_SHOT_UPPER_BOUNDARY || pidDiff > Constants.ARM_LONG_SHOT_LOWER_BOUNDARY) {
             setPIDCoarse();
 	} else {
-	    if (currentPID != 15) {
+	    if (currentPID != 16) {
 		pid.reset();
 		pid.setPID(Constants.ARM_LONG_SHOT_FINE_P, Constants.ARM_LONG_SHOT_FINE_I, Constants.ARM_LONG_SHOT_FINE_D);
-		currentPID = 15;
+		currentPID = 16;
 	    }
 	}
 	pid.setSetpoint(Constants.ARM_LONG_SHOT_ANGLE);
@@ -183,10 +186,10 @@ public class Arm {
 	if (pidDiff < Constants.ARM_TRUSS_UPPER_BOUNDARY || pidDiff > Constants.ARM_TRUSS_LOWER_BOUNDARY) {
             setPIDCoarse();
 	} else {
-	    if (currentPID != 16) {
+	    if (currentPID != 17) {
 		pid.reset();
 		pid.setPID(Constants.ARM_TRUSS_FINE_P, Constants.ARM_TRUSS_FINE_I, Constants.ARM_TRUSS_FINE_D);
-		currentPID = 16;
+		currentPID = 17;
 	    }
 	}
 	pid.setSetpoint(Constants.ARM_TRUSS_ANGLE);
@@ -203,10 +206,10 @@ public class Arm {
 	if (pidDiff < Constants.ARM_GOAL_LINE_UPPER_BOUNDARY || pidDiff > Constants.ARM_GOAL_LINE_LOWER_BOUNDARY) {
             setPIDCoarse();
 	} else {
-	    if (currentPID != 17) {
+	    if (currentPID != 18) {
 		pid.reset();
 		pid.setPID(Constants.ARM_GOAL_LINE_FINE_P, Constants.ARM_GOAL_LINE_FINE_I, Constants.ARM_GOAL_LINE_FINE_D);
-		currentPID = 17;
+		currentPID = 18;
 	    }
 	}
 	pid.setSetpoint(Constants.ARM_GOAL_LINE_ANGLE);
@@ -224,6 +227,8 @@ public class Arm {
 	}
 	pid.setSetpoint(Constants.ARM_INGEST_ANGLE);
         pid.enable();
+	
+	isLow = true;
     }
     
     /**

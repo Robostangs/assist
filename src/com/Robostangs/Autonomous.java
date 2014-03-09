@@ -3,7 +3,6 @@ package com.Robostangs;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
- *
  * @author Thunderbird
  */
 public class Autonomous {
@@ -29,7 +28,7 @@ public class Autonomous {
     public static void fallBack() {
 	if (!dunzo) {
 	    timer.start();
-	    while (timer.get() < 2.0 || !DriveTrain.driveStraightDistance(Constants.AUTON_DRIVE_DISTANCE)) {
+	    while (timer.get() < 2.0 && !DriveTrain.driveStraightDistance(Constants.AUTON_DRIVE_DISTANCE)) {
 		DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
 	    }
 	    while (timer.get() < 4.0) {
@@ -57,27 +56,30 @@ public class Autonomous {
      */
     public static void twoBallz() {
         if (!dunzo) {
+	    timer.reset();
             timer.start();
-	    while (timer.get() < 1.0 || !Arm.isInPosition(Constants.ARM_AUTON_LOW_ANGLE)) {
+	    DriveTrain.resetEncoders();
+	    while (timer.get() < 1.0 && !Arm.isInPosition(Constants.ARM_AUTON_LOW_ANGLE)) {
 		Arm.setPIDAutonLow();
 	    }
-            while (timer.get() < 2.0 || !DriveTrain.driveStraightDistance(2300)) {
+            while (timer.get() < 2.0 && !DriveTrain.driveStraightDistance(2300)) {
 		Arm.stop();
+		Ingestor.ingest();
                 DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
             }
-	    while (timer.get() < 2.5 || !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
+	    while (timer.get() < 3.0) {
 		DriveTrain.stop();
+	    }
+	    while (timer.get() < 4.0 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
+		DriveTrain.stop();
+		Ingestor.stop();
 		Arm.setPIDShoot();
 	    }
-            while (timer.get() < 3.5) {
+            while (timer.get() < 5.0) {
                 Arm.stop();
 		Shooter.shooShoot();
             }
-            while (timer.get() < 4.0 || !DriveTrain.driveStraightDistance(-500)) {
-                Shooter.manualLoad();
-                DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
-            }
-            while (timer.get() < 5.0 || !Arm.isInPosition(Constants.ARM_INGEST_ANGLE)) {
+            while (timer.get() < 6.0 && !Arm.isInPosition(Constants.ARM_INGEST_ANGLE)) {
 		DriveTrain.stop();
                 Arm.setPIDIngest();
 		if (!Shooter.loadCompleted) {
@@ -86,7 +88,8 @@ public class Autonomous {
 		    Shooter.stop();
 		}
             }
-            while (timer.get() < 6.0 || !DriveTrain.driveStraightDistance(1000)) {
+	    DriveTrain.resetEncoders();
+            while (timer.get() < 7.0 && !DriveTrain.driveStraightDistance(2000)) {
                 Arm.stop();
                 Ingestor.ingest();
 		DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
@@ -96,12 +99,13 @@ public class Autonomous {
 		    Shooter.stop();
 		}
             }
-            while (timer.get() < 7.0 || !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
+            while (timer.get() < 8.0 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
                 DriveTrain.stop();
                 Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
                 Arm.setPIDShoot();
             }
-            while (timer.get() < 8.0) {
+            while (timer.get() < 9.0) {
+		Ingestor.stop();
                 Arm.stop();
                 Shooter.shooShoot();
             }

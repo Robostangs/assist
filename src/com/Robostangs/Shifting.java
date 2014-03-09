@@ -3,7 +3,6 @@ package com.Robostangs;
 import edu.wpi.first.wpilibj.Solenoid;
 
 /**
- *
  * @author Laptop
  */
 public class Shifting {
