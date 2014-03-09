@@ -37,7 +37,7 @@ public class ArmMotors implements PIDOutput{
      */
     public static void set(double value) {
         try {
-            armJag.setX(value);
+            armJag.setX(-value);
         } catch (CANTimeoutException ex) {
             System.out.println("Arm Motor Error");
         }

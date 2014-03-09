@@ -10,8 +10,8 @@ public class Constants {
 
     public static final double ARM_SLOW_SPEED = 0.5;
     public static final double ARM_FAST_SPEED = 0.75;
-    public static final int ARM_MIN_ANGLE = 120;
-    public static final int ARM_MAX_ANGLE  = 520;
+    public static final int ARM_MIN_ANGLE = 100; //120 248 273
+    public static final int ARM_MAX_ANGLE  = 850; //520 690
     public static final int ARM_ANGLE_THRESHOLD = 20;
     
     //Arm PID Coarse
@@ -28,7 +28,7 @@ public class Constants {
     public static final double ARM_AUTON_D = 0.01;
 
     //Arm PID Ingest
-    public static final int ARM_INGEST_ANGLE = 125;
+    public static final int ARM_INGEST_ANGLE = 125; //683
     public static int ARM_INGEST_UPPER_BOUNDARY = -20;
     public static double ARM_INGEST_COARSE_P = 0.0035;
     public static double ARM_INGEST_COARSE_I = 0.0;
@@ -108,14 +108,14 @@ public class Constants {
     public static final double JAG_FAULT_TIME = 5.0;
     
     //DriveTrain
-    public static final int DT_LEFT_JAG_1_POS = 3;
-    public static final int DT_LEFT_JAG_2_POS = 4;
+    public static final int DT_LEFT_JAG_1_POS = 2;
+    public static final int DT_LEFT_JAG_2_POS = 3;
     public static final int DT_RIGHT_JAG_1_POS = 1;
-    public static final int DT_RIGHT_JAG_2_POS = 2;
-    public static final int DT_LEFT_ENCODER_1 = 4;
-    public static final int DT_LEFT_ENCODER_2 = 5;
-    public static final int DT_RIGHT_ENCODER_1 = 7;
-    public static final int DT_RIGHT_ENCODER_2 = 8;
+    public static final int DT_RIGHT_JAG_2_POS = 4;
+    public static final int DT_LEFT_ENCODER_1 = 1;
+    public static final int DT_LEFT_ENCODER_2 = 2;
+    public static final int DT_RIGHT_ENCODER_1 = 3;
+    public static final int DT_RIGHT_ENCODER_2 = 4;
     public static final int DT_GYRO_POS = 1;
     public static final double DT_LEFT_ENCODER_DPP = 0.001;
     public static final double DT_RIGHT_ENCODER_DPP = 0.001;
@@ -126,8 +126,8 @@ public class Constants {
     public static double DT_PUSH_POWER = 0.8;
     
     //Ingestor
-    public static final int INGESTOR_LEFT_JAG = 8;
-    public static final int INGESTOR_RIGHT_JAG = 5;
+    public static final int INGESTOR_LEFT_JAG = 7;
+    public static final int INGESTOR_RIGHT_JAG = 8;
     public static final double INGESTOR_INGEST_SPEED = -0.8;
     public static final double INGESTOR_EXGEST_SPEED = 1.0;
     public static final double INGESTOR_SHOOT_EXGEST_SPEED = 1.0;
@@ -135,7 +135,7 @@ public class Constants {
     
     //Pneumatics
     public static final int RELAY_COMPRESSOR_POS = 1;
-    public static final int DIGITAL_INPUT_PRESSURE = 9;
+    public static final int DIGITAL_INPUT_PRESSURE = 5;
     
     //Robot Main
     public static final int XBOX_DRIVER_POS = 1;
@@ -146,10 +146,10 @@ public class Constants {
     public static final int LOW_GEAR_SOLENOID_POS = 2;
     
     //Shooter
-    public static final int SHOOTER_JAG_POS = 7;
-    public static final int SHOOTER_ENCODER_1 = 11;
-    public static final int SHOOTER_ENCODER_2 = 12;
-    public static final int SHOOTER_LIMIT_POS = 13;
+    public static final int SHOOTER_JAG_POS = 5;
+    public static final int SHOOTER_ENCODER_1 = 6;
+    public static final int SHOOTER_ENCODER_2 = 7;
+    public static final int SHOOTER_LIMIT_POS = 8;
     public static final int SHOOTER_CYCLINDER_IN_POS = 3;
     public static final int SHOOTER_CYCLINDER_OUT_POS = 4;
 

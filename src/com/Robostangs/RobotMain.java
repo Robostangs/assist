@@ -24,6 +24,8 @@ public class RobotMain extends IterativeRobot {
 	Shifting.getInstance();
 	Shooter.getInstance();
         
+	Shooter.solenoidDisable();
+	
 	LiveWindow.addActuator("Arm", "Motor", ArmMotors.armJag);
 	LiveWindow.addSensor("Arm", "Pot", Arm.apot);
 	LiveWindow.addSensor("Arm", "PID", Arm.pid);
@@ -37,6 +39,8 @@ public class RobotMain extends IterativeRobot {
 
 	if (xboxDriver.bButton()) {
             DriveTrain.maintainPosition();
+	} else if (xboxDriver.xButton()) {
+	    DriveTrain.drive(0.3, 0.3);
 	} else {
 	    DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
 	    DriveTrain.encoderInit = false;
@@ -56,7 +60,7 @@ public class RobotMain extends IterativeRobot {
 	    Arm.setPIDShoot();
 	} else if (xboxDriver.bButton()) {
 	    Arm.setPIDCustomIngest();
-	*/} else if (xboxManip.aButton()) {
+	} else if (xboxManip.aButton()) {
             //Arm.setPIDCustomIngest();
             Arm.setPIDIngest();
 	} else if (xboxManip.bButton()) {
@@ -71,7 +75,7 @@ public class RobotMain extends IterativeRobot {
 	    //Arm.setPIDCustomTruss();
             Arm.setPIDTrussPass();
         } else if (!Arm.isArmInShootAngle() && Arm.isLow) {
-            Arm.setPIDShoot();
+            Arm.setPIDShoot();*/
         } else {
 	    Arm.stop();
 	}

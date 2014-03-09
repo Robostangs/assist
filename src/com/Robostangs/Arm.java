@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.PIDController;
 public class Arm {
     private static Arm instance = null;
     public static Potentiometer apot;
-    private static ArmMotors motorOutput;
+    public static ArmMotors motorOutput;
     public static PIDController pid;
-    private static int currentPID = 0;
+    public static int currentPID = 0;
     public static double pidDiff = 0;
     public static boolean isLow = false;
 
