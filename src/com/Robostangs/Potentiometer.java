@@ -12,6 +12,10 @@ public class Potentiometer extends AnalogChannel implements PIDSource{
     }
 
     public double pidGet() {
-        return getAverageValue();
+        return 1000.0 - super.getAverageValue();
     } 
+    
+    public int getAverageValue() {
+        return 1000 - super.getAverageValue();
+    }
 }

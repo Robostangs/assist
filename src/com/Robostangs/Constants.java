@@ -10,8 +10,8 @@ public class Constants {
 
     public static final double ARM_SLOW_SPEED = 0.5;
     public static final double ARM_FAST_SPEED = 0.75;
-    public static final int ARM_MIN_ANGLE = 100; //120 248 273
-    public static final int ARM_MAX_ANGLE  = 850; //520 690
+    public static final int ARM_MIN_ANGLE = 273; //120 248 273
+    public static final int ARM_MAX_ANGLE  = 690; //520 690
     public static final int ARM_ANGLE_THRESHOLD = 20;
     
     //Arm PID Coarse
@@ -21,14 +21,14 @@ public class Constants {
     //If 1 fine PID works for everything, just change the boundaries
     
     //Arm PID Autonomous
-    public static final int ARM_AUTON_SHOT_ANGLE = 366;
-    public static final int ARM_AUTON_LOW_ANGLE = 300;
+    public static final int ARM_AUTON_SHOT_ANGLE = 519; //366
+    public static final int ARM_AUTON_LOW_ANGLE = 453; //300
     public static final double ARM_AUTON_P = 0.006;
     public static final double ARM_AUTON_I = 0.0003;
     public static final double ARM_AUTON_D = 0.01;
 
     //Arm PID Ingest
-    public static final int ARM_INGEST_ANGLE = 125; //683
+    public static final int ARM_INGEST_ANGLE = 280; //125
     public static int ARM_INGEST_UPPER_BOUNDARY = -20;
     public static double ARM_INGEST_COARSE_P = 0.0035;
     public static double ARM_INGEST_COARSE_I = 0.0;
@@ -42,7 +42,7 @@ public class Constants {
     public static final double ARM_INGEST_D = 0.01;
     
     //Arm PID Load
-    public static final int ARM_LOAD_ANGLE = 490;
+    public static final int ARM_LOAD_ANGLE = 638; //490
     public static final int ARM_LOAD_UPPER_BOUNDARY = -5;
     public static final int ARM_LOAD_LOWER_BOUNDARY = 10;
     public static final double ARM_LOAD_FINE_P = 0.008;
@@ -54,7 +54,7 @@ public class Constants {
     public static final double ARM_LOAD_D = 0.01;
     
     //Arm PID Shoot
-    public static final int ARM_SHOOT_ANGLE = 370;
+    public static final int ARM_SHOOT_ANGLE = 523; //370
     public static final int ARM_SHOOT_ANGLE_TOLERANCE = 5;
     public static final int ARM_SHOOT_UPPER_BOUNDARY = -20;
     public static final int ARM_SHOOT_LOWER_BOUNDARY = 20;
@@ -66,28 +66,28 @@ public class Constants {
     public static final double ARM_ACCURATE_SHOT_I = 0.0004;
     public static final double ARM_ACCURATE_SHOT_D = 0.01;
     //Long Shot
-    public static final int ARM_LONG_SHOT_ANGLE = 407;
+    public static final int ARM_LONG_SHOT_ANGLE = 560; //407
     public static final int ARM_LONG_SHOT_UPPER_BOUNDARY = -5;
     public static final int ARM_LONG_SHOT_LOWER_BOUNDARY = 10;
     public static final double ARM_LONG_SHOT_FINE_P = 0.008;
     public static final double ARM_LONG_SHOT_FINE_I = 0.0;
     public static final double ARM_LONG_SHOT_FINE_D = 0.01;    
     //Goal Line
-    public static final int ARM_GOAL_LINE_ANGLE = 530;
+    public static final int ARM_GOAL_LINE_ANGLE = 683; //530
     public static final int ARM_GOAL_LINE_UPPER_BOUNDARY = -5;
     public static final int ARM_GOAL_LINE_LOWER_BOUNDARY = 10;
     public static final double ARM_GOAL_LINE_FINE_P = 0.008;
     public static final double ARM_GOAL_LINE_FINE_I = 0.0;
     public static final double ARM_GOAL_LINE_FINE_D = 0.01;
 
-    public static final int ARM_RUN_SHOT = 365;
+    public static final int ARM_RUN_SHOT = 518; //365
     
     public static final double ARM_SHOOT_P = 0.008;
     public static final double ARM_SHOOT_I = 0.0;
     public static final double ARM_SHOOT_D = 0.01;
     
     //Arm PID Truss Pass
-    public static final int ARM_TRUSS_ANGLE = 490;
+    public static final int ARM_TRUSS_ANGLE = 643; //490
     public static final int ARM_TRUSS_UPPER_BOUNDARY = -5;
     public static final int ARM_TRUSS_LOWER_BOUNDARY = 10;
     public static final double ARM_TRUSS_FINE_P = 0.008;
