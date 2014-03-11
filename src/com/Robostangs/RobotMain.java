@@ -30,7 +30,7 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void autonomousPeriodic() {
-	Autonomous.fallBack();
+	Autonomous.twoBallz();
     }
 
     public void teleopPeriodic() {
@@ -100,13 +100,13 @@ public class RobotMain extends IterativeRobot {
         }
 	
         Pneumatics.checkPressure();
-        /*
+        
         if (xboxDriver.yButton()) {
             DriveTrain.encoderInit = false;
 	    Autonomous.reset();
         }
 
-        
+	/*
         if(xboxDriver.startButton()) {
             Shooter.increaseShooterTime();
         } else if (xboxDriver.backButton()) {

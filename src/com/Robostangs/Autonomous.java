@@ -82,52 +82,43 @@ public class Autonomous {
         if (!dunzo) {
 	    timer.reset();
             timer.start();
-	    DriveTrain.resetEncoders();
-	    while (timer.get() < 1.0 && !Arm.isInPosition(Constants.ARM_AUTON_LOW_ANGLE)) {
-		Arm.setPIDAutonLow();
-	    }
-            while (timer.get() < 2.0 && !DriveTrain.driveStraightDistance(2300)) {
-		Arm.stop();
-		Ingestor.ingest();
-                DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
-            }
-	    while (timer.get() < 3.0) {
-		DriveTrain.stop();
-	    }
-	    while (timer.get() < 4.0 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
-		DriveTrain.stop();
-		Ingestor.stop();
-		Arm.setPIDShoot();
+	    while (timer.get() < 1.5 && !Arm.isInPosition(Constants.ARM_LONG_SHOT_ANGLE)) {
+		Arm.setPIDLongShot();
 		Shooter.manualLoad();
 	    }
-            while (timer.get() < 5.0) {
-                Arm.stop();
+            while (timer.get() < 2.5) {
+		Arm.stop();
 		if (Shooter.loadCompleted) {
 	            Shooter.shooShoot();
 		}
             }
-            while (timer.get() < 6.0 && !Arm.isInPosition(Constants.ARM_INGEST_ANGLE)) {
-		DriveTrain.stop();
-                Arm.setPIDIngest();
-                Shooter.manualLoad();
-            }
 	    DriveTrain.resetEncoders();
-            while (timer.get() < 7.0 && !DriveTrain.driveStraightDistance(2000)) {
+	    while (timer.get() < 3.5 && !DriveTrain.driveStraightDistance(-500)) {
+		DriveTrain.drive(-0.3, -0.3);
+		Shooter.manualLoad();
+	    }
+	    while (timer.get() < 5.0 && !Arm.isInPosition(Constants.ARM_INGEST_ANGLE)) {
+		DriveTrain.stop();
+		Ingestor.ingest();
+		Arm.setPIDIngest();
+		Shooter.manualLoad();
+	    }
+	    DriveTrain.resetEncoders();
+            while (timer.get() < 6.0 && !DriveTrain.driveStraightDistance(5000)) {
                 Arm.stop();
-                Ingestor.ingest();
-		DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
-                Shooter.manualLoad();
+		DriveTrain.drive(0.4, 0.4);
+		Ingestor.ingest();
             }
-            while (timer.get() < 8.0 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
-                DriveTrain.stop();
-                Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
-                Arm.setPIDShoot();
+            while (timer.get() < 7.0 && !Arm.isInPosition(Constants.ARM_AUTON_SHOT_ANGLE)) {
+		DriveTrain.stop();
+		Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
+                Arm.setPIDAutonShot();
             }
-            while (timer.get() < 9.0) {
-		Ingestor.stop();
+            while (timer.get() < 8.0) {
                 Arm.stop();
+                Ingestor.stop();
 		if (Shooter.loadCompleted) {
-	            Shooter.shooShoot();
+		    Shooter.shooShoot();
 		}
             }
             dunzo = true;
