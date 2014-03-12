@@ -80,7 +80,7 @@ public class Constants {
     public static final double ARM_GOAL_LINE_FINE_I = 0.0;
     public static final double ARM_GOAL_LINE_FINE_D = 0.01;
 
-    public static final int ARM_RUN_SHOT = 365;
+    public static final int ARM_RUN_SHOT = 518; //365
     
     public static final double ARM_SHOOT_P = 0.008;
     public static final double ARM_SHOOT_I = 0.0;
