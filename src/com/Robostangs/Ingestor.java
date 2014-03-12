@@ -67,6 +67,20 @@ public class Ingestor {
     }
     
     /**
+     * get currents from the jags
+     * @return average current
+     */
+    public static boolean hasBall() {
+	    double averageCurrent = -1;
+	    try {
+                averageCurrent = (leftJag.getOutputCurrent() + rightJag.getOutputCurrent()) / 2;
+	    } catch (CANTimeoutException ex) {
+		System.out.println("JAG ERROR AT INGESTOR");
+	    }
+	    return averageCurrent > 6;
+    }
+    
+    /**
      * stop the ingestor
      */
     public static void stop() {

@@ -29,7 +29,7 @@ public class Autonomous {
 	timer.start();
 
 	if (hot) {
-	    while (timer.get() < 2.0 && !DriveTrain.driveStraightDistance(Constants.AUTON_DRIVE_DISTANCE)) {
+	    while (timer.get() < 2.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_DISTANCE)) {
 		DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
 	    }
 	    while (timer.get() < 3.0) {
@@ -42,7 +42,7 @@ public class Autonomous {
 	    }
 	    Shooter.manualLoad();
 	} else {
-	    while (timer.get() < 2.0 && !DriveTrain.driveStraightDistance(Constants.AUTON_DRIVE_DISTANCE)) {
+	    while (timer.get() < 2.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_DISTANCE)) {
 		DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
 	    }
 	    while (timer.get() < 3.0) {
@@ -65,31 +65,31 @@ public class Autonomous {
     
     /**
      * 2 ball autonomous
-     * 1. drive straight to push the ball on the ground and to line up at the line
-     * 2. set the arm to the long shot position
-     * 3. shoot
-     * 4. winch while lowing the arm to ingest position
-     * 5. set the arm to the shoot position
-     * 6. shoot
-     * 7. stop
+     * 1. move the arm to the shoot position
+     * 2. shoot
+     * 3. lower the arm, ingest, winch, and move back
+     * 4. keep winching, ingest, and move forward
+     * 5. ingest the ball
+     * 6. move the arm to the shoot position and check if the robot ingested the ball
+     * 7. if the robot ingested, shoot. if not, stop
      */
     public static void twoBallz() {
 	timer.reset();
 	timer.start();
-	DriveTrain.resetEncoders();
 	while (timer.get() < 1.0 && !Arm.isInPosition(Constants.ARM_AUTON_FIRST_SHOT_ANGLE)) {
 	    Arm.setPIDAutonFirstShot();
 	    Shooter.loadCompleted = true;
 	}
 	while (timer.get() < 2.0) {
 	    Arm.stop();
-	    if (Shooter.loadCompleted) {
+	    if (Shooter.loadCompleted && Ingestor.hasBall()) {
 	        Shooter.shooShoot();
 	    } else {
 		Shooter.manualLoad();
 	    }
 	}
-	while (timer.get() < 4.0 && !DriveTrain.driveStraightDistance(Constants.AUTON_DRIVE_BACK_DISTANCE)) {
+	DriveTrain.resetEncoders();
+	while (timer.get() < 4.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_BACK_DISTANCE)) {
 	    Shooter.manualLoad();
 	    Ingestor.ingest();
 	    DriveTrain.drive(-Constants.AUTON_DRIVE_POWER, -Constants.AUTON_DRIVE_POWER);
@@ -98,7 +98,7 @@ public class Autonomous {
 	    }
 	}
 	DriveTrain.resetEncoders();	
-	while (timer.get() < 6.0 && !DriveTrain.driveStraightDistance(Constants.AUTON_DRIVE_FORWARD_DISTANCE)) {
+	while (timer.get() < 6.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_FORWARD_DISTANCE)) {
 	    Shooter.manualLoad();
 	    Ingestor.ingest();
 	    DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
@@ -113,7 +113,7 @@ public class Autonomous {
 	}
 	while (timer.get() < 8.0) {
 	    Arm.stop();
-	    if (Shooter.loadCompleted) {
+	    if (Shooter.loadCompleted && Ingestor.hasBall()) {
 	        Shooter.shooShoot();
 	    }
 	}

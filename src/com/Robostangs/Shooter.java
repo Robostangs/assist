@@ -133,7 +133,6 @@ public class Shooter {
     }
 
     public static void solenoidEnable() {
-	shooterEncoder.reset();
 	shooterSolenoidOff.set(false);
 	shooterSolenoidOn.set(true);
     }

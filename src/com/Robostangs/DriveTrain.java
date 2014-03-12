@@ -101,7 +101,7 @@ public class DriveTrain {
      * @param power motor speed
      */
     public static void driveStraightEncoder(double power) {
-        delta = leftEncoder.getRate() - rightEncoder.getRate();
+        delta = Math.abs(leftEncoder.getRate()) - Math.abs(rightEncoder.getRate());
         double leftPower, rightPower;
 	
         if (delta > Constants.DT_DELTA_OFFSET + 0.2) {
@@ -122,9 +122,8 @@ public class DriveTrain {
      * @param distance distance you want to travel
      * @return true if completed
      */
-    private static double currentDistance = 0;
-    public static boolean driveStraightDistance(double distance) {
-
+    private static double currentDistance = 0.0;
+    public static boolean driveDistance(double distance) {
 	if (distance > 0) {
 	    while (currentDistance < distance) {
                 currentDistance = getEncoderAverage();
@@ -206,7 +205,7 @@ public class DriveTrain {
      * @return left encoder distance
      */
     public static double getLeftEncoder() {
-        return -leftEncoder.getRaw();
+        return leftEncoder.getRaw();
     }
     
     /**
@@ -214,7 +213,7 @@ public class DriveTrain {
      * @return right encoder distance
      */
     public static double getRightEncoder() {
-        return rightEncoder.getRaw();
+        return -rightEncoder.getRaw();
     }
     
     public static double getEncoderAverage() {
