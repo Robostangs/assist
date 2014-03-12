@@ -41,22 +41,21 @@ public class Ingestor {
 
     /**
      * ingest at a constant power
-     * @param power motor speed
      */
     public static void ingest() {
         setSpeed(Constants.INGESTOR_INGEST_SPEED);
     }
     
     /**
-     * ingest at a constant power
-     * @param power motor speed
+     * exgest at a constant power
      */
     public static void exgest() {
         setSpeed(Constants.INGESTOR_EXGEST_SPEED);
     }
     
     /**
-     * get average current
+     * get currents from the jags
+     * @return average current
      */
     public static double getCurrent() {
 	    try {
@@ -66,6 +65,7 @@ public class Ingestor {
 	    }
 	    return -1;
     }
+    
     /**
      * stop the ingestor
      */
