@@ -117,7 +117,7 @@ public class Autonomous {
             while (timer.get() < 8.0) {
                 Arm.stop();
                 Ingestor.stop();
-		if (Shooter.loadCompleted) {
+		if (Shooter.loadCompleted && Ingestor.haveBall()) {
 		    Shooter.shooShoot();
 		}
             }

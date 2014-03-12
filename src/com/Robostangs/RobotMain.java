@@ -149,6 +149,7 @@ public class RobotMain extends IterativeRobot {
 	    Constants.ARM_SHOOT_LOWER_BOUNDARY-=1;
 	}*/
 	
+	SmartDashboard.putBoolean("Current", Ingestor.haveBall());
 	//SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
     	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
 	SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());

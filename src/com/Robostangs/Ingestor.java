@@ -56,6 +56,24 @@ public class Ingestor {
     }
     
     /**
+     * get currents from the jags
+     * @return average current
+     */
+    public static boolean haveBall() {
+	    double averageCurrent = -1;
+	    try {
+                    averageCurrent = (leftJag.getOutputCurrent() + rightJag.getOutputCurrent()) / 2;
+	    } catch (CANTimeoutException ex) {
+		    ex.printStackTrace();
+	    }
+	    if (averageCurrent > 6) {
+		    return true;
+	    } else {
+		    return false;
+	    }
+    }
+    
+    /**
      * stop the ingestor
      */
     public static void stop() {
