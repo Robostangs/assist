@@ -33,15 +33,14 @@ public class RobotMain extends IterativeRobot {
 
     public void autonomousPeriodic() {
 	Autonomous.fallBack();
+	
+	SmartDashboard.putNumber("Avg Encoder Value", DriveTrain.getEncoderAverage());
+	SmartDashboard.putNumber("Pot Value", Arm.getArmAngle());
     }
 
     public void teleopPeriodic() {
-
 	if (xboxDriver.bButton()) {
             DriveTrain.maintainPosition();
-	    Autonomous.reset();
-	} else if (xboxDriver.xButton()) {
-	    DriveTrain.drive(0.3, 0.3);
 	} else {
 	    DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
 	    DriveTrain.encoderInit = false;
@@ -57,24 +56,19 @@ public class RobotMain extends IterativeRobot {
 	    Arm.setArmCoarseAdjustment(xboxManip.rightStickYAxis());
 	} else if (Math.abs(xboxManip.leftStickYAxis()) > 0.2) {
 	    Arm.setArmFineAdjustment(xboxManip.leftStickYAxis());
-	/*} else if (xboxDriver.aButton()) {
-	    Arm.setPIDShoot();
-	} else if (xboxDriver.bButton()) {
-	    Arm.setPIDCustomIngest();
-	*/} else if (xboxManip.aButton()) {
-            //Arm.setPIDCustomIngest();
+	} else if (xboxManip.aButton()) {
             Arm.setPIDIngest();
 	} else if (xboxManip.bButton()) {
             Arm.setPIDShoot();
         } else if (xboxManip.xButton()) {
-            //Arm.setPIDCustomLoad();
             Arm.setPIDHumanLoad();
         } else if (xboxManip.yButton()) {
-	    //Arm.setPIDCustomTruss();
             Arm.setPIDTrussPass();
 	} else if (xboxManip.startButton()) {
-            //Arm.setPIDCustomLongShot();
-            Arm.setPIDLongShot();        } else if (!Arm.isArmInShootAngle() && Arm.isLow) {
+            Arm.setPIDLongShot();
+	} else if (xboxManip.backButton()) {
+	    Arm.setPIDHalfwayShot();
+	} else if (!Arm.isArmInShootAngle() && Arm.isLow) {
             Arm.setPIDShoot();
         } else {
 	    Arm.stop();
@@ -104,13 +98,7 @@ public class RobotMain extends IterativeRobot {
         }
 	
         Pneumatics.checkPressure();
-        /*
-        if (xboxDriver.yButton()) {
-            DriveTrain.encoderInit = false;
-	    Autonomous.reset();
-        }
-
-        
+	/*
         if(xboxDriver.startButton()) {
             Shooter.increaseShooterTime();
         } else if (xboxDriver.backButton()) {
@@ -153,6 +141,7 @@ public class RobotMain extends IterativeRobot {
 	    Constants.ARM_SHOOT_LOWER_BOUNDARY-=1;
 	}*/
 	
+	SmartDashboard.putNumber("Current", Ingestor.getCurrent());
 	//SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
     	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
 	SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
@@ -176,8 +165,7 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void testPeriodic() {
-	    LiveWindow.run();
-	    SmartDashboard.putNumber("Pot", Arm.getArmAngle());
+	LiveWindow.run();
+	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
     }
-    
 }

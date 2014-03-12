@@ -56,6 +56,17 @@ public class Ingestor {
     }
     
     /**
+     * get average current
+     */
+    public static double getCurrent() {
+	    try {
+		    return (leftJag.getOutputCurrent() + rightJag.getOutputCurrent()) / 2;
+	    } catch (CANTimeoutException ex) {
+		    ex.printStackTrace();
+	    }
+	    return -1;
+    }
+    /**
      * stop the ingestor
      */
     public static void stop() {

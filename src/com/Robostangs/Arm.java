@@ -40,7 +40,8 @@ public class Arm {
         if (pid.isEnable()) {
             pid.disable();
         }
-        
+        isLow = false;
+	
         if (power > 0) {
             if (getArmAngle() > (Constants.ARM_MAX_ANGLE - Constants.ARM_ANGLE_THRESHOLD) 
                     && getArmAngle() < Constants.ARM_MAX_ANGLE) {
@@ -81,6 +82,7 @@ public class Arm {
     
     //DON'T TOUCH THIS
     public static void setPIDShoot() {
+        isLow = false;
 	pid.setSetpoint(Constants.ARM_SHOOT_ANGLE);
 	pidDiff = pid.getError();
 	
@@ -116,6 +118,7 @@ public class Arm {
      * Sets arm position to load
      */
     public static void setPIDHumanLoad() {
+        isLow = false;
         setPIDDefault();
         pid.setSetpoint(Constants.ARM_LOAD_ANGLE);
         pid.enable();
@@ -125,6 +128,7 @@ public class Arm {
      * Sets arm position to long shot
      */
     public static void setPIDLongShot() {
+        isLow = false;
         setPIDDefault();
         pid.setSetpoint(Constants.ARM_LONG_SHOT_ANGLE);
         pid.enable();
@@ -134,6 +138,7 @@ public class Arm {
      * Sets arm position to halfway shot
      */
     public static void setPIDHalfwayShot() {
+        isLow = false;
 	setPIDDefault();
 	pid.setSetpoint(Constants.ARM_HALF_SHOT);
 	pid.enable();
@@ -143,6 +148,7 @@ public class Arm {
      * Sets arm position to goal line shot
      */
     public static void setPIDGoalLineShot() {
+        isLow = false;
         setPIDDefault();
         pid.setSetpoint(Constants.ARM_GOAL_LINE_ANGLE);
         pid.enable();
@@ -152,6 +158,7 @@ public class Arm {
      * Sets arm position truss pass
      */
     public static void setPIDTrussPass() {
+        isLow = false;
         setPIDDefault();
         pid.setSetpoint(Constants.ARM_TRUSS_ANGLE);
         pid.enable();
