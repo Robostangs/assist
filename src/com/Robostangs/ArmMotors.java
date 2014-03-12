@@ -25,7 +25,7 @@ public class ArmMotors implements PIDOutput{
      */
      public void pidWrite(double output) {
         try {
-            armJag.setX(output);
+            armJag.setX(-output);
         } catch (CANTimeoutException ex) {
             System.out.println("Arm Motor Error");
         }

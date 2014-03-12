@@ -71,20 +71,7 @@ public class Arm {
     public static void setArmFineAdjustment(double power) {
 	setArmSpeed(Constants.ARM_SLOW_SPEED * power);
     }
-    
-    /**
-     * TEST CONSTANTS
-     */
-    public static void setPIDAccurateShot() {
-        if (currentPID != 10) {
-            pid.reset();
-            pid.setPID(Constants.ARM_ACCURATE_SHOT_P, Constants.ARM_ACCURATE_SHOT_I, Constants.ARM_ACCURATE_SHOT_D);
-            currentPID = 10;
-	}
-	pid.setSetpoint(Constants.ARM_SHOOT_ANGLE);
-        pid.enable();
-    }
-    
+
     public static void setPIDCoarse() {
         if (currentPID != 11) {
             pid.reset();
@@ -109,110 +96,6 @@ public class Arm {
 	    }
 	}
 	pid.setSetpoint(Constants.ARM_SHOOT_ANGLE);
-	pid.enable();
-    }
-
-    /**
-     * TEST CONSTANTS
-     */
-    public static void setPIDCustomIngest() {
-	pid.setSetpoint(Constants.ARM_INGEST_ANGLE);
-	pidDiff = pid.getError();
-	
-	if (pidDiff < Constants.ARM_INGEST_UPPER_BOUNDARY) {
-            if (currentPID != 13) {
-		pid.reset();
-		pid.setPID(Constants.ARM_INGEST_COARSE_P, Constants.ARM_INGEST_COARSE_I, Constants.ARM_INGEST_COARSE_D);
-		currentPID = 13;
-	    }
-	} else {
-	    if (currentPID != 14) {
-		pid.reset();
-		pid.setPID(Constants.ARM_INGEST_FINE_P, Constants.ARM_INGEST_FINE_I, Constants.ARM_INGEST_FINE_D);
-		currentPID = 14;
-	    }
-	}
-	pid.setSetpoint(Constants.ARM_INGEST_ANGLE);
-	pid.enable();
-    }
- 
-    /**
-     * TEST CONSTANTS
-     */
-    public static void setPIDCustomLoad() {
-	pid.setSetpoint(Constants.ARM_LOAD_ANGLE);
-	pidDiff = pid.getError();
-	
-	if (pidDiff < Constants.ARM_LOAD_UPPER_BOUNDARY || pidDiff > Constants.ARM_LOAD_LOWER_BOUNDARY) {
-            setPIDCoarse();
-	} else {
-	    if (currentPID != 15) {
-		pid.reset();
-		pid.setPID(Constants.ARM_LOAD_FINE_P, Constants.ARM_LOAD_FINE_I, Constants.ARM_LOAD_FINE_D);
-		currentPID = 15;
-	    }
-	}
-	pid.setSetpoint(Constants.ARM_LOAD_ANGLE);
-	pid.enable();
-    }
-    
-    /**
-     * TEST CONSTANTS
-     */
-    public static void setPIDCustomLongShot() {
-	pid.setSetpoint(Constants.ARM_LONG_SHOT_ANGLE);
-	pidDiff = pid.getError();
-	
-	if (pidDiff < Constants.ARM_LONG_SHOT_UPPER_BOUNDARY || pidDiff > Constants.ARM_LONG_SHOT_LOWER_BOUNDARY) {
-            setPIDCoarse();
-	} else {
-	    if (currentPID != 16) {
-		pid.reset();
-		pid.setPID(Constants.ARM_LONG_SHOT_FINE_P, Constants.ARM_LONG_SHOT_FINE_I, Constants.ARM_LONG_SHOT_FINE_D);
-		currentPID = 16;
-	    }
-	}
-	pid.setSetpoint(Constants.ARM_LONG_SHOT_ANGLE);
-	pid.enable();
-    }
-    
-    /**
-     * TEST CONSTANTS
-     */
-    public static void setPIDCustomTruss() {
-	pid.setSetpoint(Constants.ARM_TRUSS_ANGLE);
-	pidDiff = pid.getError();
-	
-	if (pidDiff < Constants.ARM_TRUSS_UPPER_BOUNDARY || pidDiff > Constants.ARM_TRUSS_LOWER_BOUNDARY) {
-            setPIDCoarse();
-	} else {
-	    if (currentPID != 17) {
-		pid.reset();
-		pid.setPID(Constants.ARM_TRUSS_FINE_P, Constants.ARM_TRUSS_FINE_I, Constants.ARM_TRUSS_FINE_D);
-		currentPID = 17;
-	    }
-	}
-	pid.setSetpoint(Constants.ARM_TRUSS_ANGLE);
-	pid.enable();
-    }
-    
-    /**
-     * TEST CONSTANTS
-     */
-    public static void setPIDCustomGoalLine() {
-	pid.setSetpoint(Constants.ARM_GOAL_LINE_ANGLE);
-	pidDiff = pid.getError();
-	
-	if (pidDiff < Constants.ARM_GOAL_LINE_UPPER_BOUNDARY || pidDiff > Constants.ARM_GOAL_LINE_LOWER_BOUNDARY) {
-            setPIDCoarse();
-	} else {
-	    if (currentPID != 18) {
-		pid.reset();
-		pid.setPID(Constants.ARM_GOAL_LINE_FINE_P, Constants.ARM_GOAL_LINE_FINE_I, Constants.ARM_GOAL_LINE_FINE_D);
-		currentPID = 18;
-	    }
-	}
-	pid.setSetpoint(Constants.ARM_GOAL_LINE_ANGLE);
 	pid.enable();
     }
 

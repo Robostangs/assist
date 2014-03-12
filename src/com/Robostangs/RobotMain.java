@@ -39,6 +39,7 @@ public class RobotMain extends IterativeRobot {
 
 	if (xboxDriver.bButton()) {
             DriveTrain.maintainPosition();
+	    Autonomous.reset();
 	} else if (xboxDriver.xButton()) {
 	    DriveTrain.drive(0.3, 0.3);
 	} else {
@@ -60,7 +61,7 @@ public class RobotMain extends IterativeRobot {
 	    Arm.setPIDShoot();
 	} else if (xboxDriver.bButton()) {
 	    Arm.setPIDCustomIngest();
-	} else if (xboxManip.aButton()) {
+	*/} else if (xboxManip.aButton()) {
             //Arm.setPIDCustomIngest();
             Arm.setPIDIngest();
 	} else if (xboxManip.bButton()) {
@@ -69,13 +70,12 @@ public class RobotMain extends IterativeRobot {
             //Arm.setPIDCustomLoad();
             Arm.setPIDHumanLoad();
         } else if (xboxManip.yButton()) {
-            //Arm.setPIDCustomLongShot();
-            Arm.setPIDLongShot();
-	} else if (xboxManip.startButton()) {
 	    //Arm.setPIDCustomTruss();
             Arm.setPIDTrussPass();
-        } else if (!Arm.isArmInShootAngle() && Arm.isLow) {
-            Arm.setPIDShoot();*/
+	} else if (xboxManip.startButton()) {
+            //Arm.setPIDCustomLongShot();
+            Arm.setPIDLongShot();        } else if (!Arm.isArmInShootAngle() && Arm.isLow) {
+            Arm.setPIDShoot();
         } else {
 	    Arm.stop();
 	}
