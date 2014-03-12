@@ -83,9 +83,6 @@ public class Autonomous {
 	    timer.reset();
             timer.start();
 	    DriveTrain.resetEncoders();
-	    while (timer.get() < 1.0 && !Arm.isInPosition(Constants.ARM_AUTON_LOW_ANGLE)) {
-		Arm.setPIDAutonLow();
-	    }
             while (timer.get() < 2.0 && !DriveTrain.driveStraightDistance(2300)) {
 		Arm.stop();
 		Ingestor.ingest();

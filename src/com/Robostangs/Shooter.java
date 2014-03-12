@@ -108,7 +108,7 @@ public class Shooter {
         //Ingestor.stop();
         
         if (shooterTimer.get() > Constants.SHOOTER_SHOOT_DELAY_TIME) {
-            Ingestor.setSpeed(Constants.INGESTOR_SHOOT_EXGEST_SPEED);
+            Ingestor.setSpeed(Constants.INGESTOR_EXGEST_SPEED);
         } else if (shooterTimer.get() > Constants.SHOOTER_SHOOT_STOP_TIME) {
             shooterTimer.stop();     
         }*/

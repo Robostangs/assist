@@ -17,11 +17,11 @@ public class Arm {
     private Arm(){
         apot = new Potentiometer(Constants.ARM_POT_POS);
         motorOutput = new ArmMotors();
-        pid = new PIDController(Constants.ARM_SHOOT_P, Constants.ARM_SHOOT_I, Constants.ARM_SHOOT_D, apot, motorOutput);
+        pid = new PIDController(Constants.ARM_DEFAULT_P, Constants.ARM_DEFAULT_I, Constants.ARM_DEFAULT_D, apot, motorOutput);
         
         pid.setInputRange(Constants.ARM_POT_IN_MIN, Constants.ARM_POT_IN_MAX);
         pid.setOutputRange(Constants.ARM_POT_OUT_MIN, Constants.ARM_POT_OUT_MAX);
-	pid.setAbsoluteTolerance(0.0);
+	pid.setAbsoluteTolerance(Constants.ARM_PID_ABS_TOLERANCE);
         pid.disable();
     }
 
@@ -64,35 +64,37 @@ public class Arm {
         }
     }
     
+    public static void setArmFineAdjustment(double power) {
+	setArmSpeed(Constants.ARM_SLOW_SPEED * power);
+    }
+    
     public static void setArmCoarseAdjustment(double power) {
 	setArmSpeed(Constants.ARM_FAST_SPEED * power);
     }
     
-    public static void setArmFineAdjustment(double power) {
-	setArmSpeed(Constants.ARM_SLOW_SPEED * power);
+    public static void setPIDDefault() {
+	if (currentPID != 0) {
+	    pid.reset();
+	    pid.setPID(Constants.ARM_DEFAULT_P, Constants.ARM_DEFAULT_I, Constants.ARM_DEFAULT_D);
+	}
     }
-
-    public static void setPIDCoarse() {
-        if (currentPID != 11) {
-            pid.reset();
-            pid.setPID(Constants.ARM_COARSE_P, Constants.ARM_COARSE_I, Constants.ARM_COARSE_D);
-            currentPID = 11;
-        }
-    }
-    /**
-     * DON'T TOUCH THIS
-     */
+    
+    //DON'T TOUCH THIS
     public static void setPIDShoot() {
 	pid.setSetpoint(Constants.ARM_SHOOT_ANGLE);
 	pidDiff = pid.getError();
 	
 	if (pidDiff < Constants.ARM_SHOOT_UPPER_BOUNDARY || pidDiff > Constants.ARM_SHOOT_LOWER_BOUNDARY) {
-            setPIDCoarse();
+	    if (currentPID != 1) {
+		pid.reset();
+		pid.setPID(Constants.ARM_SHOOT_COARSE_P, Constants.ARM_SHOOT_COARSE_I, Constants.ARM_SHOOT_COARSE_D);
+		currentPID = 1;
+	    }
         } else {
-	    if (currentPID != 12) {
+	    if (currentPID != 2) {
 		pid.reset();
 		pid.setPID(Constants.ARM_SHOOT_FINE_P, Constants.ARM_SHOOT_FINE_I, Constants.ARM_SHOOT_FINE_D);
-		currentPID = 12;
+		currentPID = 2;
 	    }
 	}
 	pid.setSetpoint(Constants.ARM_SHOOT_ANGLE);
@@ -103,11 +105,7 @@ public class Arm {
      * Sets arm position to ingest
      */
     public static void setPIDIngest() {
-        if (currentPID != 1) {
-            pid.reset();
-            pid.setPID(Constants.ARM_INGEST_P, Constants.ARM_INGEST_I, Constants.ARM_INGEST_D);
-            currentPID = 1;
-	}
+        setPIDDefault();
 	pid.setSetpoint(Constants.ARM_INGEST_ANGLE);
         pid.enable();
 	
@@ -118,11 +116,7 @@ public class Arm {
      * Sets arm position to load
      */
     public static void setPIDHumanLoad() {
-        if (currentPID != 2) {
-            pid.reset();
-            pid.setPID(Constants.ARM_LOAD_P, Constants.ARM_LOAD_I, Constants.ARM_LOAD_D);
-            currentPID = 2;
-        }        
+        setPIDDefault();
         pid.setSetpoint(Constants.ARM_LOAD_ANGLE);
         pid.enable();
     }
@@ -131,24 +125,25 @@ public class Arm {
      * Sets arm position to long shot
      */
     public static void setPIDLongShot() {
-        if (currentPID != 3) {
-            pid.reset();
-            pid.setPID(Constants.ARM_SHOOT_P, Constants.ARM_SHOOT_I, Constants.ARM_SHOOT_D);
-	    currentPID = 3;
-        }        
+        setPIDDefault();
         pid.setSetpoint(Constants.ARM_LONG_SHOT_ANGLE);
         pid.enable();
     }    
     
     /**
-     * Sets arm position goal line shot
+     * Sets arm position to halfway shot
+     */
+    public static void setPIDHalfwayShot() {
+	setPIDDefault();
+	pid.setSetpoint(Constants.ARM_HALF_SHOT);
+	pid.enable();
+    }
+    
+    /**
+     * Sets arm position to goal line shot
      */
     public static void setPIDGoalLineShot() {
-        if (currentPID != 5) {
-            pid.reset();
-            pid.setPID(Constants.ARM_SHOOT_P, Constants.ARM_SHOOT_I, Constants.ARM_SHOOT_D);
-            currentPID = 5;
-        }    
+        setPIDDefault();
         pid.setSetpoint(Constants.ARM_GOAL_LINE_ANGLE);
         pid.enable();
     }
@@ -157,11 +152,7 @@ public class Arm {
      * Sets arm position truss pass
      */
     public static void setPIDTrussPass() {
-        if (currentPID != 6) {
-            pid.reset();
-            pid.setPID(Constants.ARM_SHOOT_P, Constants.ARM_SHOOT_I, Constants.ARM_SHOOT_D);
-            currentPID = 6;
-        }
+        setPIDDefault();
         pid.setSetpoint(Constants.ARM_TRUSS_ANGLE);
         pid.enable();
     }
@@ -170,11 +161,11 @@ public class Arm {
      * Sets arm position to autonomous shot
      */
     public static void setPIDAutonShot() {
-        if (currentPID != 7) {
+        if (currentPID != 3) {
             pid.reset();
-            pid.setPID(Constants.ARM_SHOOT_P, Constants.ARM_SHOOT_I, Constants.ARM_SHOOT_D);
-            currentPID = 7;
-        }        
+            pid.setPID(Constants.ARM_DEFAULT_P, Constants.ARM_DEFAULT_I, Constants.ARM_DEFAULT_D);
+            currentPID = 3;
+        }
         pid.setSetpoint(Constants.ARM_AUTON_SHOT_ANGLE);
         pid.enable();
     }
@@ -182,24 +173,30 @@ public class Arm {
     /**
      * Sets arm position to autonomous shot
      */
-    public static void setPIDAutonLow() {
-        if (currentPID != 8) {
+    public static void setPIDAutonFirstShot() {
+        if (currentPID != 4) {
             pid.reset();
-            pid.setPID(Constants.ARM_SHOOT_P, Constants.ARM_SHOOT_I, Constants.ARM_SHOOT_D);
-            currentPID = 8;
-        }        
-        pid.setSetpoint(Constants.ARM_AUTON_LOW_ANGLE);
+            pid.setPID(Constants.ARM_DEFAULT_P, Constants.ARM_DEFAULT_I, Constants.ARM_DEFAULT_D);
+            currentPID = 4;
+        }
+        pid.setSetpoint(Constants.ARM_AUTON_FIRST_SHOT_ANGLE);
         pid.enable();
     }
     
     public static boolean isArmInShootAngle() {
-        //3 right now because we don't have setPIDAccurateShot()
-        if (getArmAngle() < (Constants.ARM_SHOOT_ANGLE + 3/*Constants.ARM_SHOOT_ANGLE_TOLERANCE*/)
-                && getArmAngle() > (Constants.ARM_SHOOT_ANGLE - 3/*Constants.ARM_SHOOT_ANGLE_TOLERANCE*/)) {
+        if (getArmAngle() < (Constants.ARM_SHOOT_ANGLE + Constants.ARM_SHOOT_ANGLE_TOLERANCE)
+                && getArmAngle() > (Constants.ARM_SHOOT_ANGLE - Constants.ARM_SHOOT_ANGLE_TOLERANCE)) {
             isLow = false;
 	    return true;
         }
         return false;
+    }
+    
+    public static boolean isInPosition(int setpoint) {
+	if (pid.getSetpoint() != setpoint) {
+	    pid.setSetpoint(setpoint);
+	}
+	return getArmAngle() < (pid.getSetpoint() + 2) && getArmAngle() > (pid.getSetpoint() - 2);
     }
     
    /**
@@ -217,13 +214,6 @@ public class Arm {
             pid.disable();
         }
         ArmMotors.stop();
-    }
-    
-    public static boolean isInPosition(int setpoint) {
-	if (pid.getSetpoint() != setpoint) {
-	    pid.setSetpoint(setpoint);
-	}
-	return getArmAngle() < (pid.getSetpoint() + 2) && getArmAngle() > (pid.getSetpoint() - 2);
     }
     
     public static void setPIDConstants(double p, double i, double d, double setpoint) {
