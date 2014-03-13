@@ -1,4 +1,4 @@
-//PRACTICE BOT
+//COMP BOT FINAL FOR HOWELL
 
 package com.Robostangs;
 
@@ -34,8 +34,8 @@ public class RobotMain extends IterativeRobot {
     public void autonomousPeriodic() {
 	Autonomous.fallBack();
 	
-	SmartDashboard.putNumber("Avg Encoder Value", DriveTrain.getEncoderAverage());
-	SmartDashboard.putNumber("Pot Value", Arm.getArmAngle());
+	//SmartDashboard.putNumber("Avg Encoder Value", DriveTrain.getEncoderAverage());
+	//SmartDashboard.putNumber("Pot Value", Arm.getArmAngle());
     }
 
     public void teleopPeriodic() {

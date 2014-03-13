@@ -97,7 +97,6 @@ public class Autonomous {
 	        Arm.setPIDIngest();
 	    }
 	}
-	DriveTrain.resetEncoders();	
 	while (timer.get() < 6.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_FORWARD_DISTANCE)) {
 	    Shooter.manualLoad();
 	    Ingestor.ingest();
