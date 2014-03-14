@@ -37,6 +37,10 @@ public class RobotMain extends IterativeRobot {
 	//SmartDashboard.putNumber("Avg Encoder Value", DriveTrain.getEncoderAverage());
 	//SmartDashboard.putNumber("Pot Value", Arm.getArmAngle());
     }
+    
+    public void disabledPeriodic() {
+        Autonomous.reset();
+    }
 
     public void teleopPeriodic() {
 	if (xboxDriver.bButton()) {

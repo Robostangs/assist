@@ -62,7 +62,7 @@ public class Constants {
     public static final double AUTON_DRIVE_FORWARD_DISTANCE = 5630;
     
     //CANJaguars
-    public static final double JAG_FAULT_TIME = 0.5;
+    public static final double JAG_FAULT_TIME = 1.0;
     
     //DriveTrain
     public static final int DT_LEFT_JAG_1_POS = 2;

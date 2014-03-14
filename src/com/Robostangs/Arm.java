@@ -77,6 +77,7 @@ public class Arm {
 	if (currentPID != 0) {
 	    pid.reset();
 	    pid.setPID(Constants.ARM_DEFAULT_P, Constants.ARM_DEFAULT_I, Constants.ARM_DEFAULT_D);
+            currentPID = 0;
 	}
     }
     
