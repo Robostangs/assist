@@ -124,6 +124,11 @@ public class DriveTrain {
      */
     private static double currentDistance = 0.0;
     public static boolean driveDistance(double distance) {
+        if (!encoderInit) {
+            currentDistance = 0.0;
+            encoderInit = true;
+        }
+        
 	if (distance > 0) {
 	    while (currentDistance < distance) {
                 currentDistance = getEncoderAverage();
@@ -193,6 +198,15 @@ public class DriveTrain {
         rightEncoder.reset();
     }
     
+    public static void stopEncoders() {
+        leftEncoder.stop();
+        rightEncoder.stop();
+    }
+    
+    public static void startEncoders() {
+        leftEncoder.start();
+        rightEncoder.start();
+    }
     /**
      * stop driving
      */

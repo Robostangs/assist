@@ -83,7 +83,6 @@ public class Arm {
     
     //DON'T TOUCH THIS
     public static void setPIDShoot() {
-        isLow = false;
 	pid.setSetpoint(Constants.ARM_SHOOT_ANGLE);
 	pidDiff = pid.getError();
 	

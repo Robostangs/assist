@@ -39,7 +39,7 @@ public class Pneumatics {
             compressor.set(Relay.Value.kOff);
         }
     }
-    
+       
     /**
      * When the method is called, the Relay compressor turns on (kForward).
      * @param compressor relay controlling the compressor.

@@ -29,6 +29,9 @@ public class Autonomous {
         if (!done) {
             timer.reset();
             timer.start();
+            DriveTrain.stopEncoders();
+            DriveTrain.resetEncoders();
+            DriveTrain.startEncoders();
             if (hot) {
                 Shooter.loadCompleted = true;
                 while (timer.get() < 2.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_DISTANCE)) {
@@ -39,11 +42,11 @@ public class Autonomous {
                     DriveTrain.stop();
                 }
                 while (timer.get() < 5.0) {
-                    Arm.stop();
                     if (Shooter.loadCompleted) {
                         Shooter.shooShoot();
                     }
                 }
+                Arm.stop();
                 done = true;
             } else {
                 Shooter.loadCompleted = true;
@@ -92,11 +95,11 @@ public class Autonomous {
                 Arm.stop();
                 if (Shooter.loadCompleted) {
                     Shooter.shooShoot();
-                } else {
-                    Shooter.manualLoad();
                 }
             }
+            DriveTrain.stopEncoders();
             DriveTrain.resetEncoders();
+            DriveTrain.startEncoders();
             while (timer.get() < 4.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_BACK_DISTANCE)) {
                 Shooter.manualLoad();
                 Ingestor.ingest();
@@ -105,6 +108,9 @@ public class Autonomous {
                     Arm.setPIDIngest();
                 }
             }
+            DriveTrain.stopEncoders();
+            DriveTrain.resetEncoders();
+            DriveTrain.startEncoders();
             while (timer.get() < 6.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_FORWARD_DISTANCE)) {
                 Shooter.manualLoad();
                 Ingestor.ingest();
@@ -130,6 +136,8 @@ public class Autonomous {
     }
     
     public static void reset() {
+        DriveTrain.resetEncoders();
+        DriveTrain.encoderInit = false;
         done = false;
     }
 }
