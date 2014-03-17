@@ -29,49 +29,67 @@ public class Autonomous {
         if (!done) {
             timer.reset();
             timer.start();
-            DriveTrain.stopEncoders();
-            DriveTrain.resetEncoders();
-            DriveTrain.startEncoders();
-            if (hot) {
-                Shooter.loadCompleted = true;
-                while (timer.get() < 2.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_DISTANCE)) {
-                    DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
-                }
-                while (timer.get() < 3.0) {
-                    Arm.setPIDShoot();
-                    DriveTrain.stop();
-                }
-                while (timer.get() < 5.0) {
-                    if (Shooter.loadCompleted) {
-                        Shooter.shooShoot();
-                    }
-                }
-                Arm.stop();
-                done = true;
-            } else {
-                Shooter.loadCompleted = true;
-                while (timer.get() < 2.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_DISTANCE)) {
-                    DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
-                }
-                while (timer.get() < 3.0) {
-                    Arm.setPIDShoot();
-                    DriveTrain.stop();
-                }
-                while (timer.get() < 5.0) {
-                    Shooter.manualLoad();
-                    Arm.stop();
-                    DriveTrain.stop();
-                }
-                while (timer.get() < 8.0) {
-                    if (Shooter.loadCompleted) {
-                        Shooter.shooShoot();
-                    }
-                }
-                done = true;
-            }
+            DriveTrain.restartEncoders();
+	    
+	    Shooter.loadCompleted = true;
+	    while (timer.get() < 2.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_DISTANCE)) {
+	        DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
+	    }
+	    while (timer.get() < 3.0) {
+	        Arm.setPIDShoot();
+	        DriveTrain.stop();
+	    }
+	    if (hot) {
+		while (timer.get() < 5.0) {
+		    if (Shooter.loadCompleted) {
+			Shooter.shooShoot();
+		    }
+		}
+	    } else {
+		while (timer.get() < 5.0) {
+		    DriveTrain.stop();
+		}
+		while (timer.get() < 8.0) {
+		    if (Shooter.loadCompleted) {
+			Shooter.shooShoot();
+		    }
+		}
+	    }
+	    
+	    Arm.stop();
+	    timer.stop();
+	    done = true;
         }
         Shooter.manualLoad();
     }
+    
+    /*
+    public static void hotSideTwoBalls() {
+	if (!done) {
+	    timer.reset();
+	    timer.start();
+	    DriveTrain.resetEncoders();
+	    while (timer.get() < 1.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_FORWARD_DISTANCE)) {
+		DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
+	    }
+	    while (timer.get() < 1.5) {
+		    
+	    }
+	}
+    }
+    
+    public static void nonHotTwoBalls() {
+	
+    }
+    
+    public static void twoBallAutonomous() {
+	if (hot) {
+	    hotSideTwoBalls();
+	} else {
+	    nonHotTwoBalls();
+	}
+    }
+    */
     
     /**
      * 2 ball autonomous
@@ -97,9 +115,7 @@ public class Autonomous {
                     Shooter.shooShoot();
                 }
             }
-            DriveTrain.stopEncoders();
-            DriveTrain.resetEncoders();
-            DriveTrain.startEncoders();
+            DriveTrain.restartEncoders();
             while (timer.get() < 4.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_BACK_DISTANCE)) {
                 Shooter.manualLoad();
                 Ingestor.ingest();
@@ -108,9 +124,7 @@ public class Autonomous {
                     Arm.setPIDIngest();
                 }
             }
-            DriveTrain.stopEncoders();
-            DriveTrain.resetEncoders();
-            DriveTrain.startEncoders();
+            DriveTrain.restartEncoders();
             while (timer.get() < 6.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_FORWARD_DISTANCE)) {
                 Shooter.manualLoad();
                 Ingestor.ingest();

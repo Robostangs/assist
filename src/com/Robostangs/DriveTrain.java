@@ -154,7 +154,7 @@ public class DriveTrain {
             initGyro = gyro.getAngle();
             newGyroReadingTurn = true;
         }
-                
+        
         if (angle >= 0) {
             if ((gyro.getAngle() - initGyro) < angle) {
                 drive(power, -power);
@@ -207,6 +207,14 @@ public class DriveTrain {
         leftEncoder.start();
         rightEncoder.start();
     }
+    
+    public static void restartEncoders() {
+	encoderInit = false;
+	stopEncoders();
+	resetEncoders();
+	startEncoders();
+    }
+    
     /**
      * stop driving
      */

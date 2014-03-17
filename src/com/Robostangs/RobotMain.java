@@ -3,7 +3,6 @@
 package com.Robostangs;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -13,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotMain extends IterativeRobot {
     private static XBoxController xboxDriver;
     private static XBoxController xboxManip;
-    private static Timer compressorTimer;
     
     public void robotInit() {
         xboxDriver = new XBoxController(Constants.XBOX_DRIVER_POS);
@@ -25,9 +23,6 @@ public class RobotMain extends IterativeRobot {
 	Pneumatics.getInstance();
 	Shifting.getInstance();
 	Shooter.getInstance();
-        compressorTimer = new Timer();
-        
-	Shooter.solenoidDisable();
         
 	LiveWindow.addActuator("Arm", "Motor", ArmMotors.armJag);
 	LiveWindow.addSensor("Arm", "Pot", Arm.apot);
@@ -46,8 +41,7 @@ public class RobotMain extends IterativeRobot {
     }
     
     public void teleopInit() {
-        compressorTimer.reset();
-        compressorTimer.start();
+        Pneumatics.startTimer();
     }
     
     public void teleopPeriodic() {
@@ -109,12 +103,7 @@ public class RobotMain extends IterativeRobot {
             Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
         }
         
-        if(compressorTimer.get() < 110.0) {
-            Pneumatics.checkPressure();
-        } else {
-            Pneumatics.compressorOff();
-            compressorTimer.stop();
-        }
+        Pneumatics.checkPressureTimer();
         
         /*
         if(xboxDriver.startButton()) {
@@ -158,20 +147,22 @@ public class RobotMain extends IterativeRobot {
 	} else if (xboxManip.rBumper()) {
 	    Constants.ARM_SHOOT_LOWER_BOUNDARY-=1;
 	}*/
+
+	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
+	SmartDashboard.putBoolean("GUCCI", Arm.isInPosition(Constants.ARM_SHOOT_ANGLE));
 	
-        SmartDashboard.putNumber("Compressor Timer: ", compressorTimer.get());
+	/*
 	SmartDashboard.putNumber("Current", Ingestor.getCurrent());
-	//SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
-    	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
+	SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
 	SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
 	SmartDashboard.putNumber("Right Encoder", DriveTrain.getRightEncoder());
 	SmartDashboard.putNumber("Encoder Average", DriveTrain.getEncoderAverage());
-	//SmartDashboard.putNumber("Shooter Encoder", Shooter.getEncoderDistance());
+	SmartDashboard.putNumber("Shooter Encoder", Shooter.getEncoderDistance());
         SmartDashboard.putBoolean("Shooter Limit Switch", Shooter.getLimit());
-        /*SmartDashboard.putNumber("Shooter Timer", Constants.SHOOTER_SHOOT_DELAY_TIME);
-        //SmartDashboard.putNumber("Offset", Constants.DT_DELTA_OFFSET);
-        //SmartDashboard.putNumber("Mod", Constants.DT_ENCODER_SLOW_MOD);
-	//SmartDashboard.putNumber("delta", DriveTrain.delta);
+        SmartDashboard.putNumber("Shooter Timer", Constants.SHOOTER_SHOOT_DELAY_TIME);
+        SmartDashboard.putNumber("Offset", Constants.DT_DELTA_OFFSET);
+        SmartDashboard.putNumber("Mod", Constants.DT_ENCODER_SLOW_MOD);
+	SmartDashboard.putNumber("delta", DriveTrain.delta);
 	SmartDashboard.putNumber("pidDiff", Arm.pidDiff);
 	SmartDashboard.putNumber("P", Arm.pid.getP());
 	SmartDashboard.putNumber("I", Arm.pid.getI());
@@ -180,7 +171,8 @@ public class RobotMain extends IterativeRobot {
 	SmartDashboard.putNumber("second I", Constants.ARM_SHOOT_FINE_I);
 	SmartDashboard.putNumber("second D", Constants.ARM_SHOOT_FINE_D);
 	SmartDashboard.putNumber("HIGH Boundary", Constants.ARM_SHOOT_LOWER_BOUNDARY);
-	System.out.println(Constants.ARM_SHOOT_FINE_I);*/
+	System.out.println(Constants.ARM_SHOOT_FINE_I);
+	*/
     }
 
     public void testPeriodic() {

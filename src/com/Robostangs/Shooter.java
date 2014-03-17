@@ -33,6 +33,8 @@ public class Shooter {
         shooterSolenoidOff = new Solenoid(Constants.SHOOTER_CYCLINDER_OUT_POS);
         shooterTimer = new Timer();
         
+	solenoidDisable();
+	
 	shooterEncoder.reset();
 	shooterEncoder.start();
         shooshoo = false;
