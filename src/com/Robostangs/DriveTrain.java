@@ -101,20 +101,20 @@ public class DriveTrain {
      * @param power motor speed
      */
     public static void driveStraightEncoder(double power) {
-        delta = Math.abs(leftEncoder.getRate()) - Math.abs(rightEncoder.getRate());
+        delta = Math.abs(getLeftEncoder()) - Math.abs(getRightEncoder());
         double leftPower, rightPower;
 	
-        if (delta > Constants.DT_DELTA_OFFSET + 0.2) {
+        if (delta > + Constants.DT_DELTA_OFFSET) {
 	    leftPower = power * Constants.DT_ENCODER_SLOW_MOD;
-	    rightPower = power;
-        } else if (delta < Constants.DT_DELTA_OFFSET - 0.2) {
-	    leftPower = power;
+	    rightPower = power * Constants.DT_ENCODER_FAST_MOD;
+        } else if (delta < - Constants.DT_DELTA_OFFSET) {
+	    leftPower = power * Constants.DT_ENCODER_FAST_MOD;
 	    rightPower = power * Constants.DT_ENCODER_SLOW_MOD;
         } else {
 	    leftPower = power;
 	    rightPower = power;
 	}
-        drive(power, power);
+        drive(leftPower, rightPower);
     }
     
     /**

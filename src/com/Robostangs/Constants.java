@@ -122,7 +122,8 @@ public class Constants {
     public static final double DT_RIGHT_ENCODER_DPP = 0.001;
     public static final double DT_GYRO_SLOW_MOD = 0.85;
     public static final double DT_GYRO_FAST_MOD = 1.15;
-    public static double DT_ENCODER_SLOW_MOD = 0.98;
+    public static double DT_ENCODER_SLOW_MOD = 0.930;
+    public static double DT_ENCODER_FAST_MOD = 1.070;
     public static double DT_DELTA_OFFSET = 0.0;
     public static double DT_PUSH_POWER = 0.8;
     
