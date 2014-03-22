@@ -11,7 +11,7 @@ public class DriveTrain {
     private static Encoder leftEncoder, rightEncoder;
     private static Gyro gyro;
     private static boolean newGyroReadingDriveStraight = false;
-    private static boolean newGyroReadingTurn = false;
+    public static boolean newGyroReadingTurn = false;
     private static double initGyro;
     public static double delta = 1.0;
     public static boolean encoderInit = false;
@@ -101,7 +101,7 @@ public class DriveTrain {
      * @param power motor speed
      */
     public static void driveStraightEncoder(double power) {
-        delta = leftEncoder.getRate() - rightEncoder.getRate();
+        delta = Math.abs(leftEncoder.getRate()) - Math.abs(rightEncoder.getRate());
         double leftPower, rightPower;
 	
         if (delta > Constants.DT_DELTA_OFFSET + 0.2) {
@@ -124,7 +124,12 @@ public class DriveTrain {
      */
     private static double currentDistance = 0;
     public static boolean driveStraightDistance(double distance) {
-
+	if (!encoderInit) {
+	    currentDistance = 0;
+	    resetEncoders();
+	    encoderInit = true;
+	}
+	
 	if (distance > 0) {
 	    while (currentDistance < distance) {
                 currentDistance = getEncoderAverage();
@@ -150,7 +155,7 @@ public class DriveTrain {
             initGyro = gyro.getAngle();
             newGyroReadingTurn = true;
         }
-                
+        
         if (angle >= 0) {
             if ((gyro.getAngle() - initGyro) < angle) {
                 drive(power, -power);
@@ -227,5 +232,9 @@ public class DriveTrain {
      */
     public static double getGyro() {
         return gyro.getAngle();
-    }    
+    }
+    
+    public static void resetGyro() {
+	gyro.reset();
+    }
 }

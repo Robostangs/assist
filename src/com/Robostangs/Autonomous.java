@@ -12,10 +12,6 @@ public class Autonomous {
     private static boolean hot = true;
     
     private Autonomous() {
-	Arm.getInstance();
-	DriveTrain.getInstance();
-	Shooter.getInstance();
-	
         timer = new Timer();
     }
     
@@ -82,6 +78,68 @@ public class Autonomous {
         if (!dunzo) {
 	    timer.reset();
             timer.start();
+	    DriveTrain.encoderInit = false;
+	    Shifting.LowGear();
+	    while (timer.get() < 0.75 && !DriveTrain.driveStraightDistance(3500)) {
+		DriveTrain.drive(0.8, 0.8);
+	    }
+	    while (timer.get() < 1.50 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
+		DriveTrain.stop();
+		Arm.setPIDShoot();
+	    }
+	    Shooter.loadCompleted = true;
+	    while (timer.get() < 2.0) {
+		if (Shooter.loadCompleted) {
+		    //Shooter.shooShoot();
+		    Ingestor.exgest();
+		}
+	    }
+	    DriveTrain.newGyroReadingTurn = false;
+	    while (timer.get() < 3.0) {
+		//Shooter.manualLoad();
+		DriveTrain.turn(0.8, 120);
+		if (!Arm.isInPosition(Constants.ARM_INGEST_ANGLE)) {
+		    Arm.setPIDIngest();
+		}
+		Ingestor.stop();
+	    }
+	    DriveTrain.encoderInit = false;
+	    while (timer.get() < 4.0 && !DriveTrain.driveStraightDistance(2000)) {
+		if (!Arm.isInPosition(Constants.ARM_INGEST_ANGLE)) {
+		    Arm.setPIDIngest();
+		}
+		//Shooter.manualLoad();
+		Ingestor.ingest();
+		DriveTrain.drive(0.8, 0.8);
+	    }
+	    DriveTrain.encoderInit = false;
+	    while (timer.get() < 5.0 && !DriveTrain.driveStraightDistance(-1700)) {
+		DriveTrain.drive(-0.8, -0.8);
+		Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
+	    }
+	    DriveTrain.stop();
+	    DriveTrain.newGyroReadingTurn = false;
+	    while (timer.get() < 7.0) {
+		DriveTrain.turn(0.7, -120);
+	    }
+	    DriveTrain.stop();
+	    //DriveTrain.encoderInit = false;
+	    //while (timer.get() < 10.0 && !DriveTrain.driveStraightDistance(1000)) {
+		//DriveTrain.drive(0.5, 0.5);
+	    //}
+	    while (timer.get() < 8.0 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
+		DriveTrain.stop();
+		Arm.setPIDShoot();
+	    }
+	    while (timer.get() < 10.0) {
+		if (Shooter.loadCompleted && Ingestor.hasBall()) {
+		    //Shooter.shooShoot();
+		    Ingestor.exgest();
+		}
+	    }
+	    Arm.stop();
+	    dunzo = true;
+	    /*
 	    while (timer.get() < 1.5 && !Arm.isInPosition(Constants.ARM_LONG_SHOT_ANGLE)) {
 		Arm.setPIDLongShot();
 		Shooter.manualLoad();
@@ -122,11 +180,14 @@ public class Autonomous {
 		}
             }
             dunzo = true;
+		    */
         }
         Shooter.manualLoad();
     }
     
     public static void reset() {
+	    DriveTrain.encoderInit = false;
+	    DriveTrain.newGyroReadingTurn = false;
 	    dunzo = false;
     }
 }

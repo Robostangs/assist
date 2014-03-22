@@ -33,13 +33,22 @@ public class RobotMain extends IterativeRobot {
 	Autonomous.twoBallz();
     }
 
+    public void disabledPeriodic() {
+	Autonomous.reset();
+    }
+    
     public void teleopPeriodic() {
 
+	if (xboxDriver.aButton()) {
+	    DriveTrain.resetGyro();
+	}
+	
 	if (xboxDriver.bButton()) {
-            DriveTrain.maintainPosition();
+            DriveTrain.turn(0.5, Constants.DT_TURN);
 	} else {
 	    DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
 	    DriveTrain.encoderInit = false;
+	    DriveTrain.newGyroReadingTurn = false;
 	}
         
         if (xboxDriver.lBumper()) {
@@ -83,7 +92,7 @@ public class RobotMain extends IterativeRobot {
 	} else if (xboxDriver.rBumper()) {
 	    Shooter.shooShoot();
 	} else if (xboxDriver.startButton()) {
-	    Shooter.shoot();
+	    //Shooter.shoot();
 	} else {
 	    Shooter.manualLoad();
         }
@@ -100,19 +109,13 @@ public class RobotMain extends IterativeRobot {
         }
 	
         Pneumatics.checkPressure();
-        
-        if (xboxDriver.yButton()) {
-            DriveTrain.encoderInit = false;
-	    Autonomous.reset();
-        }
 
-	/*
         if(xboxDriver.startButton()) {
-            Shooter.increaseShooterTime();
+            Constants.DT_TURN+=1;
         } else if (xboxDriver.backButton()) {
-            Shooter.decreaseShooterTime();
+            Constants.DT_TURN-=1;
         } 
-        
+        /*
 	if(xboxDriver.backButton()) {
 	    DriveTrain.driveStraightEncoder(-0.8);
 	} else {
@@ -150,7 +153,8 @@ public class RobotMain extends IterativeRobot {
 	}*/
 	
 	SmartDashboard.putBoolean("Current", Ingestor.hasBall());
-	//SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
+	SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
+	SmartDashboard.putNumber("Turn Angle", Constants.DT_TURN);
     	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
 	SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
 	SmartDashboard.putNumber("Right Encoder", DriveTrain.getRightEncoder());
