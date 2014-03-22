@@ -10,10 +10,10 @@ public class DriveTrain {
     private static DriveTrain instance = null;
     private static Encoder leftEncoder, rightEncoder;
     private static Gyro gyro;
+    private static double initGyro;
+    public static double delta = 1.0, currentDistance = 0;
     private static boolean newGyroReadingDriveStraight = false;
     public static boolean newGyroReadingTurn = false;
-    private static double initGyro;
-    public static double delta = 1.0;
     public static boolean encoderInit = false;
     
     private DriveTrain() {
@@ -101,13 +101,13 @@ public class DriveTrain {
      * @param power motor speed
      */
     public static void driveStraightEncoder(double power) {
-        delta = Math.abs(getLeftEncoder()) - Math.abs(getRightEncoder());
         double leftPower, rightPower;
+        delta = Math.abs(getLeftEncoder()) - Math.abs(getRightEncoder());
 	
-        if (delta > + Constants.DT_DELTA_OFFSET) {
+        if (delta > Constants.DT_DELTA_OFFSET) {
 	    leftPower = power * Constants.DT_ENCODER_SLOW_MOD;
 	    rightPower = power * Constants.DT_ENCODER_FAST_MOD;
-        } else if (delta < - Constants.DT_DELTA_OFFSET) {
+        } else if (delta < -Constants.DT_DELTA_OFFSET) {
 	    leftPower = power * Constants.DT_ENCODER_FAST_MOD;
 	    rightPower = power * Constants.DT_ENCODER_SLOW_MOD;
         } else {
@@ -122,8 +122,7 @@ public class DriveTrain {
      * @param distance distance you want to travel
      * @return true if completed
      */
-    private static double currentDistance = 0;
-    public static boolean driveStraightDistance(double distance) {
+    public static boolean driveDistance(double distance) {
 	if (!encoderInit) {
 	    currentDistance = 0;
 	    resetEncoders();
@@ -147,6 +146,7 @@ public class DriveTrain {
     
     /**
      * turn in a station for a certain angle
+     * positive = clockwise, negative = counterclockwise
      * @param power
      * @param angle 
      */
@@ -197,14 +197,7 @@ public class DriveTrain {
     public static void resetEncoders() {
         leftEncoder.reset();
         rightEncoder.reset();
-    }
-    
-    /**
-     * stop driving
-     */
-    public static void stop() {
-        drive(0,0);
-    }
+    }    
     
     /**
      * get distance of left encoder
@@ -236,5 +229,17 @@ public class DriveTrain {
     
     public static void resetGyro() {
 	gyro.reset();
+    }
+    
+    public static void resetBooleans() {
+        newGyroReadingDriveStraight = false;
+        newGyroReadingTurn = false;
+        encoderInit = false;
+    }
+    /**
+     * stop driving
+     */
+    public static void stop() {
+        drive(0,0);
     }
 }

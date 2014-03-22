@@ -44,11 +44,10 @@ public class RobotMain extends IterativeRobot {
 	}
 	
 	if (xboxDriver.bButton()) {
-            DriveTrain.turn(0.5, Constants.DT_TURN);
+            DriveTrain.maintainPosition();
 	} else {
 	    DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
-	    DriveTrain.encoderInit = false;
-	    DriveTrain.newGyroReadingTurn = false;
+            DriveTrain.resetBooleans();
 	}
         
         if (xboxDriver.lBumper()) {
@@ -61,24 +60,16 @@ public class RobotMain extends IterativeRobot {
 	    Arm.setArmCoarseAdjustment(xboxManip.rightStickYAxis());
 	} else if (Math.abs(xboxManip.leftStickYAxis()) > 0.2) {
 	    Arm.setArmFineAdjustment(xboxManip.leftStickYAxis());
-	/*} else if (xboxDriver.aButton()) {
-	    Arm.setPIDShoot();
-	} else if (xboxDriver.bButton()) {
-	    Arm.setPIDCustomIngest();
-	*/} else if (xboxManip.aButton()) {
-            //Arm.setPIDCustomIngest();
+	} else if (xboxManip.aButton()) {
             Arm.setPIDIngest();
 	} else if (xboxManip.bButton()) {
             Arm.setPIDShoot();
         } else if (xboxManip.xButton()) {
-            //Arm.setPIDCustomLoad();
             Arm.setPIDHumanLoad();
         } else if (xboxManip.yButton()) {
-            //Arm.setPIDCustomLongShot();
-            Arm.setPIDLongShot();
-	} else if (xboxManip.startButton()) {
-	    //Arm.setPIDCustomTruss();
             Arm.setPIDTrussPass();
+	} else if (xboxManip.startButton()) {
+            Arm.setPIDLongShot();
         } else if (!Arm.isArmInShootAngle() && Arm.isLow) {
             Arm.setPIDShoot();
         } else {
@@ -92,7 +83,7 @@ public class RobotMain extends IterativeRobot {
 	} else if (xboxDriver.rBumper()) {
 	    Shooter.shooShoot();
 	} else if (xboxDriver.startButton()) {
-	    //Shooter.shoot();
+	    Shooter.shoot();
 	} else {
 	    Shooter.manualLoad();
         }
@@ -110,12 +101,12 @@ public class RobotMain extends IterativeRobot {
 	
         Pneumatics.checkPressure();
 
+        /*
         if(xboxDriver.startButton()) {
             Constants.DT_TURN+=1;
         } else if (xboxDriver.backButton()) {
             Constants.DT_TURN-=1;
         } 
-        /*
 	if(xboxDriver.backButton()) {
 	    DriveTrain.driveStraightEncoder(-0.8);
 	} else {
@@ -154,26 +145,25 @@ public class RobotMain extends IterativeRobot {
 	
 	SmartDashboard.putBoolean("Current", Ingestor.hasBall());
 	SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
-	SmartDashboard.putNumber("Turn Angle", Constants.DT_TURN);
     	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
 	SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
 	SmartDashboard.putNumber("Right Encoder", DriveTrain.getRightEncoder());
 	SmartDashboard.putNumber("Encoder Average", DriveTrain.getEncoderAverage());
 	//SmartDashboard.putNumber("Shooter Encoder", Shooter.getEncoderDistance());
-        SmartDashboard.putBoolean("Shooter Limit Switch", Shooter.getLimit());
-        /*SmartDashboard.putNumber("Shooter Timer", Constants.SHOOTER_SHOOT_DELAY_TIME);
+        //SmartDashboard.putBoolean("Shooter Limit Switch", Shooter.getLimit());
+        //SmartDashboard.putNumber("Shooter Timer", Constants.SHOOTER_SHOOT_DELAY_TIME);
         //SmartDashboard.putNumber("Offset", Constants.DT_DELTA_OFFSET);
         //SmartDashboard.putNumber("Mod", Constants.DT_ENCODER_SLOW_MOD);
 	//SmartDashboard.putNumber("delta", DriveTrain.delta);
-	SmartDashboard.putNumber("pidDiff", Arm.pidDiff);
-	SmartDashboard.putNumber("P", Arm.pid.getP());
-	SmartDashboard.putNumber("I", Arm.pid.getI());
-	SmartDashboard.putNumber("D", Arm.pid.getD());
-	SmartDashboard.putNumber("second P", Constants.ARM_SHOOT_FINE_P);
-	SmartDashboard.putNumber("second I", Constants.ARM_SHOOT_FINE_I);
-	SmartDashboard.putNumber("second D", Constants.ARM_SHOOT_FINE_D);
-	SmartDashboard.putNumber("HIGH Boundary", Constants.ARM_SHOOT_LOWER_BOUNDARY);
-	System.out.println(Constants.ARM_SHOOT_FINE_I);*/
+	//SmartDashboard.putNumber("pidDiff", Arm.pidDiff);
+	//SmartDashboard.putNumber("P", Arm.pid.getP());
+	//SmartDashboard.putNumber("I", Arm.pid.getI());
+	//SmartDashboard.putNumber("D", Arm.pid.getD());
+	//SmartDashboard.putNumber("second P", Constants.ARM_SHOOT_FINE_P);
+	//SmartDashboard.putNumber("second I", Constants.ARM_SHOOT_FINE_I);
+	//SmartDashboard.putNumber("second D", Constants.ARM_SHOOT_FINE_D);
+	//SmartDashboard.putNumber("HIGH Boundary", Constants.ARM_SHOOT_LOWER_BOUNDARY);
+	//System.out.println(Constants.ARM_SHOOT_FINE_I);*/
     }
 
     public void testPeriodic() {
