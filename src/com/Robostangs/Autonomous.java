@@ -165,8 +165,7 @@ public class Autonomous {
     }
     
     public static void reset() {
-        DriveTrain.resetEncoders();
-        DriveTrain.encoderInit = false;
+	DriveTrain.resetBooleans();
         done = false;
     }
 }

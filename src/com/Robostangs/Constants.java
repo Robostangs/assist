@@ -58,7 +58,7 @@ public class Constants {
     public static final double AUTON_DRIVE_DISTANCE = 2500;
     public static final double AUTON_DRIVE_POWER = 0.4;
     //2 Ballz
-    public static final double AUTON_2B_DRIVE_POWER = 0.8;
+    public static final double AUTON_2B_DRIVE_POWER = 0.5;
     public static final double AUTON_DRIVE_FIRST_FORWARD_DISTANCE = 3500;
     public static final double AUTON_TURN_ANGLE = 120;
     public static final double AUTON_DRIVE_SECOND_FORWARD_DISTANCE = 2000;
