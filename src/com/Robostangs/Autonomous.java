@@ -176,7 +176,11 @@ public class Autonomous {
                 Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
             }
             if (timer.get() < 6.0) {
-                DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, 180);
+                if (hot) {
+                    DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, -120);
+                } else {
+                    DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, 120);
+                }
             }
             if (timer.get() < 7.0 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
                 Arm.setPIDShoot();
