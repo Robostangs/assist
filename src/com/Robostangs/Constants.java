@@ -58,8 +58,11 @@ public class Constants {
     public static final double AUTON_DRIVE_DISTANCE = 2500;
     public static final double AUTON_DRIVE_POWER = 0.4;
     //2 Ballz
-    public static final double AUTON_DRIVE_BACK_DISTANCE = -1060;
-    public static final double AUTON_DRIVE_FORWARD_DISTANCE = 2630;
+    public static final double AUTON_2B_DRIVE_POWER = 0.8;
+    public static final double AUTON_DRIVE_FIRST_FORWARD_DISTANCE = 3500;
+    public static final double AUTON_TURN_ANGLE = 120;
+    public static final double AUTON_DRIVE_SECOND_FORWARD_DISTANCE = 2000;
+    public static final double AUTON_DRIVE_BACK_DISTANCE = -1700;
     
     //CANJaguars
     public static final double JAG_FAULT_TIME = 1.0;
@@ -77,7 +80,8 @@ public class Constants {
     
     public static final double DT_LEFT_ENCODER_DPP = 0.001;
     public static final double DT_RIGHT_ENCODER_DPP = 0.001;
-    public static final double DT_GYRO_SLOW_MOD = 0.85;
+    public static final double DT_ENCODER_FAST_MOD = 1.07;
+    public static final double DT_GYRO_SLOW_MOD = 0.93;
     public static final double DT_GYRO_FAST_MOD = 1.15;
     public static double DT_ENCODER_SLOW_MOD = 0.98;
     public static double DT_DELTA_OFFSET = 0.0;

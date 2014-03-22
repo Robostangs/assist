@@ -100,21 +100,21 @@ public class DriveTrain {
      * drive straight using encoders
      * @param power motor speed
      */
-    public static void driveStraightEncoder(double power) {
-        delta = Math.abs(leftEncoder.getRate()) - Math.abs(rightEncoder.getRate());
+     public static void driveStraightEncoder(double power) {
         double leftPower, rightPower;
+        delta = Math.abs(getLeftEncoder()) - Math.abs(getRightEncoder());
 	
-        if (delta > Constants.DT_DELTA_OFFSET + 0.2) {
+        if (delta > Constants.DT_DELTA_OFFSET) {
 	    leftPower = power * Constants.DT_ENCODER_SLOW_MOD;
-	    rightPower = power;
-        } else if (delta < Constants.DT_DELTA_OFFSET - 0.2) {
-	    leftPower = power;
+	    rightPower = power * Constants.DT_ENCODER_FAST_MOD;
+        } else if (delta < -Constants.DT_DELTA_OFFSET) {
+	    leftPower = power * Constants.DT_ENCODER_FAST_MOD;
 	    rightPower = power * Constants.DT_ENCODER_SLOW_MOD;
         } else {
 	    leftPower = power;
 	    rightPower = power;
 	}
-        drive(power, power);
+        drive(leftPower, rightPower);
     }
     
     /**
@@ -249,4 +249,10 @@ public class DriveTrain {
     public static double getGyro() {
         return gyro.getAngle();
     }    
+    
+    public static void resetBooleans() {
+	encoderInit = false;
+	newGyroReadingTurn = false;
+	newGyroReadingDriveStraight = false;
+    }
 }
