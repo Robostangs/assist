@@ -30,7 +30,7 @@ public class Autonomous {
             Shooter.manualLoad();
             Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
 	    while (timer.get() < 2.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_DISTANCE)) {
-		    DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
+		    DriveTrain.driveStraightEncoder(Constants.AUTON_DRIVE_POWER);
             }
             while (timer.get() < 3.0) {
 		    Arm.setPIDShoot();
@@ -64,7 +64,7 @@ public class Autonomous {
      	    Shooter.manualLoad();
 	    DriveTrain.resetBooleans();
 	    while (timer.get() < 0.75 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_FIRST_FORWARD_DISTANCE)) {
-		DriveTrain.drive(Constants.AUTON_2B_DRIVE_POWER, Constants.AUTON_2B_DRIVE_POWER);
+		DriveTrain.driveStraightEncoder(Constants.AUTON_2B_DRIVE_POWER);
 	    }
 	    while (timer.get() < 1.50 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
 		DriveTrain.stop();
@@ -91,12 +91,12 @@ public class Autonomous {
 		}
 		Shooter.manualLoad();
 		Ingestor.ingest();
-		DriveTrain.drive(Constants.AUTON_2B_DRIVE_POWER, Constants.AUTON_2B_DRIVE_POWER);
+		DriveTrain.driveStraightEncoder(Constants.AUTON_2B_DRIVE_POWER);
 	    }
             DriveTrain.resetBooleans();
 	    while (timer.get() < 5.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_BACK_DISTANCE)) {
                 Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
-		DriveTrain.drive(-Constants.AUTON_2B_DRIVE_POWER, -Constants.AUTON_2B_DRIVE_POWER);
+		DriveTrain.driveStraightEncoder(-Constants.AUTON_2B_DRIVE_POWER);
 	    }
             DriveTrain.resetBooleans();
 	    while (timer.get() < 7.0) {
