@@ -177,9 +177,9 @@ public class Autonomous {
             }
             if (timer.get() < 6.0) {
                 if (hot) {
-                    DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, -120);
-                } else {
                     DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, 120);
+                } else {
+                    DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, -120);
                 }
             }
             if (timer.get() < 7.0 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
