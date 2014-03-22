@@ -118,6 +118,82 @@ public class Autonomous {
         Shooter.manualLoad();
     }
     
+    /**
+     * put the ball behind the robot
+     */
+    public static void twoHotChicks() {
+        if (!dunzo) {
+            timer.reset();
+            timer.start();
+            Shifting.LowGear();
+            Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
+            Shooter.manualLoad();
+            DriveTrain.resetBooleans();
+
+            if (timer.get() < 0.5 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_FIRST_FORWARD_DISTANCE)) {
+                if (!Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
+                    Arm.setPIDShoot();
+                }
+                DriveTrain.driveStraightEncoder(Constants.AUTON_2B_DRIVE_POWER);
+            }
+            if (timer.get() < 1.0) {
+                if (!Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
+                    Arm.setPIDShoot();
+                }
+                if (hot) {
+                    DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, 60);
+                } else {
+                    DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, -60);
+                }
+            }
+            if (timer.get() < 1.5 && Ingestor.hasBall()) {
+                if (Shooter.loadCompleted) {
+                    Shooter.shooShoot();
+                }
+            }
+            DriveTrain.resetBooleans();
+            if (timer.get() < 2.5) {
+                Shooter.manualLoad();
+                if (hot) {
+                    DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, 120);
+                } else {
+                    DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, -120);
+                }
+                if (!Arm.isInPosition(Constants.ARM_INGEST_ANGLE)) {
+                    Arm.setPIDIngest();
+                }
+            }
+            if (timer.get() < 4.0 && !DriveTrain.driveDistance(4800)) {
+                if (!Arm.isInPosition(Constants.ARM_INGEST_ANGLE)) {
+                    Arm.setPIDIngest();
+                }
+                DriveTrain.driveStraightEncoder(Constants.AUTON_2B_DRIVE_POWER);
+                Ingestor.ingest();
+            }
+            DriveTrain.resetBooleans();
+            if (timer.get() < 5.0 && !DriveTrain.driveDistance(-4800)) {
+                DriveTrain.driveStraightEncoder(-Constants.AUTON_2B_DRIVE_POWER);
+                Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
+            }
+            if (timer.get() < 6.0) {
+                DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, 180);
+            }
+            if (timer.get() < 7.0 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
+                Arm.setPIDShoot();
+            }
+            if (timer.get() < 8.0 && Ingestor.hasBall()) {
+                if (Shooter.loadCompleted) {
+                    Shooter.shooShoot();
+                }
+            }
+            dunzo = true;
+        }
+        DriveTrain.stop();
+        Arm.stop();
+        Ingestor.stop();
+        Shooter.manualLoad();
+    }
+    
     public static void reset() {
 	    DriveTrain.resetBooleans();
 	    dunzo = false;
