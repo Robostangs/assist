@@ -99,7 +99,7 @@ public class Autonomous {
 		DriveTrain.driveStraightEncoder(-Constants.AUTON_2B_DRIVE_POWER);
 	    }
             DriveTrain.resetBooleans();
-	    while (timer.get() < 7.0) {
+	    while (timer.get() < 6.5) {
 		DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, -Constants.AUTON_TURN_ANGLE);
 	    }
 	    while (timer.get() < 8.0 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {

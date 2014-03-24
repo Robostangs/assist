@@ -65,7 +65,7 @@ public class Constants {
     public static final double AUTON_DRIVE_FIRST_FORWARD_DISTANCE = 3500.0;
     public static final double AUTON_TURN_ANGLE = 120;
     public static final double AUTON_DRIVE_SECOND_FORWARD_DISTANCE = 2000.0;
-    public static final double AUTON_DRIVE_BACK_DISTANCE = -1700.0;
+    public static final double AUTON_DRIVE_BACK_DISTANCE = -2000.0;
     
     
     
