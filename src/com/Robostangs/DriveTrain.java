@@ -12,7 +12,7 @@ public class DriveTrain {
     private static Gyro gyro;
     private static boolean newGyroReadingDriveStraight = false;
     private static boolean newGyroReadingTurn = false;
-    private static double initGyro;
+    private static double initGyro, currentDistance = 0.0;
     public static double delta = 1.0;
     public static boolean encoderInit = false;
     
@@ -122,9 +122,9 @@ public class DriveTrain {
      * @param distance distance you want to travel
      * @return true if completed
      */
-    private static double currentDistance = 0.0;
     public static boolean driveDistance(double distance) {
         if (!encoderInit) {
+	    resetEncoders();
             currentDistance = 0.0;
             encoderInit = true;
         }

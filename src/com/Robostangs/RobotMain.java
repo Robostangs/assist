@@ -30,7 +30,7 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void autonomousPeriodic() {
-	Autonomous.fallBack();
+	Autonomous.twoBallz();
 	
 	//SmartDashboard.putNumber("Avg Encoder Value", DriveTrain.getEncoderAverage());
 	SmartDashboard.putNumber("Pot Value", Arm.getArmAngle());
@@ -151,13 +151,13 @@ public class RobotMain extends IterativeRobot {
 	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
 	SmartDashboard.putBoolean("GUCCI", Arm.isInPosition(Constants.ARM_SHOOT_ANGLE));
 	
-	/*
-	SmartDashboard.putNumber("Current", Ingestor.getCurrent());
+	
+	//SmartDashboard.putNumber("Current", Ingestor.getCurrent());
 	SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
 	SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
 	SmartDashboard.putNumber("Right Encoder", DriveTrain.getRightEncoder());
 	SmartDashboard.putNumber("Encoder Average", DriveTrain.getEncoderAverage());
-	SmartDashboard.putNumber("Shooter Encoder", Shooter.getEncoderDistance());
+	/*SmartDashboard.putNumber("Shooter Encoder", Shooter.getEncoderDistance());
         SmartDashboard.putBoolean("Shooter Limit Switch", Shooter.getLimit());
         SmartDashboard.putNumber("Shooter Timer", Constants.SHOOTER_SHOOT_DELAY_TIME);
         SmartDashboard.putNumber("Offset", Constants.DT_DELTA_OFFSET);
