@@ -32,7 +32,7 @@ public class Constants {
     public static final int ARM_LOAD_ANGLE = 490;
     
     //Arm PID Shoot
-    public static final int ARM_SHOOT_ANGLE = 376;
+    public static final int ARM_SHOOT_ANGLE = 398;
     public static final int ARM_SHOOT_ANGLE_TOLERANCE = 3;
     public static final int ARM_SHOOT_UPPER_BOUNDARY = -20;
     public static final int ARM_SHOOT_LOWER_BOUNDARY = 20;

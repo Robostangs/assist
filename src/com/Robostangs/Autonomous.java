@@ -101,6 +101,7 @@ public class Autonomous {
             DriveTrain.resetBooleans();
 	    while (timer.get() < 6.5) {
 		DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, -Constants.AUTON_TURN_ANGLE);
+		Ingestor.ingest();
 	    }
 	    while (timer.get() < 8.0 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
 		DriveTrain.stop();
@@ -111,9 +112,10 @@ public class Autonomous {
 	    }
 	    Arm.stop();
             Ingestor.stop();
+	    Shooter.loadCompleted = false;
+            Shooter.manualLoad();
 	    dunzo = true;
         }
-        Shooter.manualLoad();
     }
     
     /**
@@ -129,7 +131,7 @@ public class Autonomous {
             Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
             Shooter.manualLoad();
 
-            while (timer.get() < 0.75 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_FIRST_FORWARD_DISTANCE)) {
+            while (timer.get() < 1.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_FIRST_FORWARD_DISTANCE)) {
                 if (!Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
                     Arm.setPIDShoot();
                 }
@@ -137,12 +139,12 @@ public class Autonomous {
             }
             while (timer.get() < 1.5) {
                 if (hot) {
-                    DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, 60);
+                    DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, 30);
                 } else {
-                    DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, -60);
+                    DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, -30);
                 }
             }
-            while (timer.get() < 2.0 && Ingestor.hasBall()) {
+            while (timer.get() < 2.0) {
                 DriveTrain.stop();
                 if (Shooter.loadCompleted) {
                     Shooter.shooShoot();
@@ -152,15 +154,15 @@ public class Autonomous {
             while (timer.get() < 3.5) {
                 Shooter.manualLoad();
                 if (hot) {
-                    DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, 120);
+                    DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, 140);
                 } else {
-                    DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, -120);
+                    DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, -140);
                 }
                 if (!Arm.isInPosition(Constants.ARM_INGEST_ANGLE)) {
                     Arm.setPIDIngest();
                 }
             }
-            while (timer.get() < 4.5 && !DriveTrain.driveDistance(4800)) {
+            while (timer.get() < 4.5 && !DriveTrain.driveDistance(5000)) {
                 DriveTrain.driveStraightEncoder(Constants.AUTON_2B_DRIVE_POWER);
                 Ingestor.ingest();
             }
@@ -168,21 +170,22 @@ public class Autonomous {
                 DriveTrain.stop();
             }
             DriveTrain.resetBooleans();
-            while (timer.get() < 6.0 && !DriveTrain.driveDistance(-4800)) {
+            while (timer.get() < 6.0 && !DriveTrain.driveDistance(-5000)) {
                 DriveTrain.driveStraightEncoder(-Constants.AUTON_2B_DRIVE_POWER);
-                Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
+		Ingestor.ingest();
                 if (!Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
                     Arm.setPIDShoot();
                 }
             }
             while (timer.get() < 7.0) {
+		Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
                 if (hot) {
                     DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, 120);
                 } else {
                     DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, -120);
                 }
             }
-            while (timer.get() < 7.5 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
+            while (timer.get() < 7.75 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
                 DriveTrain.stop();
                 Arm.setPIDShoot();
             }
@@ -191,11 +194,13 @@ public class Autonomous {
                     Shooter.shooShoot();
                 }
             }
+	    DriveTrain.stop();
+	    Arm.stop();
+            Ingestor.stop();
+	    Shooter.loadCompleted = false;
             dunzo = true;
         }
-        DriveTrain.stop();
-        Arm.stop();
-        Ingestor.stop();
+	Shifting.HighGear();
         Shooter.manualLoad();
     }
     

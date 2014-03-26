@@ -31,6 +31,7 @@ public class RobotMain extends IterativeRobot {
 
     public void autonomousPeriodic() {
 	Autonomous.twoBallz();
+	//Autonomous.twoHotChicks();
     }
 
     public void disabledPeriodic() {
