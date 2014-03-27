@@ -1,4 +1,4 @@
-//COMP BOT FINAL FOR HOWELL
+//LIVOOOOOOOOOOONIA
 
 package com.Robostangs;
 
@@ -32,9 +32,6 @@ public class RobotMain extends IterativeRobot {
     public void autonomousPeriodic() {
 	//Autonomous.fallBack();
 	Autonomous.twoBallz();
-	
-	//SmartDashboard.putNumber("Avg Encoder Value", DriveTrain.getEncoderAverage());
-	SmartDashboard.putNumber("Pot Value", Arm.getArmAngle());
     }
     
     public void disabledPeriodic() {
@@ -106,72 +103,12 @@ public class RobotMain extends IterativeRobot {
         
         Pneumatics.checkPressureTimer();
         
-        /*
-        if(xboxDriver.startButton()) {
-            Shooter.increaseShooterTime();
-        } else if (xboxDriver.backButton()) {
-            Shooter.decreaseShooterTime();
-        } 
-        
-	if(xboxDriver.backButton()) {
-	    DriveTrain.driveStraightEncoder(-0.8);
-	} else {
-	    DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
-	}
-	
-	//DRIVE STRAIGHT
-	if(xboxDriver.bButton()) {
-	    Constants.DT_DELTA_OFFSET += 0.1;
-	} else if (xboxDriver.aButton()) {
-	    Constants.DT_DELTA_OFFSET -= 0.1;
-        } else if (xboxDriver.yButton()) {
-	    Constants.DT_ENCODER_SLOW_MOD += 0.01;
-	} else if (xboxDriver.xButton()) {
-	    Constants.DT_ENCODER_SLOW_MOD -= 0.01;
-	}
-        
-	//ARM PID
-	if (xboxManip.aButton()) {
-	    Constants.ARM_SHOOT_FINE_P+=0.001;
-	} else if (xboxManip.bButton()) {
-	    Constants.ARM_SHOOT_FINE_P-=0.001;
-	} else if (xboxManip.xButton()) {
-	    Constants.ARM_SHOOT_FINE_I+=0.0001;
-	} else if (xboxManip.yButton()) {
-	    Constants.ARM_SHOOT_FINE_I-=0.0001;
-	} else if (xboxManip.startButton()) {
-	    Constants.ARM_SHOOT_FINE_D+=0.0005;
-	} else if (xboxManip.backButton()) {
-	    Constants.ARM_SHOOT_FINE_D-=0.0005;
-	} else if (xboxManip.lBumper()) {
-	    Constants.ARM_SHOOT_LOWER_BOUNDARY+=1;
-	} else if (xboxManip.rBumper()) {
-	    Constants.ARM_SHOOT_LOWER_BOUNDARY-=1;
-	}*/
-
 	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
-	
-	//SmartDashboard.putNumber("Current", Ingestor.getCurrent());
 	SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
 	SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
 	SmartDashboard.putNumber("Right Encoder", DriveTrain.getRightEncoder());
 	SmartDashboard.putNumber("Encoder Average", DriveTrain.getEncoderAverage());
-	/*SmartDashboard.putNumber("Shooter Encoder", Shooter.getEncoderDistance());
         SmartDashboard.putBoolean("Shooter Limit Switch", Shooter.getLimit());
-        SmartDashboard.putNumber("Shooter Timer", Constants.SHOOTER_SHOOT_DELAY_TIME);
-        SmartDashboard.putNumber("Offset", Constants.DT_DELTA_OFFSET);
-        SmartDashboard.putNumber("Mod", Constants.DT_ENCODER_SLOW_MOD);
-	SmartDashboard.putNumber("delta", DriveTrain.delta);
-	SmartDashboard.putNumber("pidDiff", Arm.pidDiff);
-	SmartDashboard.putNumber("P", Arm.pid.getP());
-	SmartDashboard.putNumber("I", Arm.pid.getI());
-	SmartDashboard.putNumber("D", Arm.pid.getD());
-	SmartDashboard.putNumber("second P", Constants.ARM_SHOOT_FINE_P);
-	SmartDashboard.putNumber("second I", Constants.ARM_SHOOT_FINE_I);
-	SmartDashboard.putNumber("second D", Constants.ARM_SHOOT_FINE_D);
-	SmartDashboard.putNumber("HIGH Boundary", Constants.ARM_SHOOT_LOWER_BOUNDARY);
-	System.out.println(Constants.ARM_SHOOT_FINE_I);
-	*/
     }
 
     public void testPeriodic() {
