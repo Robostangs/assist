@@ -30,6 +30,7 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void autonomousPeriodic() {
+	//Autonomous.fallBack();
 	Autonomous.twoBallz();
 	
 	//SmartDashboard.putNumber("Avg Encoder Value", DriveTrain.getEncoderAverage());
@@ -149,8 +150,6 @@ public class RobotMain extends IterativeRobot {
 	}*/
 
 	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
-	SmartDashboard.putBoolean("GUCCI", Arm.isInPosition(Constants.ARM_SHOOT_ANGLE));
-	
 	
 	//SmartDashboard.putNumber("Current", Ingestor.getCurrent());
 	SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());

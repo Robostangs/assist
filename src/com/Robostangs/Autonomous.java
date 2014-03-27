@@ -122,15 +122,16 @@ public class Autonomous {
 	    }
 	    while (timer.get() < 10.0 && Ingestor.hasBall()) {
 		Shooter.shooShoot();
+		Arm.stop();
 	    }
 	    Arm.stop();
             Ingestor.stop();
 	    Shooter.loadCompleted = false;
+	    Shifting.HighGear();
+            Shooter.manualLoad();
 	    timer.stop();
 	    done = true;
         }
-	Shifting.HighGear();
-        Shooter.manualLoad();
     }
     
     public static void reset() {

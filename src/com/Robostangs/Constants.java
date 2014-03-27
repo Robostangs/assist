@@ -11,7 +11,7 @@ public class Constants {
     public static final double ARM_SLOW_SPEED = 0.5;
     public static final double ARM_FAST_SPEED = 0.75;
     public static final double ARM_PID_ABS_TOLERANCE = 0.0; 
-    public static final int ARM_MIN_ANGLE = 273; //120 248 273
+    public static final int ARM_MIN_ANGLE = 250; //120 248 273
     public static final int ARM_MAX_ANGLE  = 690; //520 690
     public static final int ARM_ANGLE_THRESHOLD = 20;
     public static final int ARM_POT_IN_MIN = ARM_MIN_ANGLE - 20;
@@ -29,7 +29,7 @@ public class Constants {
     public static final double ARM_AUTON_I = 0.0003;
     public static final double ARM_AUTON_D = 0.01;
     //Arm PID Ingest
-    public static final int ARM_INGEST_ANGLE = 275; //683    
+    public static final int ARM_INGEST_ANGLE = 262; //683    
     //Arm PID Load
     public static final int ARM_LOAD_ANGLE = 650;
     //Arm PID Shoot (In front of the line)
@@ -49,8 +49,8 @@ public class Constants {
     public static final int ARM_GOAL_LINE_ANGLE = 540;
     //Halfway Shot
     public static final int ARM_HALF_SHOT = 509; //365
-    //Arm PID Truss Pass
-    public static final int ARM_TRUSS_ANGLE = 540;
+    //Truss Pass
+    public static final int ARM_TRUSS_ANGLE = 520;
     
     //Autonomous
     //1 Ball
