@@ -38,20 +38,10 @@ public class DriveTrain {
         return instance;
     }
     
-    /**
-     * drive motors
-     * @param leftPower left motor speed
-     * @param rightPower right motor speed
-     */
     public static void drive (double leftPower, double rightPower) {
         DriveMotors.set(leftPower, leftPower, rightPower, rightPower);
     }
     
-    /**
-     * drive motors according to outputs of xbox controller
-     * @param leftPower value of Xbox left stick
-     * @param rightPower value of Xbox right Stick
-    */
     public static void humanDrive(double leftPower, double rightPower) {
         if (Math.abs(leftPower) < 0.2) {
             leftPower = 0;
@@ -62,10 +52,6 @@ public class DriveTrain {
         drive(leftPower, rightPower);
     }
     
-    /**
-     * drive straight using gyro
-     * @param power motor speed
-     */ 
     public static void driveStraightGyro(double power) {
         double leftMod = 1.0;
         double rightMod = 1.0;
@@ -96,10 +82,6 @@ public class DriveTrain {
         drive((power * leftMod), (power * rightMod));
     }
     
-    /**
-     * drive straight using encoders
-     * @param power motor speed
-     */
      public static void driveStraightEncoder(double power) {
         double leftPower, rightPower;
         delta = Math.abs(getLeftEncoder()) - Math.abs(getRightEncoder());
@@ -117,11 +99,6 @@ public class DriveTrain {
         drive(leftPower, rightPower);
     }
     
-    /**
-     * drive straight for a certain distance
-     * @param distance distance you want to travel
-     * @return true if completed
-     */
     public static boolean driveDistance(double distance) {
         if (!encoderInit) {
 	    resetEncoders();
@@ -144,11 +121,6 @@ public class DriveTrain {
 	return true;
     }
     
-    /**
-     * turn in a station for a certain angle
-     * @param power
-     * @param angle 
-     */
     public static void turn(double power, double angle) {
         if (!newGyroReadingTurn) {
             initGyro = gyro.getAngle();
@@ -170,9 +142,6 @@ public class DriveTrain {
         }
     }
     
-    /**
-     * robot tries to maintain its position using encoders
-     */
     public static void maintainPosition() {
         if (!encoderInit) {
             resetEncoders();
@@ -190,9 +159,6 @@ public class DriveTrain {
         }
     }
     
-    /**
-     * reset left and right encoders
-     */
     public static void resetEncoders() {
         leftEncoder.reset();
         rightEncoder.reset();
@@ -215,25 +181,14 @@ public class DriveTrain {
 	startEncoders();
     }
     
-    /**
-     * stop driving
-     */
     public static void stop() {
         drive(0,0);
     }
     
-    /**
-     * get distance of left encoder
-     * @return left encoder distance
-     */
     public static double getLeftEncoder() {
         return leftEncoder.getRaw();
     }
     
-    /**
-     * get distance of right encoder
-     * @return right encoder distance
-     */
     public static double getRightEncoder() {
         return -rightEncoder.getRaw();
     }
@@ -242,10 +197,6 @@ public class DriveTrain {
         return (getRightEncoder() + getLeftEncoder()) / 2;
     }
 
-    /**
-     * get gyro angle
-     * @return gyro angle
-     */
     public static double getGyro() {
         return gyro.getAngle();
     }    

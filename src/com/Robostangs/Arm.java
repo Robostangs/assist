@@ -32,10 +32,6 @@ public class Arm {
         return instance;
     }
     
-    /**
-     * sets arm speed
-     * @param power arm speed
-     */
     public static void setArmSpeed(double power) {
         if (pid.isEnable()) {
             pid.disable();
@@ -103,9 +99,6 @@ public class Arm {
 	pid.enable();
     }
 
-    /**
-     * Sets arm position to ingest
-     */
     public static void setPIDIngest() {
         setPIDDefault();
 	pid.setSetpoint(Constants.ARM_INGEST_ANGLE);
@@ -114,9 +107,6 @@ public class Arm {
 	isLow = true;
     }
     
-    /**
-     * Sets arm position to load
-     */
     public static void setPIDHumanLoad() {
         isLow = false;	
         setPIDDefault();
@@ -124,9 +114,6 @@ public class Arm {
         pid.enable();	
     }
 
-    /**
-     * Sets arm position to long shot
-     */
     public static void setPIDLongShot() {
         isLow = false;
         setPIDDefault();
@@ -134,9 +121,6 @@ public class Arm {
         pid.enable();
     }    
     
-    /**
-     * Sets arm position to halfway shot
-     */
     public static void setPIDHalfwayShot() {
         isLow = false;
 	setPIDDefault();
@@ -144,9 +128,6 @@ public class Arm {
 	pid.enable();
     }
     
-    /**
-     * Sets arm position to goal line shot
-     */
     public static void setPIDGoalLineShot() {
         isLow = false;
         setPIDDefault();
@@ -154,9 +135,6 @@ public class Arm {
         pid.enable();
     }
     
-    /**
-     * Sets arm position truss pass
-     */
     public static void setPIDTrussPass() {
         isLow = false;
         setPIDDefault();
@@ -164,10 +142,6 @@ public class Arm {
         pid.enable();
     }
     
-    /**
-     * Sets arm position to autonomous shot
-     * @param angle
-     */
     public static void setPIDAutonShot(int angle) {
         pid.setSetpoint(angle);
 	pidDiff = pid.getError();
@@ -205,16 +179,10 @@ public class Arm {
 	return getArmAngle() < (pid.getSetpoint() + 2) && getArmAngle() > (pid.getSetpoint() - 2);
     }
     
-   /**
-    * @return returns arm angle
-    */
     public static double getArmAngle() {
         return apot.getAverageValue();
     }
     
-    /**
-    Stop PID and arm
-    */
     public static void stop() {
         if (pid.isEnable()) {
             pid.disable();

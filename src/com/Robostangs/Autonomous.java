@@ -60,10 +60,6 @@ public class Autonomous {
     }
     
     
-    /**
-     * 2 ball autonomous
-     * 1 hot
-     */
     public static void twoBallz() {
         if (!done) {
 	    timer.reset();

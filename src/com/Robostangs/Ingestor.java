@@ -26,10 +26,6 @@ public class Ingestor {
         return instance;
     }
     
-    /**
-     * sets speed of ingestor
-     * @param speed speed of ingestor
-     */
     public static void setSpeed(double speed) {
         try {
             rightJag.setX(-speed);
@@ -39,24 +35,14 @@ public class Ingestor {
         }
     }
 
-    /**
-     * ingest at a constant power
-     */
     public static void ingest() {
         setSpeed(Constants.INGESTOR_INGEST_SPEED);
     }
     
-    /**
-     * exgest at a constant power
-     */
     public static void exgest() {
         setSpeed(Constants.INGESTOR_EXGEST_SPEED);
     }
     
-    /**
-     * get currents from the jags
-     * @return average current
-     */
     public static double getCurrent() {
 	    try {
 		    return (leftJag.getOutputCurrent() + rightJag.getOutputCurrent()) / 2;
@@ -66,10 +52,6 @@ public class Ingestor {
 	    return -1;
     }
     
-    /**
-     * get currents from the jags
-     * @return average current
-     */
     public static boolean hasBall() {
 	    double averageCurrent = -1;
 	    try {
@@ -80,9 +62,6 @@ public class Ingestor {
 	    return averageCurrent > 6;
     }
     
-    /**
-     * stop the ingestor
-     */
     public static void stop() {
         setSpeed(0);
     }

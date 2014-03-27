@@ -34,14 +34,6 @@ public class DriveMotors implements PIDOutput{
         return instance;
     }
         
-    /**
-     * Sets motor speed according to a, b, c, d
-     * @param leftSpeed1 motor speed
-     * @param leftSpeed2 motor speed
-     * @param rightSpeed1 motor speed
-     * @param rightSpeed2 motor speed
-
-     */
     public static void set(double leftSpeed1, double leftSpeed2, double rightSpeed1, double rightSpeed2) {
         try {
             leftJag1.setX(-leftSpeed1);
@@ -53,10 +45,6 @@ public class DriveMotors implements PIDOutput{
         }
     }
     
-    /**
-     * Sets motor speed according to output
-     * @param output motor speed
-     */
     public void pidWrite(double output) {
         try {
             leftJag1.setX(output);

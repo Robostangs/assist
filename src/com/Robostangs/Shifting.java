@@ -21,21 +21,11 @@ public class Shifting {
         return instance;
     }
     
-    /**
-     * When the method is called, the solenoids shift to high gear.
-     * @param highGear solenoid triggering high gear
-     * @param lowGear solenoid triggering low gear
-     */
     public static void HighGear() {
         highGear.set(true);
         lowGear.set(false);
     }
     
-    /**
-     * When the method is called, the solenoids shift to low gear.
-     * @param highGear solenoid triggering high gear
-     * @param lowGear solenoid triggering low gear
-     */
     public static void LowGear() {
         highGear.set(false);
         lowGear.set(true);

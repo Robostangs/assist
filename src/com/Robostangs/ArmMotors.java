@@ -19,10 +19,6 @@ public class ArmMotors implements PIDOutput{
         }
     }
  
-    /**
-     * Sets arm speed according to output
-     * @param output arm speed
-     */
      public void pidWrite(double output) {
         try {
             armJag.setX(-output);
@@ -31,10 +27,6 @@ public class ArmMotors implements PIDOutput{
         }
     }
      
-    /**
-     * Sets arm speed according to value
-     * @param value set arm speed
-     */
     public static void set(double value) {
         try {
             armJag.setX(-value);
@@ -43,10 +35,6 @@ public class ArmMotors implements PIDOutput{
         }
     }
      
-    /**
-     * get average voltage of motor jags
-     * @return average voltage of jags
-     */
     public static double getPower() {
         try {
             return (armJag.getOutputVoltage());

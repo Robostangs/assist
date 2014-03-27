@@ -47,10 +47,6 @@ public class Shooter {
         return instance;
     }
 
-    /**
-     * sets the shooter motor speed
-     * @param power motor speed
-     */
     public static void set(double power) {
 	    try {
 		shooterJag.setX(power);
@@ -59,10 +55,6 @@ public class Shooter {
 	    }
     }
 
-    /**
-     * pull the ratchet at the constant power
-     * stop when the shooter hits the limit switch
-     */
     public static void load() {
         if (shooterLimit.get()) {
             set(Constants.SHOOTER_LOAD_POWER);
@@ -91,9 +83,6 @@ public class Shooter {
 	}
     }
 
-    /**
-     * release the ratchet and spin the ingestor outward after a delay
-     */
     public static void shoot() {
 	solenoidEnable();
 	set(0);
@@ -144,9 +133,6 @@ public class Shooter {
 	shooterSolenoidOn.set(false);
     }
     
-    /**
-     * disable solenoid, reset shoot boolean, and stop the shooter motor
-     */
     public static void stop() {
         solenoidDisable();
         resetShoot();
