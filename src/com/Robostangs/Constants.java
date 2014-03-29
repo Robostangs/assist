@@ -29,11 +29,11 @@ public class Constants {
     public static final double ARM_AUTON_I = 0.0003;
     public static final double ARM_AUTON_D = 0.01;
     //Arm PID Ingest
-    public static final int ARM_INGEST_ANGLE = 262; //683    
+    public static final int ARM_INGEST_ANGLE = 267; //683    
     //Arm PID Load
     public static final int ARM_LOAD_ANGLE = 650;
     //Arm PID Shoot (In front of the line)
-    public static final int ARM_SHOOT_ANGLE = 485; //485
+    public static final int ARM_SHOOT_ANGLE = 497; //485
     public static final int ARM_SHOOT_ANGLE_TOLERANCE = 3;
     public static final int ARM_SHOOT_UPPER_BOUNDARY = -20;
     public static final int ARM_SHOOT_LOWER_BOUNDARY = 20;
@@ -56,12 +56,14 @@ public class Constants {
     //1 Ball
     public static final double AUTON_DRIVE_DISTANCE = 2500;
     public static final double AUTON_DRIVE_POWER = 0.4;
+    public static final int AUTON_ONE_BALL_ANGLE = 510;
     //2 Ballz
     public static final double AUTON_2B_DRIVE_POWER = 0.8;
     public static final double AUTON_DRIVE_FIRST_FORWARD_DISTANCE = 3800;
     public static final double AUTON_TURN_ANGLE = 120;
     public static final double AUTON_DRIVE_SECOND_FORWARD_DISTANCE = 1900;
     public static final double AUTON_DRIVE_BACK_DISTANCE = -2100;
+    public static final int AUTON_TWO_BALL_FIRST_ANGLE = 510;
     
     //CANJaguars
     public static final double JAG_FAULT_TIME = 1.0;

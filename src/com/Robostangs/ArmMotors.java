@@ -51,4 +51,23 @@ public class ArmMotors implements PIDOutput{
             System.out.println("Arm Motor Error");
         }
     }
+    public static double getBatteryVoltage() {
+        double voltage = 0.0;
+        try {
+            voltage = armJag.getBusVoltage();
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+        return voltage;
+    }
+    
+    public static double getJagCurrent() {
+        double voltage = 0.0;
+        try {
+            voltage = armJag.getOutputCurrent();
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+        return voltage;
+    }
 }

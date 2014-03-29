@@ -205,5 +205,5 @@ public class DriveTrain {
 	encoderInit = false;
 	newGyroReadingTurn = false;
 	newGyroReadingDriveStraight = false;
-    }
+    }    
 }

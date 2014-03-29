@@ -44,6 +44,18 @@ public class DriveMotors implements PIDOutput{
             System.out.println("CANJAG ERROR IN DRIVEMOTORS");
         }
     }
+   
+    /*
+    public static void setVoltageRate() {
+        try {
+            leftJag1.setVoltageRampRate(0.05);
+            leftJag2.setVoltageRampRate(0.05);
+            rightJag1.setVoltageRampRate(0.05);
+            rightJag2.setVoltageRampRate(0.05);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+    }*/
     
     public void pidWrite(double output) {
         try {
@@ -54,5 +66,25 @@ public class DriveMotors implements PIDOutput{
         } catch (CANTimeoutException ex) {
             System.out.println("CANJAG ERROR IN DRIVEMOTORS");
         }
+    }
+    
+    public static double getAverageBatteryVoltage() {
+        double voltage = 0.0;
+        try {
+            voltage = (leftJag1.getBusVoltage() + leftJag2.getBusVoltage() + rightJag1.getBusVoltage() + rightJag2.getBusVoltage()) / 4;
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+        return voltage;
+    }
+    
+    public static double getTotalJagCurrent() {
+        double voltage = 0.0;
+        try {
+            voltage = (leftJag1.getOutputCurrent() + leftJag2.getOutputCurrent() + rightJag1.getOutputCurrent() + rightJag2.getOutputCurrent());
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+        return voltage;
     }
 }

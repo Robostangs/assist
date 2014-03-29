@@ -3,6 +3,7 @@
 package com.Robostangs;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,6 +24,7 @@ public class RobotMain extends IterativeRobot {
 	Pneumatics.getInstance();
 	Shifting.getInstance();
 	Shooter.getInstance();
+        //Log.getInstance();
         
 	LiveWindow.addActuator("Arm", "Motor", ArmMotors.armJag);
 	LiveWindow.addSensor("Arm", "Pot", Arm.apot);
@@ -30,8 +32,11 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void autonomousPeriodic() {
-	//Autonomous.fallBack();
-	Autonomous.twoBallz();
+	Autonomous.fallBack();
+	//Autonomous.twoBallz();
+        
+        SmartDashboard.putNumber("Pot", Arm.getArmAngle());
+        //Log.write("Autonomous," + ArmMotors.getBatteryVoltage() + "," + ArmMotors.getJagCurrent() + "," + DriveMotors.getTotalJagCurrent() + "," + Arm.pid.isEnable() + "," + Arm.pid.getSetpoint() + "," + Arm.getArmAngle() + "," + Shooter.isShooting);
     }
     
     public void disabledPeriodic() {
@@ -67,9 +72,9 @@ public class RobotMain extends IterativeRobot {
         } else if (xboxManip.xButton()) {
             Arm.setPIDHumanLoad();
         } else if (xboxManip.yButton()) {
-            Arm.setPIDTrussPass();
+            Arm.setPIDAutonShot(510);
 	} else if (xboxManip.startButton()) {
-            Arm.setPIDLongShot();
+            Arm.setPIDAutonShot(485);
 	} else if (xboxManip.backButton()) {
 	    Arm.setPIDHalfwayShot();
 	} else if (!Arm.isArmInShootAngle() && Arm.isLow) {
@@ -103,7 +108,8 @@ public class RobotMain extends IterativeRobot {
         
         Pneumatics.checkPressureTimer();
         
-	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
+	//Log.write("Teleoperated," + ArmMotors.getBatteryVoltage() + "," + DriveMotors.getTotalJagCurrent() + "," + Arm.pid.isEnable() + "," + Arm.pid.getSetpoint() + "," + Arm.getArmAngle() + "," + Shooter.isShooting);
+        SmartDashboard.putNumber("Pot", Arm.getArmAngle());
 	SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
 	SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
 	SmartDashboard.putNumber("Right Encoder", DriveTrain.getRightEncoder());

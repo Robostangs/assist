@@ -10,7 +10,7 @@ public class Autonomous {
     private static Timer timer;
     private static boolean hot = true, done = false;
     
-    private Autonomous() {
+    Autonomous() {
         timer = new Timer();
     }
     
@@ -32,7 +32,7 @@ public class Autonomous {
 	        DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
 	    }
 	    while (timer.get() < 3.0) {
-	        Arm.setPIDShoot();
+	        Arm.setPIDAutonShot(Constants.AUTON_ONE_BALL_ANGLE);
 	        DriveTrain.stop();
 	    }
 	    if (hot) {
@@ -73,12 +73,14 @@ public class Autonomous {
 	    while (timer.get() < 1.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_FIRST_FORWARD_DISTANCE)) {
 		//DriveTrain.driveStraightEncoder(Constants.AUTON_2B_DRIVE_POWER);
 		DriveTrain.drive(Constants.AUTON_2B_DRIVE_POWER, Constants.AUTON_2B_DRIVE_POWER);
+                Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
+                Arm.setPIDAutonShot(Constants.AUTON_TWO_BALL_FIRST_ANGLE);
 	    }
-	    while (timer.get() < 1.50 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
+	    while (timer.get() < 1.75 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
 		DriveTrain.stop();
-		Arm.setPIDShoot();
+		Arm.setPIDAutonShot(Constants.AUTON_TWO_BALL_FIRST_ANGLE);
 	    }
-	    while (timer.get() < 2.0) {
+	    while (timer.get() < 2.25) {
 		if (Shooter.loadCompleted) {
 		    Shooter.shooShoot();
 		}

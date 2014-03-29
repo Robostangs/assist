@@ -65,11 +65,11 @@ public class Shooter {
     
     public static void manualLoad() {
 	if (isShooting) {
-	    shooterTimer.reset();
 	    shooterTimer.start();
 	    if (shooterTimer.get() > 0.5) {
 		isShooting = false;
 		shooterTimer.stop();
+                shooterTimer.reset();
 	    }
 	}
 	if (!loadCompleted) {
