@@ -59,11 +59,12 @@ public class Constants {
     public static final int AUTON_ONE_BALL_ANGLE = 510;
     //2 Ballz
     public static final double AUTON_2B_DRIVE_POWER = 0.8;
-    public static final double AUTON_DRIVE_FIRST_FORWARD_DISTANCE = 3800;
-    public static final double AUTON_TURN_ANGLE = 120;
-    public static final double AUTON_DRIVE_SECOND_FORWARD_DISTANCE = 1900;
-    public static final double AUTON_DRIVE_BACK_DISTANCE = -2100;
-    public static final int AUTON_TWO_BALL_FIRST_ANGLE = 510;
+    public static final int AUTON_2B_FIRST_SHOT_ANGLE = 510;
+    public static final double AUTON_2B_DRIVE_FIRST_FORWARD_DISTANCE = 3800;
+    public static final double AUTON_2B_TURN_ANGLE = 130;
+    public static final double AUTON_2B_DRIVE_SECOND_FORWARD_DISTANCE = 1900;
+    public static final double AUTON_2B_DRIVE_BACK_DISTANCE = -2100;
+    public static final double AUTON_2B_TURN_BACK_ANGLE = -132;
     
     //CANJaguars
     public static final double JAG_FAULT_TIME = 1.0;

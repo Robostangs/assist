@@ -3,8 +3,6 @@
 package com.Robostangs;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -33,10 +31,10 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void autonomousPeriodic() {
-	Autonomous.fallBack();
-	//Autonomous.twoBallz();
+	Autonomous.oneBallAutonomous();
+	//Autonomous.twoBallAutonomous();
+        //Autonomous.threeBallAutonomous();
         
-        SmartDashboard.putNumber("Pot", Arm.getArmAngle());
         Log.write("Autonomous," + ArmMotors.getBatteryVoltage() + "," + ArmMotors.getJagCurrent() + "," + DriveMotors.getTotalJagCurrent() + "," + Arm.pid.isEnable() + "," + Arm.pid.getSetpoint() + "," + Arm.getArmAngle() + "," + Shooter.isShooting);
     }
     
@@ -69,17 +67,17 @@ public class RobotMain extends IterativeRobot {
         } else if (xboxManip.aButton()) {
             Arm.setPIDIngest();
         } else if (xboxManip.bButton()) {
-            Arm.setPIDShoot();
+            Arm.setPIDShot();
         } else if (xboxManip.xButton()) {
             Arm.setPIDHumanLoad();
         } else if (xboxManip.yButton()) {
-            Arm.setPIDAutonShot(510);
+            Arm.setPIDCustomShot(510);
         } else if (xboxManip.startButton()) {
-            Arm.setPIDAutonShot(485);
+            Arm.setPIDCustomShot(485);
         } else if (xboxManip.backButton()) {
             Arm.setPIDHalfwayShot();
         } else if (!Arm.isArmInShootAngle() && Arm.isLow) {
-            Arm.setPIDShoot();
+            Arm.setPIDShot();
         } else {
             Arm.stop();
         }

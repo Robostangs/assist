@@ -128,17 +128,22 @@ public class DriveTrain {
         }
         
         if (angle >= 0) {
-            if ((gyro.getAngle() - initGyro) < angle) {
-                drive(power, -power);
-            } else {
-                stop();
-            }
+            drive(power, -power);
         } else {
-            if ((gyro.getAngle() - initGyro) > angle) {
-                drive(-power, power);
-            } else {
-                stop();
-            }
+            drive(-power, power);
+        }
+    }
+    
+    public static boolean isTurning(double angle) {
+        if (!newGyroReadingTurn) {
+            initGyro = gyro.getAngle();
+            newGyroReadingTurn = true;
+        }
+        
+        if (angle >= 0) {
+            return (gyro.getAngle() - initGyro) < angle;
+        } else {
+            return (gyro.getAngle() - initGyro) > angle;
         }
     }
     

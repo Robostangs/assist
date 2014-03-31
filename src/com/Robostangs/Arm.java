@@ -78,7 +78,7 @@ public class Arm {
     }
     
     //DON'T TOUCH THIS
-    public static void setPIDShoot() {
+    public static void setPIDShot() {
 	pid.setSetpoint(Constants.ARM_SHOOT_ANGLE);
 	pidDiff = pid.getError();
 	
@@ -142,7 +142,7 @@ public class Arm {
         pid.enable();
     }
     
-    public static void setPIDAutonShot(int angle) {
+    public static void setPIDCustomShot(int angle) {
         pid.setSetpoint(angle);
 	pidDiff = pid.getError();
 	
