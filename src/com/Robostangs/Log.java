@@ -1,5 +1,4 @@
 package com.Robostangs;
-/*
 import com.sun.squawk.microedition.io.FileConnection;
 import edu.wpi.first.wpilibj.Timer;
 import java.io.IOException;
@@ -9,14 +8,11 @@ import java.util.Date;
 import javax.microedition.io.ConnectionNotFoundException;
 import javax.microedition.io.Connector;
 
-
-
 /**
  *
  * @author Robostangs
  */
 public class Log {
-    /*
     private static Log instance = null;
     private static PrintStream output;
     private static Date current;
@@ -27,6 +23,7 @@ public class Log {
         date = date.replace(';', '_');
         String filename = date + Timer.getFPGATimestamp() + ".csv";
         filename = filename.replace(':', '-');
+        
         try {
             FileConnection fconn = (FileConnection) Connector.open("file:///" + filename, Connector.READ_WRITE);
             if (!fconn.exists()) {
@@ -50,10 +47,11 @@ public class Log {
                 System.out.println("Failed to create Log instance:\n");
             }
         }
+        
         return instance;
     }
+    
     public static void write(String data) {
         output.println(Timer.getFPGATimestamp() + "," + data + ";");
     }
-    */
 }

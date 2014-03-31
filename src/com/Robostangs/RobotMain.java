@@ -4,6 +4,7 @@ package com.Robostangs;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -24,7 +25,7 @@ public class RobotMain extends IterativeRobot {
 	Pneumatics.getInstance();
 	Shifting.getInstance();
 	Shooter.getInstance();
-        //Log.getInstance();
+        Log.getInstance();
         
 	LiveWindow.addActuator("Arm", "Motor", ArmMotors.armJag);
 	LiveWindow.addSensor("Arm", "Pot", Arm.apot);
@@ -36,7 +37,7 @@ public class RobotMain extends IterativeRobot {
 	//Autonomous.twoBallz();
         
         SmartDashboard.putNumber("Pot", Arm.getArmAngle());
-        //Log.write("Autonomous," + ArmMotors.getBatteryVoltage() + "," + ArmMotors.getJagCurrent() + "," + DriveMotors.getTotalJagCurrent() + "," + Arm.pid.isEnable() + "," + Arm.pid.getSetpoint() + "," + Arm.getArmAngle() + "," + Shooter.isShooting);
+        Log.write("Autonomous," + ArmMotors.getBatteryVoltage() + "," + ArmMotors.getJagCurrent() + "," + DriveMotors.getTotalJagCurrent() + "," + Arm.pid.isEnable() + "," + Arm.pid.getSetpoint() + "," + Arm.getArmAngle() + "," + Shooter.isShooting);
     }
     
     public void disabledPeriodic() {
@@ -48,73 +49,73 @@ public class RobotMain extends IterativeRobot {
     }
     
     public void teleopPeriodic() {
-	if (xboxDriver.bButton()) {
+        if (xboxDriver.bButton()) {
             DriveTrain.maintainPosition();
-	} else {
-	    DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
-	    DriveTrain.encoderInit = false;
-	}
-        
+        } else {
+            DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
+            DriveTrain.encoderInit = false;
+        }
+
         if (xboxDriver.lBumper()) {
-	    Shifting.LowGear();
-	} else if (!xboxDriver.bButton()) {
-	    Shifting.HighGear();
-	}
-        
-	if (Math.abs(xboxManip.rightStickYAxis()) > 0.2) {
-	    Arm.setArmCoarseAdjustment(xboxManip.rightStickYAxis());
-	} else if (Math.abs(xboxManip.leftStickYAxis()) > 0.2) {
-	    Arm.setArmFineAdjustment(xboxManip.leftStickYAxis());
-	} else if (xboxManip.aButton()) {
+            Shifting.LowGear();
+        } else if (!xboxDriver.bButton()) {
+            Shifting.HighGear();
+        }
+
+        if (Math.abs(xboxManip.rightStickYAxis()) > 0.2) {
+            Arm.setArmCoarseAdjustment(xboxManip.rightStickYAxis());
+        } else if (Math.abs(xboxManip.leftStickYAxis()) > 0.2) {
+            Arm.setArmFineAdjustment(xboxManip.leftStickYAxis());
+        } else if (xboxManip.aButton()) {
             Arm.setPIDIngest();
-	} else if (xboxManip.bButton()) {
+        } else if (xboxManip.bButton()) {
             Arm.setPIDShoot();
         } else if (xboxManip.xButton()) {
             Arm.setPIDHumanLoad();
         } else if (xboxManip.yButton()) {
             Arm.setPIDAutonShot(510);
-	} else if (xboxManip.startButton()) {
+        } else if (xboxManip.startButton()) {
             Arm.setPIDAutonShot(485);
-	} else if (xboxManip.backButton()) {
-	    Arm.setPIDHalfwayShot();
-	} else if (!Arm.isArmInShootAngle() && Arm.isLow) {
+        } else if (xboxManip.backButton()) {
+            Arm.setPIDHalfwayShot();
+        } else if (!Arm.isArmInShootAngle() && Arm.isLow) {
             Arm.setPIDShoot();
         } else {
-	    Arm.stop();
-	}
+            Arm.stop();
+        }
 
-	if (xboxManip.lBumper()) {
-	    Shooter.stop();
+        if (xboxManip.lBumper()) {
+            Shooter.stop();
         } else if (xboxManip.rBumper()) {
             Shooter.shooShoot();
-	} else if (xboxDriver.rBumper()) {
-	    Shooter.shooShoot();
-	} else if (xboxDriver.startButton()) {
-	    Shooter.shoot();
-	} else {
-	    Shooter.manualLoad();
+        } else if (xboxDriver.rBumper()) {
+            Shooter.shooShoot();
+        } else if (xboxDriver.startButton()) {
+            Shooter.shoot();
+        } else {
+            Shooter.manualLoad();
         }
-        
+
         if (xboxManip.triggerAxis() > 0.2) {
-	    Ingestor.ingest();
+            Ingestor.ingest();
         } else if (xboxManip.triggerAxis() < -0.2) {
             Ingestor.exgest();
         }
-        
+
         if(!xboxManip.rBumper() && !xboxDriver.rBumper() && Math.abs(xboxManip.triggerAxis()) < 0.2
-		&& !xboxDriver.startButton()) {
+                && !xboxDriver.startButton()) {
             Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
         }
-        
+
         Pneumatics.checkPressureTimer();
-        
-	//Log.write("Teleoperated," + ArmMotors.getBatteryVoltage() + "," + DriveMotors.getTotalJagCurrent() + "," + Arm.pid.isEnable() + "," + Arm.pid.getSetpoint() + "," + Arm.getArmAngle() + "," + Shooter.isShooting);
+
+        Log.write("Teleoperated," + ArmMotors.getBatteryVoltage() + "," + DriveMotors.getTotalJagCurrent() + "," + Arm.pid.isEnable() + "," + Arm.pid.getSetpoint() + "," + Arm.getArmAngle() + "," + Shooter.isShooting);
         SmartDashboard.putNumber("Pot", Arm.getArmAngle());
-	SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
-	SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
-	SmartDashboard.putNumber("Right Encoder", DriveTrain.getRightEncoder());
-	SmartDashboard.putNumber("Encoder Average", DriveTrain.getEncoderAverage());
         SmartDashboard.putBoolean("Shooter Limit Switch", Shooter.getLimit());
+        //SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
+        //SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
+        //SmartDashboard.putNumber("Right Encoder", DriveTrain.getRightEncoder());
+        //SmartDashboard.putNumber("Encoder Average", DriveTrain.getEncoderAverage());
     }
 
     public void testPeriodic() {
