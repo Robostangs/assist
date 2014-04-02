@@ -120,4 +120,7 @@ public class Constants {
     public static final double SHOOTER_LOAD_POWER = 1.0;
     public static final double SHOOTER_SHOOT_DELAY_TIME = 0.5;
     public static final double SHOOTER_SHOOT_STOP_TIME = 1.0;    
+
+    public static double CD_HIGH_SENSITIVITY = 0.85;
+    public static double CD_LOW_SENSITIVITY = 0.75;
 }

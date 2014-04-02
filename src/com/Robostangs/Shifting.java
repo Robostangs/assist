@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 public class Shifting {
     private static Solenoid highGear, lowGear;
     private static Shifting instance = null;
+    public static boolean high = true;
     
     private Shifting() {
         highGear = new Solenoid(Constants.HIGH_GEAR_SOLENOID_POS);
@@ -24,10 +25,12 @@ public class Shifting {
     public static void HighGear() {
         highGear.set(true);
         lowGear.set(false);
+	high = true;
     }
     
     public static void LowGear() {
         highGear.set(false);
         lowGear.set(true);
+    	high = false;
     }
 }

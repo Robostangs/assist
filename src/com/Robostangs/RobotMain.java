@@ -18,6 +18,7 @@ public class RobotMain extends IterativeRobot {
 	xboxManip = new XBoxController(Constants.XBOX_MANIP_POS);
         Arm.getInstance();
 	Autonomous.getInstance();
+	CheesyDrive.getInstance();
 	DriveTrain.getInstance();
         Ingestor.getInstance();
 	Pneumatics.getInstance();
