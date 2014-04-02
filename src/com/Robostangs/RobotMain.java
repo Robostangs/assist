@@ -19,6 +19,7 @@ public class RobotMain extends IterativeRobot {
         Arm.getInstance();
 	Autonomous.getInstance();
 	DriveTrain.getInstance();
+	CheesyDrive.getInstance();
         Ingestor.getInstance();
 	Pneumatics.getInstance();
 	Shifting.getInstance();
@@ -47,7 +48,7 @@ public class RobotMain extends IterativeRobot {
 	if (xboxDriver.bButton()) {
             DriveTrain.maintainPosition();
 	} else {
-	    DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
+	    CheesyDrive.drive(xboxDriver.rightStickYAxis(), xboxDriver.leftStickXAxis());
             DriveTrain.resetBooleans();
 	}
         
