@@ -27,7 +27,7 @@ public class CheesyDrive {
 	}
 	
 	public static void drive(double power, double turn) {
-	    boolean isQuickTurn = false;
+	    boolean isQuickTurn = true;
 	    boolean isHighGear = Shifting.high;
 
 	    double wheelNonLinearity;
@@ -39,14 +39,14 @@ public class CheesyDrive {
 	    oldWheel = wheel;
 
 	    if (isHighGear) {
-	      wheelNonLinearity = 0.6;
+	      wheelNonLinearity = 0.4;
 	      // Apply a sin function that's scaled to make it feel better.
 	      wheel = Math.sin(Math.PI / 2.0 * wheelNonLinearity * wheel) /
 		  Math.sin(Math.PI / 2.0 * wheelNonLinearity);
 	      wheel = Math.sin(Math.PI / 2.0 * wheelNonLinearity * wheel) /
 		  Math.sin(Math.PI / 2.0 * wheelNonLinearity);
 	    } else {
-	      wheelNonLinearity = 0.5;
+	      wheelNonLinearity = 0.3;
 	      // Apply a sin function that's scaled to make it feel better.
 	      wheel = Math.sin(Math.PI / 2.0 * wheelNonLinearity * wheel) /
 		  Math.sin(Math.PI / 2.0 * wheelNonLinearity);

@@ -76,17 +76,18 @@ public class Autonomous {
                 //DriveTrain.driveStraightEncoder(Constants.AUTON_2B_DRIVE_POWER);
 		DriveTrain.drive(Constants.AUTON_2B_DRIVE_POWER, Constants.AUTON_2B_DRIVE_POWER);
      	    }
-	    while (timer.get() < 1.75 && !Arm.isInPosition(Constants.AUTON_2B_FIRST_SHOT_ANGLE)) {
+	    while (timer.get() < 2.0 && !Arm.isInPosition(Constants.AUTON_2B_FIRST_SHOT_ANGLE)) {
 		DriveTrain.stop();
 		Arm.setPIDCustomShot(Constants.AUTON_2B_FIRST_SHOT_ANGLE);
 	    }
 	    while (timer.get() < 2.25) {
 		if (Shooter.loadCompleted) {
-		    Shooter.shooShoot();
+		    //Shooter.shooShoot();
+		    Ingestor.exgest();
 		}
 	    }
             DriveTrain.resetBooleans();
-	    while (timer.get() < 4.0 && !DriveTrain.isTurning(Constants.AUTON_2B_TURN_ANGLE)) {
+	    while (timer.get() < 4.0 && DriveTrain.isTurning(Constants.AUTON_2B_TURN_ANGLE)) {
 		if (!Arm.isInPosition(Constants.ARM_INGEST_ANGLE)) {
 		    Arm.setPIDIngest();
 		}
@@ -118,20 +119,21 @@ public class Autonomous {
 		DriveTrain.drive(-Constants.AUTON_2B_DRIVE_POWER, -Constants.AUTON_2B_DRIVE_POWER);
 	    }
             DriveTrain.resetBooleans();
-	    while (timer.get() < 7.5 && !DriveTrain.isTurning(Constants.AUTON_2B_TURN_BACK_ANGLE)) {
+	    while (timer.get() < 7.75 && DriveTrain.isTurning(Constants.AUTON_2B_TURN_BACK_ANGLE)) {
 		DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, Constants.AUTON_2B_TURN_BACK_ANGLE);
 	    }
-	    while (timer.get() < 8.75 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
+	    while (timer.get() < 9.0 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
 		DriveTrain.stop();
 		Arm.setPIDShot();
 	    }
 	    while (timer.get() < 10.0 && Ingestor.hasBall()) {
-		Shooter.shooShoot();
+		//Shooter.shooShoot();
+		Ingestor.exgest();
 		Arm.stop();
 	    }
 	    Arm.stop();
             Ingestor.stop();
-	    Shooter.shooShoot();
+	    //Shooter.shooShoot();
 	    timer.stop();
 	    done = true;
         }
