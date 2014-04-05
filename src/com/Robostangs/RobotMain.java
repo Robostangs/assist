@@ -51,7 +51,8 @@ public class RobotMain extends IterativeRobot {
         if (xboxDriver.bButton()) {
             DriveTrain.maintainPosition();
         } else {
-            CheesyDrive.drive(xboxDriver.rightStickYAxis(), xboxDriver.leftStickXAxis());
+            //CheesyDrive.humanDrive(xboxDriver.rightStickYAxis(), xboxDriver.leftStickXAxis());
+            DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
             DriveTrain.encoderInit = false;
         }
 

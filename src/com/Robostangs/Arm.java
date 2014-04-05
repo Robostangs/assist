@@ -147,16 +147,16 @@ public class Arm {
 	pidDiff = pid.getError();
 	
 	if (pidDiff < Constants.ARM_SHOOT_UPPER_BOUNDARY || pidDiff > Constants.ARM_SHOOT_LOWER_BOUNDARY) {
-	    if (currentPID != 2) {
-		pid.reset();
-		pid.setPID(Constants.ARM_SHOOT_COARSE_P, Constants.ARM_SHOOT_COARSE_I, Constants.ARM_SHOOT_COARSE_D);
-		currentPID = 2;
-	    }
-        } else {
 	    if (currentPID != 3) {
 		pid.reset();
-		pid.setPID(Constants.ARM_SHOOT_FINE_P, Constants.ARM_SHOOT_FINE_I, Constants.ARM_SHOOT_FINE_D);
+		pid.setPID(Constants.ARM_SHOOT_COARSE_P, Constants.ARM_SHOOT_COARSE_I, Constants.ARM_SHOOT_COARSE_D);
 		currentPID = 3;
+	    }
+        } else {
+	    if (currentPID != 4) {
+		pid.reset();
+		pid.setPID(Constants.ARM_SHOOT_FINE_P, Constants.ARM_SHOOT_FINE_I, Constants.ARM_SHOOT_FINE_D);
+		currentPID = 4;
 	    }
 	}
 	pid.setSetpoint(angle);

@@ -56,10 +56,10 @@ public class Constants {
     //1 Ball
     public static final double AUTON_DRIVE_DISTANCE = 2500;
     public static final double AUTON_DRIVE_POWER = 0.4;
-    public static final int AUTON_ONE_BALL_ANGLE = 510;
+    public static final int AUTON_ONE_BALL_ANGLE = 497;
     //2 Ballz
     public static final double AUTON_2B_DRIVE_POWER = 0.8;
-    public static final int AUTON_2B_FIRST_SHOT_ANGLE = 510;
+    public static final int AUTON_2B_FIRST_SHOT_ANGLE = 497;
     public static final double AUTON_2B_DRIVE_FIRST_FORWARD_DISTANCE = 3800;
     public static final double AUTON_2B_TURN_ANGLE = 110;
     public static final double AUTON_2B_DRIVE_SECOND_FORWARD_DISTANCE = 1900;
@@ -121,6 +121,6 @@ public class Constants {
     public static final double SHOOTER_SHOOT_DELAY_TIME = 0.5;
     public static final double SHOOTER_SHOOT_STOP_TIME = 1.0;    
 
-    public static double CD_HIGH_SENSITIVITY = 0.75;
-    public static double CD_LOW_SENSITIVITY = 0.65;
+    public static double CD_HIGH_SENSITIVITY = 0.60;
+    public static double CD_LOW_SENSITIVITY = 0.55;
 }
