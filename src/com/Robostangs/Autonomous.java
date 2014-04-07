@@ -31,7 +31,7 @@ public class Autonomous {
 	    while (timer.get() < 2.0 && !DriveTrain.driveDistance(Constants.AUTON_DRIVE_DISTANCE)) {
 	        DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
 	    }
-	    while (timer.get() < 3.0) {
+	    while (timer.get() < 4.0) {
 	        Arm.setPIDCustomShot(Constants.AUTON_ONE_BALL_ANGLE);
 	        DriveTrain.stop();
 	    }

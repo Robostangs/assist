@@ -10,12 +10,13 @@ public class Constants {
 
     public static final double ARM_SLOW_SPEED = 0.5;
     public static final double ARM_FAST_SPEED = 0.75;
-    public static final double ARM_PID_ABS_TOLERANCE = 0.0; 
-    public static final int ARM_MIN_ANGLE = 250; //120 248 273
-    public static final int ARM_MAX_ANGLE  = 690; //520 690
+    public static final double ARM_PID_ABS_TOLERANCE = 0.0;
+    public static final int ARM_POT_DIFF = -22 ;
+    public static final int ARM_MIN_ANGLE = 250 + ARM_POT_DIFF; //250
+    public static final int ARM_MAX_ANGLE  = 690 + ARM_POT_DIFF; //690
     public static final int ARM_ANGLE_THRESHOLD = 20;
-    public static final int ARM_POT_IN_MIN = ARM_MIN_ANGLE - 20;
-    public static final int ARM_POT_IN_MAX = ARM_MAX_ANGLE + 20;
+    public static final int ARM_POT_IN_MIN = ARM_MIN_ANGLE - 20 + ARM_POT_DIFF;
+    public static final int ARM_POT_IN_MAX = ARM_MAX_ANGLE + 20 + ARM_POT_DIFF;
     public static final int ARM_POT_OUT_MIN = -1;
     public static final int ARM_POT_OUT_MAX = 1;
     
@@ -24,16 +25,16 @@ public class Constants {
     public static final double ARM_DEFAULT_I = 0.0;
     public static final double ARM_DEFAULT_D = 0.01;      
     //Arm PID Autonomous
-    public static final int ARM_AUTON_SHOT_ANGLE = 485; //510 end of howell
+    public static final int ARM_AUTON_SHOT_ANGLE = 485 + ARM_POT_DIFF; //510 end of howell
     public static final double ARM_AUTON_P = 0.006;
     public static final double ARM_AUTON_I = 0.0003;
     public static final double ARM_AUTON_D = 0.01;
     //Arm PID Ingest
-    public static final int ARM_INGEST_ANGLE = 267; //683    
+    public static final int ARM_INGEST_ANGLE = 267 + ARM_POT_DIFF; //683    
     //Arm PID Load
-    public static final int ARM_LOAD_ANGLE = 650;
+    public static final int ARM_LOAD_ANGLE = 650 + ARM_POT_DIFF;
     //Arm PID Shoot (In front of the line)
-    public static final int ARM_SHOOT_ANGLE = 497; //485
+    public static final int ARM_SHOOT_ANGLE = 497 + ARM_POT_DIFF; //485
     public static final int ARM_SHOOT_ANGLE_TOLERANCE = 3;
     public static final int ARM_SHOOT_UPPER_BOUNDARY = -20;
     public static final int ARM_SHOOT_LOWER_BOUNDARY = 20;
@@ -44,22 +45,22 @@ public class Constants {
     public static final double ARM_SHOOT_FINE_I = 0.0002;
     public static final double ARM_SHOOT_FINE_D = 0.02;
     //Long Shot (Behind the line)
-    public static final int ARM_LONG_SHOT_ANGLE = 495;
+    public static final int ARM_LONG_SHOT_ANGLE = 495 + ARM_POT_DIFF;
     //Goal Line
-    public static final int ARM_GOAL_LINE_ANGLE = 540;
+    public static final int ARM_GOAL_LINE_ANGLE = 540 + ARM_POT_DIFF;
     //Halfway Shot
-    public static final int ARM_HALF_SHOT = 509; //365
+    public static final int ARM_HALF_SHOT = 509 + ARM_POT_DIFF; //365
     //Truss Pass
-    public static final int ARM_TRUSS_ANGLE = 520;
+    public static final int ARM_TRUSS_ANGLE = 520 + ARM_POT_DIFF;
     
     //Autonomous
     //1 Ball
     public static final double AUTON_DRIVE_DISTANCE = 2500;
     public static final double AUTON_DRIVE_POWER = 0.4;
-    public static final int AUTON_ONE_BALL_ANGLE = 497;
+    public static final int AUTON_ONE_BALL_ANGLE = 498 + ARM_POT_DIFF;
     //2 Ballz
     public static final double AUTON_2B_DRIVE_POWER = 0.8;
-    public static final int AUTON_2B_FIRST_SHOT_ANGLE = 497;
+    public static final int AUTON_2B_FIRST_SHOT_ANGLE = 497 + ARM_POT_DIFF;
     public static final double AUTON_2B_DRIVE_FIRST_FORWARD_DISTANCE = 3800;
     public static final double AUTON_2B_TURN_ANGLE = 110;
     public static final double AUTON_2B_DRIVE_SECOND_FORWARD_DISTANCE = 1900;

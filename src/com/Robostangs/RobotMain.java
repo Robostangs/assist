@@ -32,8 +32,8 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void autonomousPeriodic() {
-	//Autonomous.oneBallAutonomous();
-	Autonomous.twoBallAutonomous();
+	Autonomous.oneBallAutonomous();
+	//Autonomous.twoBallAutonomous();
         //Autonomous.threeBallAutonomous();
         
         Log.write("Autonomous," + ArmMotors.getBatteryVoltage() + "," + ArmMotors.getJagCurrent() + "," + DriveMotors.getTotalJagCurrent() + "," + Arm.pid.isEnable() + "," + Arm.pid.getSetpoint() + "," + Arm.getArmAngle() + "," + Shooter.isShooting);
@@ -73,9 +73,9 @@ public class RobotMain extends IterativeRobot {
         } else if (xboxManip.xButton()) {
             Arm.setPIDHumanLoad();
         } else if (xboxManip.yButton()) {
-            Arm.setPIDCustomShot(510);
+            Arm.setPIDCustomShot(488);
         } else if (xboxManip.startButton()) {
-            Arm.setPIDCustomShot(485);
+            Arm.setPIDCustomShot(463);
         } else if (xboxManip.backButton()) {
             Arm.setPIDHalfwayShot();
         } else if (!Arm.isArmInShootAngle() && Arm.isLow) {
