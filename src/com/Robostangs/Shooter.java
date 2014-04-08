@@ -14,8 +14,8 @@ public class Shooter {
     private static CANJaguar shooterJag;
     private static Shooter instance = null;
     private static Encoder shooterEncoder;
-    private static Solenoid shooterSolenoidOn, shooterSolenoidOff;
-    private static DigitalInput shooterLimit;
+    private static Solenoid shooterSolenoidOn, shooterSolenoidOff, proxPower;
+    private static DigitalInput shooterLimit, proxSwitch;
     private static Timer shooterTimer;
     public static boolean shooshoo, loadCompleted = false, isShooting = false;
     
@@ -32,7 +32,10 @@ public class Shooter {
         shooterSolenoidOn = new Solenoid(Constants.SHOOTER_CYCLINDER_IN_POS);
         shooterSolenoidOff = new Solenoid(Constants.SHOOTER_CYCLINDER_OUT_POS);
         shooterTimer = new Timer();
+        proxSwitch = new DigitalInput(Constants.SHOOTER_PROX_SWITCH_POS);
+        proxPower = new Solenoid(Constants.SHOOTER_PROX_POWER_POS);
         
+	proxPower.set(true);
 	shooterEncoder.reset();
 	shooterEncoder.start();
         shooshoo = false;
@@ -62,24 +65,25 @@ public class Shooter {
      * stop when the shooter hits the limit switch
      */
     public static void load() {
-        if (shooterLimit.get()) {
+        if (proxSwitch.get()) {
             set(Constants.SHOOTER_LOAD_POWER);
         } else {
             set(0);
         }
     }
     
-    public static void manualLoad() {
+    public static void autoLoad() {
 	if (isShooting) {
 	    shooterTimer.reset();
 	    shooterTimer.start();
 	    if (shooterTimer.get() > 0.5) {
 		isShooting = false;
 		shooterTimer.stop();
+		shooshoo = true;
 	    }
 	}
 	if (!loadCompleted) {
-	    if (shooterLimit.get()) {
+	    if (proxSwitch.get()) {
 		solenoidDisable();
 		set(Constants.SHOOTER_LOAD_POWER);
 	    } else {
@@ -96,34 +100,18 @@ public class Shooter {
 	solenoidEnable();
 	set(0);
 	Ingestor.stop();
-	
-	/*
-        if (shooshoo) {
-            shooterTimer.start();
-            solenoidEnable();
-            set(0);
-            shooshoo = false;
-        }
-        
-        //Ingestor.stop();
-        
-        if (shooterTimer.get() > Constants.SHOOTER_SHOOT_DELAY_TIME) {
-            Ingestor.setSpeed(Constants.INGESTOR_SHOOT_EXGEST_SPEED);
-        } else if (shooterTimer.get() > Constants.SHOOTER_SHOOT_STOP_TIME) {
-            shooterTimer.stop();     
-        }*/
+	loadCompleted = false;
+	isShooting = true;
     }
     
     public static void shooShoot() {
 	if (shooshoo) {
 	    Shooter.load();
-	        if (!shooterLimit.get()) {
+	        if (!proxSwitch.get()) {
 	            shooshoo = false;
 	        }
 	} else {
-            isShooting = true;
 	    shoot();
-	    loadCompleted = false;
 	}
     }
     
@@ -157,7 +145,8 @@ public class Shooter {
     }
     
     public static boolean getLimit() {
-        return shooterLimit.get();
+	return proxSwitch.get();
+        //return shooterLimit.get();
     }
     
     /*

@@ -144,12 +144,6 @@ public class DriveTrain {
 	return true;
     }
     
-    /**
-     * turn in a station for a certain angle
-     * positive = clockwise, negative = counterclockwise
-     * @param power
-     * @param angle 
-     */
     public static void turn(double power, double angle) {
         if (!newGyroReadingTurn) {
             initGyro = gyro.getAngle();
@@ -157,17 +151,22 @@ public class DriveTrain {
         }
         
         if (angle >= 0) {
-            if ((gyro.getAngle() - initGyro) < angle) {
-                drive(power, -power);
-            } else {
-                stop();
-            }
+            drive(power, -power);
         } else {
-            if ((gyro.getAngle() - initGyro) > angle) {
-                drive(-power, power);
-            } else {
-                stop();
-            }
+            drive(-power, power);
+        }
+    }
+    
+    public static boolean isTurning(double angle) {
+        if (!newGyroReadingTurn) {
+            initGyro = gyro.getAngle();
+            newGyroReadingTurn = true;
+        }
+        
+        if (angle >= 0) {
+            return (gyro.getAngle() - initGyro) < angle;
+        } else {
+            return (gyro.getAngle() - initGyro) > angle;
         }
     }
     
@@ -217,6 +216,23 @@ public class DriveTrain {
     
     public static double getEncoderAverage() {
         return (getRightEncoder() + getLeftEncoder()) / 2;
+    }
+    
+    public static void stopEncoders() {
+	rightEncoder.stop();
+	leftEncoder.stop();
+    }
+    
+    public static void startEncoders() {
+	rightEncoder.start();
+	leftEncoder.start();
+    }
+    
+    public static void restartEncoders() {
+	encoderInit = false;
+	stopEncoders();
+	resetEncoders();
+	startEncoders();
     }
 
     /**

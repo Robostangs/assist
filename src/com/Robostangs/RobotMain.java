@@ -31,7 +31,8 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void autonomousPeriodic() {
-	Autonomous.twoBallz();
+	Autonomous.oneBallAutonomous();
+	//Autonomous.twoBallAutonomous();
 	//Autonomous.twoHotChicks();
     }
 
@@ -48,7 +49,8 @@ public class RobotMain extends IterativeRobot {
 	if (xboxDriver.bButton()) {
             DriveTrain.maintainPosition();
 	} else {
-	    CheesyDrive.drive(xboxDriver.rightStickYAxis(), xboxDriver.leftStickXAxis());
+	    //CheesyDrive.drive(xboxDriver.rightStickYAxis(), xboxDriver.leftStickXAxis());
+	    DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
             DriveTrain.resetBooleans();
 	}
         
@@ -65,7 +67,7 @@ public class RobotMain extends IterativeRobot {
 	} else if (xboxManip.aButton()) {
             Arm.setPIDIngest();
 	} else if (xboxManip.bButton()) {
-            Arm.setPIDShoot();
+            Arm.setPIDShot();
         } else if (xboxManip.xButton()) {
             Arm.setPIDHumanLoad();
         } else if (xboxManip.yButton()) {
@@ -73,7 +75,7 @@ public class RobotMain extends IterativeRobot {
 	} else if (xboxManip.startButton()) {
             Arm.setPIDLongShot();
         } else if (!Arm.isArmInShootAngle() && Arm.isLow) {
-            Arm.setPIDShoot();
+            Arm.setPIDShot();
         } else {
 	    Arm.stop();
 	}
@@ -83,11 +85,11 @@ public class RobotMain extends IterativeRobot {
         } else if (xboxManip.rBumper()) {
             Shooter.shooShoot();
 	} else if (xboxDriver.rBumper()) {
-	    Shooter.shooShoot();
-	} else if (xboxDriver.startButton()) {
 	    Shooter.shoot();
+	} else if (xboxDriver.startButton()) {
+	    Shooter.shooShoot();
 	} else {
-	    Shooter.manualLoad();
+	    Shooter.autoLoad();
         }
         
         if (xboxManip.triggerAxis() > 0.2) {
@@ -151,6 +153,7 @@ public class RobotMain extends IterativeRobot {
 	SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
 	SmartDashboard.putNumber("Right Encoder", DriveTrain.getRightEncoder());
 	SmartDashboard.putNumber("Encoder Average", DriveTrain.getEncoderAverage());
+	SmartDashboard.putBoolean("Proximity Sensor", Shooter.getLimit());
 	//SmartDashboard.putNumber("Shooter Encoder", Shooter.getEncoderDistance());
         //SmartDashboard.putBoolean("Shooter Limit Switch", Shooter.getLimit());
         //SmartDashboard.putNumber("Shooter Timer", Constants.SHOOTER_SHOOT_DELAY_TIME);
@@ -171,6 +174,5 @@ public class RobotMain extends IterativeRobot {
     public void testPeriodic() {
 	    LiveWindow.run();
 	    SmartDashboard.putNumber("Pot", Arm.getArmAngle());
-    }
-    
+    }   
 }

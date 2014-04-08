@@ -10,6 +10,7 @@ public class Constants {
 
     public static final double ARM_SLOW_SPEED = 0.5;
     public static final double ARM_FAST_SPEED = 0.75;
+    public static final int ARM_POT_DIFF = 0;
     public static final int ARM_MIN_ANGLE = 120; //420
     public static final int ARM_MAX_ANGLE  = 520; //820;
     public static final int ARM_ANGLE_THRESHOLD = 20;
@@ -59,15 +60,15 @@ public class Constants {
     //1 Ball
     public static final double AUTON_DRIVE_DISTANCE = 2500;
     public static final double AUTON_DRIVE_POWER = 0.4;
-    
-    //2 Balls
+    public static final int AUTON_ONE_BALL_ANGLE = 398 + ARM_POT_DIFF;
+    //2 Ballz
     public static final double AUTON_2B_DRIVE_POWER = 0.8;
-    public static final double AUTON_DRIVE_FIRST_FORWARD_DISTANCE = 3500.0;
-    public static final double AUTON_TURN_ANGLE = 120;
-    public static final double AUTON_DRIVE_SECOND_FORWARD_DISTANCE = 2000.0;
-    public static final double AUTON_DRIVE_BACK_DISTANCE = -2000.0;
-    
-    
+    public static final int AUTON_2B_FIRST_SHOT_ANGLE = 397 + ARM_POT_DIFF;
+    public static final double AUTON_2B_DRIVE_FIRST_FORWARD_DISTANCE = 3500.0;
+    public static final double AUTON_2B_TURN_ANGLE = 120;
+    public static final double AUTON_2B_DRIVE_SECOND_FORWARD_DISTANCE = 2000.0;
+    public static final double AUTON_2B_DRIVE_BACK_DISTANCE = -2000.0;
+    public static final double AUTON_2B_TURN_BACK_ANGLE = -120;    
     
     //CANJaguars
     public static final double JAG_FAULT_TIME = 5.0;
@@ -119,7 +120,9 @@ public class Constants {
     public static final int SHOOTER_LIMIT_POS = 13;
     public static final int SHOOTER_CYCLINDER_IN_POS = 3;
     public static final int SHOOTER_CYCLINDER_OUT_POS = 4;
-
+    public static final int SHOOTER_PROX_SWITCH_POS = 2;
+    public static final int SHOOTER_PROX_POWER_POS = 5;
+    
     public static final double SHOOTER_LOAD_POWER = 1.0;
     public static final double SHOOTER_SHOOT_DELAY_TIME = 0.5;
     public static final double SHOOTER_SHOOT_STOP_TIME = 1.0;    

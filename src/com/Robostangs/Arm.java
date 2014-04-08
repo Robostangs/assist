@@ -92,7 +92,7 @@ public class Arm {
     /**
      * DON'T TOUCH THIS
      */
-    public static void setPIDShoot() {
+    public static void setPIDShot() {
 	pid.setSetpoint(Constants.ARM_SHOOT_ANGLE);
 	pidDiff = pid.getError();
 	
@@ -162,6 +162,23 @@ public class Arm {
         pid.enable();
         
         isLow= false;
+    }
+    
+    public static void setPIDCustomShot(int angle) {
+	pid.setSetpoint(angle);
+	pidDiff = pid.getError();
+	
+	if (pidDiff < Constants.ARM_SHOOT_UPPER_BOUNDARY || pidDiff > Constants.ARM_SHOOT_LOWER_BOUNDARY) {
+            setPIDCoarse();
+        } else {
+	    if (currentPID != 2) {
+		pid.reset();
+		pid.setPID(Constants.ARM_SHOOT_FINE_P, Constants.ARM_SHOOT_FINE_I, Constants.ARM_SHOOT_FINE_D);
+		currentPID = 2;
+	    }
+	}
+	pid.setSetpoint(angle);
+	pid.enable();
     }
         
     public static boolean isInPosition(int setpoint) {
