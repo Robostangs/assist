@@ -10,7 +10,7 @@ public class Autonomous {
     private static Timer timer;
     private static boolean hot = true, done = false;
     
-    Autonomous() {
+    private Autonomous() {
         timer = new Timer();
     }
     
