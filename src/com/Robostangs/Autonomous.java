@@ -36,22 +36,11 @@ public class Autonomous {
 	        Arm.setPIDCustomShot(Constants.AUTON_ONE_BALL_ANGLE);
 	        DriveTrain.stop();
 	    }
-	    if (hot) {
-		while (timer.get() < 5.0) {
-		    if (Shooter.loadCompleted) {
-			Shooter.shooShoot();
-		    }
+            while (timer.get() < 5.0) {
+                if (Shooter.loadCompleted) {
+                    Shooter.shooShoot();
 		}
-	    } else {
-		while (timer.get() < 6.0) {
-		    DriveTrain.stop();
-		}
-		while (timer.get() < 7.0) {
-		    if (Shooter.loadCompleted) {
-			Shooter.shooShoot();
-		    }
-		}
-	    }
+            }
 	    
 	    Arm.stop();
 	    timer.stop();
@@ -65,10 +54,12 @@ public class Autonomous {
 	timer.start();
         while ( timer.get() < 1.0 );    // wait to check hot goal, it doesn't light up right away
 	if ( Camera.hot() ) {
-		oneBallAutonomous();
+            Camera.saveImage();
+            oneBallAutonomous();
 	} else {
-		while ( timer.get() < 5.0 );
-		oneBallAutonomous();
+            Camera.saveImage();
+            while ( timer.get() < 5.0 );
+            oneBallAutonomous();
 	}
     }
 
