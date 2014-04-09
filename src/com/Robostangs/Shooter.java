@@ -17,7 +17,7 @@ public class Shooter {
     private static Solenoid shooterSolenoidOn, shooterSolenoidOff, proxPower;
     private static DigitalInput shooterLimit, proxSwitch;
     private static Timer shooterTimer;
-    public static boolean shooshoo, loadCompleted = false, isShooting = false;
+    public static boolean shooshoo = true, loadCompleted = false, isShooting = false, encoderInit = false;
     
     private Shooter() {
         try {
@@ -89,6 +89,27 @@ public class Shooter {
         }
     }
 
+    //PROTOTYPE - DON'T USE THIS
+    public static void loadEncoder() {
+        if (getCurrent() < 0.1) {
+            set(0.2);
+        } else {
+            if (!encoderInit) {
+                shooterEncoder.reset();
+                encoderInit = true;
+            }
+            if (!loadCompleted) {
+                if (shooterEncoder.getRaw() < 500) {
+                    set(Constants.SHOOTER_LOAD_POWER);
+                } else if (shooterEncoder.getRaw() < 700) {
+                    set(0.75);
+                } else {
+                    set(0);
+                }
+            }
+        }
+    }
+    
     public static void shoot() {
 	solenoidEnable();
 	set(0);
@@ -147,6 +168,14 @@ public class Shooter {
     public static boolean getLimit() {
 	return proxSwitch.get();
         //return shooterLimit.get();
+    }
+    
+    public static double getCurrent() {
+        try {
+            return shooterJag.getOutputCurrent();
+        } catch (CANTimeoutException ex) {
+            return -1;
+        }
     }
     
     /*
