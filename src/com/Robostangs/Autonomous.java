@@ -10,7 +10,7 @@ public class Autonomous {
     private static Timer timer;
     private static boolean hot = true, done = false;
     
-    Autonomous() {
+    private Autonomous() {
         timer = new Timer();
     }
     
@@ -42,10 +42,10 @@ public class Autonomous {
 		    }
 		}
 	    } else {
-		while (timer.get() < 5.0) {
+		while (timer.get() < 6.0) {
 		    DriveTrain.stop();
 		}
-		while (timer.get() < 8.0) {
+		while (timer.get() < 7.0) {
 		    if (Shooter.loadCompleted) {
 			Shooter.shooShoot();
 		    }

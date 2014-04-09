@@ -70,6 +70,10 @@ public class Constants {
     //CANJaguars
     public static final double JAG_FAULT_TIME = 1.0;
     
+    //CheesyDrive
+    public static double CD_HIGH_SENSITIVITY = 0.60;
+    public static double CD_LOW_SENSITIVITY = 0.55;
+    
     //DriveTrain
     public static final int DT_LEFT_JAG_1_POS = 2;
     public static final int DT_LEFT_JAG_2_POS = 3;
@@ -122,8 +126,5 @@ public class Constants {
     
     public static final double SHOOTER_LOAD_POWER = 1.0;
     public static final double SHOOTER_SHOOT_DELAY_TIME = 0.5;
-    public static final double SHOOTER_SHOOT_STOP_TIME = 1.0;    
-
-    public static double CD_HIGH_SENSITIVITY = 0.60;
-    public static double CD_LOW_SENSITIVITY = 0.55;
+    public static final double SHOOTER_SHOOT_STOP_TIME = 1.0;
 }
