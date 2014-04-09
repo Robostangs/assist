@@ -12,6 +12,7 @@ public class Autonomous {
     
     private Autonomous() {
         timer = new Timer();
+        Camera.getInstance();
     }
     
     public static Autonomous getInstance() {
@@ -58,6 +59,19 @@ public class Autonomous {
         }
         Shooter.autoLoad();
     }
+    
+    public static void oneBallHot() {
+	timer.reset();
+	timer.start();
+        while ( timer.get() < 1.0 );    // wait to check hot goal, it doesn't light up right away
+	if ( Camera.hot() ) {
+		oneBallAutonomous();
+	} else {
+		while ( timer.get() < 5.0 );
+		oneBallAutonomous();
+	}
+    }
+
     
     public static void twoBallAutonomous() {
         if (!done) {
