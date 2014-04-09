@@ -117,7 +117,9 @@ public class Constants {
     public static final int SHOOTER_LIMIT_POS = 8;
     public static final int SHOOTER_CYCLINDER_IN_POS = 3;
     public static final int SHOOTER_CYCLINDER_OUT_POS = 4;
-
+    public static final int SHOOTER_PROX_SWITCH_POS = 1;
+    public static final int SHOOTER_PROX_POWER_POS = 1;
+    
     public static final double SHOOTER_LOAD_POWER = 1.0;
     public static final double SHOOTER_SHOOT_DELAY_TIME = 0.5;
     public static final double SHOOTER_SHOOT_STOP_TIME = 1.0;    

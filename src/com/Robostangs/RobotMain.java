@@ -1,4 +1,4 @@
-//LIVOOOOOOOOOOONIA
+//STATE CHAMP
 
 package com.Robostangs;
 
@@ -73,9 +73,9 @@ public class RobotMain extends IterativeRobot {
         } else if (xboxManip.xButton()) {
             Arm.setPIDHumanLoad();
         } else if (xboxManip.yButton()) {
-            Arm.setPIDCustomShot(488);
+            Arm.setPIDCustomShot(510 + Constants.ARM_POT_DIFF);
         } else if (xboxManip.startButton()) {
-            Arm.setPIDCustomShot(463);
+            Arm.setPIDCustomShot(485 + Constants.ARM_POT_DIFF);
         } else if (xboxManip.backButton()) {
             Arm.setPIDHalfwayShot();
         } else if (!Arm.isArmInShootAngle() && Arm.isLow) {
@@ -89,11 +89,11 @@ public class RobotMain extends IterativeRobot {
         } else if (xboxManip.rBumper()) {
             Shooter.shooShoot();
         } else if (xboxDriver.rBumper()) {
-            Shooter.shooShoot();
-        } else if (xboxDriver.startButton()) {
             Shooter.shoot();
+        } else if (xboxDriver.startButton()) {
+            Shooter.shooShoot();
         } else {
-            Shooter.manualLoad();
+            Shooter.autoLoad();
         }
 
         if (xboxManip.triggerAxis() > 0.2) {
@@ -111,7 +111,7 @@ public class RobotMain extends IterativeRobot {
 
         Log.write("Teleoperated," + ArmMotors.getBatteryVoltage() + "," + DriveMotors.getTotalJagCurrent() + "," + Arm.pid.isEnable() + "," + Arm.pid.getSetpoint() + "," + Arm.getArmAngle() + "," + Shooter.isShooting);
         SmartDashboard.putNumber("Pot", Arm.getArmAngle());
-        SmartDashboard.putBoolean("Shooter Limit Switch", Shooter.getLimit());
+        SmartDashboard.putBoolean("Shooter Prox Sensor", Shooter.getLimit());
         //SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
         //SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
         //SmartDashboard.putNumber("Right Encoder", DriveTrain.getRightEncoder());

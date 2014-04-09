@@ -56,7 +56,7 @@ public class Autonomous {
 	    timer.stop();
 	    done = true;
         }
-        Shooter.manualLoad();
+        Shooter.autoLoad();
     }
     
     public static void twoBallAutonomous() {
@@ -66,7 +66,7 @@ public class Autonomous {
 	    
 	    Shifting.LowGear();
             Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
-     	    Shooter.manualLoad();
+     	    Shooter.autoLoad();
 	    DriveTrain.resetBooleans();
 	    
 	    while (timer.get() < 1.0 && !DriveTrain.driveDistance(Constants.AUTON_2B_DRIVE_FIRST_FORWARD_DISTANCE)) {
@@ -90,7 +90,7 @@ public class Autonomous {
 		if (!Arm.isInPosition(Constants.ARM_INGEST_ANGLE)) {
 		    Arm.setPIDIngest();
 		}
-                Shooter.manualLoad();
+                Shooter.autoLoad();
 		DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, Constants.AUTON_2B_TURN_ANGLE);
 		Ingestor.stop();
 	    }
@@ -99,7 +99,7 @@ public class Autonomous {
 		if (!Arm.isInPosition(Constants.ARM_INGEST_ANGLE)) {
 		    Arm.setPIDIngest();
 		}
-		Shooter.manualLoad();
+		Shooter.autoLoad();
 		Ingestor.ingest();
                 
 		//DriveTrain.driveStraightEncoder(Constants.AUTON_2B_DRIVE_POWER);
@@ -136,7 +136,7 @@ public class Autonomous {
 	    done = true;
         }
 	Shifting.HighGear();
-        //Shooter.manualLoad();        
+        //Shooter.autoLoad();        
     }
     
     public static void reset() {

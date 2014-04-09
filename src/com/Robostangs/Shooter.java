@@ -14,8 +14,8 @@ public class Shooter {
     private static CANJaguar shooterJag;
     private static Shooter instance = null;
     private static Encoder shooterEncoder;
-    private static Solenoid shooterSolenoidOn, shooterSolenoidOff;
-    private static DigitalInput shooterLimit;
+    private static Solenoid shooterSolenoidOn, shooterSolenoidOff, proxPower;
+    private static DigitalInput shooterLimit, proxSwitch;
     private static Timer shooterTimer;
     public static boolean shooshoo, loadCompleted = false, isShooting = false;
     
@@ -31,10 +31,13 @@ public class Shooter {
         shooterLimit = new DigitalInput(Constants.SHOOTER_LIMIT_POS);
         shooterSolenoidOn = new Solenoid(Constants.SHOOTER_CYCLINDER_IN_POS);
         shooterSolenoidOff = new Solenoid(Constants.SHOOTER_CYCLINDER_OUT_POS);
+	proxSwitch = new DigitalInput(Constants.SHOOTER_PROX_SWITCH_POS);
+	proxPower = new Solenoid(Constants.SHOOTER_PROX_POWER_POS);
         shooterTimer = new Timer();
         
 	solenoidDisable();
 	
+	proxPower.set(true);
 	shooterEncoder.reset();
 	shooterEncoder.start();
         shooshoo = false;
@@ -63,17 +66,18 @@ public class Shooter {
         }
     }
     
-    public static void manualLoad() {
+    public static void autoLoad() {
 	if (isShooting) {
 	    shooterTimer.start();
 	    if (shooterTimer.get() > 0.5) {
 		isShooting = false;
 		shooterTimer.stop();
                 shooterTimer.reset();
+		shooshoo = true;
 	    }
 	}
 	if (!loadCompleted) {
-	    if (shooterLimit.get()) {
+	    if (proxSwitch.get()) {
 		solenoidDisable();
 		set(Constants.SHOOTER_LOAD_POWER);
 	    } else {
@@ -87,6 +91,8 @@ public class Shooter {
 	solenoidEnable();
 	set(0);
 	Ingestor.stop();
+	loadCompleted = false;
+	isShooting = true;
 	
 	/*
         if (shooshoo) {
@@ -108,13 +114,11 @@ public class Shooter {
     public static void shooShoot() {
 	if (shooshoo) {
 	    Shooter.load();
-	        if (!shooterLimit.get()) {
+	        if (!proxSwitch.get()) {
 	            shooshoo = false;
 	        }
 	} else {
-            isShooting = true;
 	    shoot();
-	    loadCompleted = false;
 	}
     }
     
@@ -144,7 +148,8 @@ public class Shooter {
     }
     
     public static boolean getLimit() {
-        return shooterLimit.get();
+	return proxSwitch.get();
+        //return shooterLimit.get();
     }
     
     /*
