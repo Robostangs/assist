@@ -11,7 +11,7 @@ public class Constants {
     public static final double ARM_SLOW_SPEED = 0.5;
     public static final double ARM_FAST_SPEED = 0.75;
     public static final double ARM_PID_ABS_TOLERANCE = 0.0;
-    public static final int ARM_POT_DIFF = -22 ;
+    public static final int ARM_POT_DIFF = -20 ;
     public static final int ARM_MIN_ANGLE = 250 + ARM_POT_DIFF; //250
     public static final int ARM_MAX_ANGLE  = 690 + ARM_POT_DIFF; //690
     public static final int ARM_ANGLE_THRESHOLD = 20;
@@ -66,6 +66,8 @@ public class Constants {
     public static final double AUTON_2B_DRIVE_SECOND_FORWARD_DISTANCE = 1900;
     public static final double AUTON_2B_DRIVE_BACK_DISTANCE = -2100;
     public static final double AUTON_2B_TURN_BACK_ANGLE = -120;
+    //CheesyVision
+    public static final int CHEESY_VISION_SERVER_PORT = 1180;
     
     //CANJaguars
     public static final double JAG_FAULT_TIME = 1.0;
@@ -121,8 +123,8 @@ public class Constants {
     public static final int SHOOTER_LIMIT_POS = 8;
     public static final int SHOOTER_CYCLINDER_IN_POS = 3;
     public static final int SHOOTER_CYCLINDER_OUT_POS = 4;
-    public static final int SHOOTER_PROX_SWITCH_POS = 1;
-    public static final int SHOOTER_PROX_POWER_POS = 1;
+    public static final int SHOOTER_PROX_SWITCH_POS = 13;
+    public static final int SHOOTER_PROX_POWER_POS = 5;
     
     public static final double SHOOTER_LOAD_POWER = 1.0;
     public static final double SHOOTER_SHOOT_DELAY_TIME = 0.5;

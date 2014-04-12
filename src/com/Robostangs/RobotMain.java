@@ -12,10 +12,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotMain extends IterativeRobot {
     private static XBoxController xboxDriver;
     private static XBoxController xboxManip;
+    public static CheesyVisionServer vision = CheesyVisionServer.getInstance();
     
     public void robotInit() {
         xboxDriver = new XBoxController(Constants.XBOX_DRIVER_POS);
 	xboxManip = new XBoxController(Constants.XBOX_MANIP_POS);
+        
         Arm.getInstance();
 	Autonomous.getInstance();
 	CheesyDrive.getInstance();
@@ -24,27 +26,39 @@ public class RobotMain extends IterativeRobot {
 	Pneumatics.getInstance();
 	Shifting.getInstance();
 	Shooter.getInstance();
-        Log.getInstance();
+        //Log.getInstance();
+        vision.setPort(Constants.CHEESY_VISION_SERVER_PORT);
+        vision.start();
         
 	LiveWindow.addActuator("Arm", "Motor", ArmMotors.armJag);
 	LiveWindow.addSensor("Arm", "Pot", Arm.apot);
 	LiveWindow.addSensor("Arm", "PID", Arm.pid);
     }
 
+    public void autonomousInit() {
+        vision.reset();
+        vision.startSamplingCounts();
+    }
+    
+    public void disabledInit() {
+        vision.stopSamplingCounts();
+        Autonomous.reset();
+    }
+    
     public void autonomousPeriodic() {
+        Autonomous.setHot(vision.getLeftStatus());
 	Autonomous.oneBallAutonomous();
+        //Autonomous.setHot(vision.getRightStatus());
 	//Autonomous.twoBallAutonomous();
         //Autonomous.threeBallAutonomous();
         
-        Log.write("Autonomous," + ArmMotors.getBatteryVoltage() + "," + ArmMotors.getJagCurrent() + "," + DriveMotors.getTotalJagCurrent() + "," + Arm.pid.isEnable() + "," + Arm.pid.getSetpoint() + "," + Arm.getArmAngle() + "," + Shooter.isShooting);
-    }
-    
-    public void disabledPeriodic() {
-        Autonomous.reset();
+        //Log.write("Autonomous," + ArmMotors.getBatteryVoltage() + "," + ArmMotors.getJagCurrent() + "," + DriveMotors.getTotalJagCurrent() + "," + Arm.pid.isEnable() + "," + Arm.pid.getSetpoint() + "," + Arm.getArmAngle() + "," + Shooter.isShooting);
     }
     
     public void teleopInit() {
         Pneumatics.startTimer();
+        //vision.reset();
+        //vision.startSamplingCounts();
     }
     
     public void teleopPeriodic() {
@@ -75,9 +89,7 @@ public class RobotMain extends IterativeRobot {
         } else if (xboxManip.yButton()) {
             Arm.setPIDCustomShot(510 + Constants.ARM_POT_DIFF);
         } else if (xboxManip.startButton()) {
-            Arm.setPIDCustomShot(485 + Constants.ARM_POT_DIFF);
-        } else if (xboxManip.backButton()) {
-            Arm.setPIDHalfwayShot();
+            Arm.setPIDCustomShot(554);
         } else if (!Arm.isArmInShootAngle() && Arm.isLow) {
             Arm.setPIDShot();
         } else {
@@ -92,6 +104,8 @@ public class RobotMain extends IterativeRobot {
             Shooter.shoot();
         } else if (xboxDriver.startButton()) {
             Shooter.shooShoot();
+        } else if (xboxManip.backButton()) {
+            Shooter.set(Constants.SHOOTER_LOAD_POWER);
         } else {
             Shooter.autoLoad();
         }
@@ -109,9 +123,10 @@ public class RobotMain extends IterativeRobot {
 
         Pneumatics.checkPressureTimer();
 
-        Log.write("Teleoperated," + ArmMotors.getBatteryVoltage() + "," + DriveMotors.getTotalJagCurrent() + "," + Arm.pid.isEnable() + "," + Arm.pid.getSetpoint() + "," + Arm.getArmAngle() + "," + Shooter.isShooting);
+        //Log.write("Teleoperated," + ArmMotors.getBatteryVoltage() + "," + DriveMotors.getTotalJagCurrent() + "," + Arm.pid.isEnable() + "," + Arm.pid.getSetpoint() + "," + Arm.getArmAngle() + "," + Shooter.isShooting);
         SmartDashboard.putNumber("Pot", Arm.getArmAngle());
         SmartDashboard.putBoolean("Shooter Prox Sensor", Shooter.getLimit());
+        //SmartDashboard.putBoolean("Is Hot", vision.getLeftStatus());
         //SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
         //SmartDashboard.putNumber("Left Encoder", DriveTrain.getLeftEncoder());
         //SmartDashboard.putNumber("Right Encoder", DriveTrain.getRightEncoder());

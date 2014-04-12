@@ -32,16 +32,18 @@ public class Autonomous {
 	        DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
 	    }
 	    while (timer.get() < 4.0) {
-	        Arm.setPIDCustomShot(Constants.AUTON_ONE_BALL_ANGLE);
+	        Arm.setPIDCustomShot(Constants.AUTON_ONE_BALL_ANGLE);            
+                Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
 	        DriveTrain.stop();
 	    }
-	    if (hot) {
-		while (timer.get() < 5.0) {
-		    if (Shooter.loadCompleted) {
-			Shooter.shooShoot();
-		    }
-		}
-	    } else {
+	    while (timer.get() < 9.0) {
+		if (RobotMain.vision.getLeftStatus() && Shooter.loadCompleted) {
+                    Shooter.shoot();
+		} else if (timer.get() > 8.0) {
+                    Shooter.shoot();
+                }
+            }
+	    /* else {
 		while (timer.get() < 6.0) {
 		    DriveTrain.stop();
 		}
@@ -51,7 +53,7 @@ public class Autonomous {
 		    }
 		}
 	    }
-	    
+	    */
 	    Arm.stop();
 	    timer.stop();
 	    done = true;
@@ -90,7 +92,7 @@ public class Autonomous {
 		if (!Arm.isInPosition(Constants.ARM_INGEST_ANGLE)) {
 		    Arm.setPIDIngest();
 		}
-                Shooter.autoLoad();
+                Shooter.loadAutonomous();
 		DriveTrain.turn(Constants.AUTON_2B_DRIVE_POWER, Constants.AUTON_2B_TURN_ANGLE);
 		Ingestor.stop();
 	    }
@@ -99,7 +101,7 @@ public class Autonomous {
 		if (!Arm.isInPosition(Constants.ARM_INGEST_ANGLE)) {
 		    Arm.setPIDIngest();
 		}
-		Shooter.autoLoad();
+		//Shooter.autoLoad();
 		Ingestor.ingest();
                 
 		//DriveTrain.driveStraightEncoder(Constants.AUTON_2B_DRIVE_POWER);
@@ -226,5 +228,9 @@ public class Autonomous {
     public static void reset() {
 	DriveTrain.resetBooleans();
         done = false;
+    }
+    
+    public static void setHot(boolean isHot) {
+        hot = isHot;
     }
 }

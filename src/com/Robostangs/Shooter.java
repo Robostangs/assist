@@ -68,18 +68,39 @@ public class Shooter {
     
     public static void autoLoad() {
 	if (isShooting) {
-	    shooterTimer.start();
 	    if (shooterTimer.get() > 0.5) {
-                shooterTimer.reset();
-		shooterTimer.stop();
 		shooshoo = true;
 		isShooting = false;
+		shooterTimer.stop();
+                shooterTimer.reset();
 	    }
 	} else {
             if (!loadCompleted) {
                 if (proxSwitch.get()) {
                     solenoidDisable();
                     set(Constants.SHOOTER_LOAD_POWER);
+                } else {
+                    set(0);
+                    loadCompleted = true;
+                    shooshoo = false;
+                }
+            }
+        }
+    }
+    
+    public static void loadAutonomous() {
+	if (isShooting) {
+	    if (shooterTimer.get() > 0.5) {
+		shooshoo = true;
+		isShooting = false;
+		shooterTimer.stop();
+                shooterTimer.reset();
+	    }
+	} else {
+            if (!loadCompleted) {
+                if (proxSwitch.get()) {
+                    solenoidDisable();
+                    set(0.75);
                 } else {
                     set(0);
                     loadCompleted = true;
@@ -116,6 +137,7 @@ public class Shooter {
 	Ingestor.stop();
 	loadCompleted = false;
 	isShooting = true;
+        shooterTimer.start();
 	
 	/*
         if (shooshoo) {
