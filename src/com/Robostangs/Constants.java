@@ -95,6 +95,7 @@ public class Constants {
     public static double DT_ENCODER_SLOW_MOD = 0.98;
     public static double DT_DELTA_OFFSET = 0.0;
     public static double DT_PUSH_POWER = 0.8;
+    public static double DT_LOW_GEAR_REDUCTION = 0.6;
     
     //Ingestor
     public static final int INGESTOR_LEFT_JAG = 7;

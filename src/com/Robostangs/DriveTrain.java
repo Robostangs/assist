@@ -39,6 +39,10 @@ public class DriveTrain {
     }
     
     public static void drive (double leftPower, double rightPower) {
+        if(!Shifting.high) {
+            leftPower *= Constants.DT_LOW_GEAR_REDUCTION;
+            rightPower *= Constants.DT_LOW_GEAR_REDUCTION;
+        }
         DriveMotors.set(leftPower, leftPower, rightPower, rightPower);
     }
     
