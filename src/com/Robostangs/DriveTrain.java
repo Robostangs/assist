@@ -2,6 +2,7 @@ package com.Robostangs;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * @author Laptop
@@ -10,11 +11,13 @@ public class DriveTrain {
     private static DriveTrain instance = null;
     private static Encoder leftEncoder, rightEncoder;
     private static Gyro gyro;
+    private static Timer autoShift;
     private static boolean newGyroReadingDriveStraight = false;
     private static boolean newGyroReadingTurn = false;
     private static double initGyro, currentDistance = 0.0;
     public static double delta = 1.0;
     public static boolean encoderInit = false;
+    public static boolean intermediate = false;
     
     private DriveTrain() {
         DriveMotors.getInstance();
@@ -29,6 +32,8 @@ public class DriveTrain {
 	rightEncoder.reset();
         leftEncoder.start();
         rightEncoder.start();
+	//autoShift.reset();
+	//autoShift.start();
     }
     
     public static DriveTrain getInstance() {
@@ -39,11 +44,34 @@ public class DriveTrain {
     }
     
     public static void drive (double leftPower, double rightPower) {
-        if(!Shifting.high) {
+        if(!Shifting.high && DriveMotors.getTotalJagCurrent() > Constants.DT_CURRENT_THRESHOLD) {
             leftPower *= Constants.DT_LOW_GEAR_REDUCTION;
             rightPower *= Constants.DT_LOW_GEAR_REDUCTION;
         }
         DriveMotors.set(leftPower, leftPower, rightPower, rightPower);
+    }
+    
+    public static void autoDrive (double leftPower, double rightPower) {
+	if(Math.abs(leftEncoder.getRate() + rightEncoder.getRate() / 2) > Constants.DT_AUTO_SHIFT_THRESHOLD) {
+	    if(!intermediate) {
+		Shifting.neutral();
+		intermediate = true;
+	    }
+	    /*&& (autoShift.get() > Constants.DT_AUTO_SHIFT_TIME)) {
+            autoShift.reset();
+	    autoShift.start();*/
+	    Shifting.highGear();
+	} else { 
+	    if(intermediate) {
+                 Shifting.neutral();
+		 intermediate = false;
+	    }
+            /*if (autoShift.get() > Constants.DT_AUTO_SHIFT_TIME) {
+	    autoShift.reset();
+	    autoShift.start();*/
+	    Shifting.lowGear();
+	}
+	drive(leftPower, rightPower);
     }
     
     public static void humanDrive(double leftPower, double rightPower) {
@@ -157,7 +185,7 @@ public class DriveTrain {
             encoderInit = true;
         }
         
-        Shifting.LowGear();
+        Shifting.lowGear();
         
         if (getEncoderAverage() < -100) {
             drive(Constants.DT_PUSH_POWER, Constants.DT_PUSH_POWER);

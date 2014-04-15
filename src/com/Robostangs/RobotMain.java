@@ -71,9 +71,9 @@ public class RobotMain extends IterativeRobot {
         }
 
         if (xboxDriver.lBumper()) {
-            Shifting.LowGear();
+            Shifting.lowGear();
         } else if (!xboxDriver.bButton()) {
-            Shifting.HighGear();
+            Shifting.highGear();
         }
 
         if (Math.abs(xboxManip.rightStickYAxis()) > 0.2) {

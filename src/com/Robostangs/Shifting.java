@@ -22,15 +22,19 @@ public class Shifting {
         return instance;
     }
     
-    public static void HighGear() {
+    public static void highGear() {
         highGear.set(true);
         lowGear.set(false);
 	high = true;
     }
     
-    public static void LowGear() {
+    public static void lowGear() {
         highGear.set(false);
         lowGear.set(true);
     	high = false;
+    }
+    
+    public static void neutral() {
+	    
     }
 }

@@ -66,7 +66,7 @@ public class Autonomous {
 	    timer.reset();
             timer.start();
 	    
-	    Shifting.LowGear();
+	    Shifting.lowGear();
             Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
      	    Shooter.autoLoad();
 	    DriveTrain.resetBooleans();
@@ -137,7 +137,7 @@ public class Autonomous {
 	    timer.stop();
 	    done = true;
         }
-	Shifting.HighGear();
+	Shifting.highGear();
         //Shooter.autoLoad();        
     }
     
@@ -147,7 +147,7 @@ public class Autonomous {
 	    timer.reset();
             timer.start();
 	    
-	    Shifting.LowGear();
+	    Shifting.lowGear();
             Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
      	    Shooter.autoLoad();
 	    DriveTrain.resetBooleans();
@@ -221,7 +221,7 @@ public class Autonomous {
 	    timer.stop();
 	    done = true;
         }
-	Shifting.HighGear();
+	Shifting.highGear();
         Shooter.autoLoad(); 
     }
     
