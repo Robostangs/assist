@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.Gyro;
  */
 public class DriveTrain {
     private static DriveTrain instance = null;
-    private static Encoder leftEncoder, rightEncoder;
+    public static Encoder leftEncoder, rightEncoder;
     private static Gyro gyro;
     private static double initGyro;
     public static double delta = 1.0, currentDistance = 0;
@@ -23,8 +23,8 @@ public class DriveTrain {
 	leftEncoder = new Encoder(Constants.DT_LEFT_ENCODER_1, Constants.DT_LEFT_ENCODER_2);
         rightEncoder = new Encoder(Constants.DT_RIGHT_ENCODER_1, Constants.DT_RIGHT_ENCODER_2);
         
-        leftEncoder.setDistancePerPulse(Constants.DT_LEFT_ENCODER_DPP);
-        rightEncoder.setDistancePerPulse(Constants.DT_RIGHT_ENCODER_DPP);
+        //leftEncoder.setDistancePerPulse(Constants.DT_LEFT_ENCODER_DPP);
+        //rightEncoder.setDistancePerPulse(Constants.DT_RIGHT_ENCODER_DPP);
         leftEncoder.reset();
 	rightEncoder.reset();
         leftEncoder.start();
@@ -188,6 +188,49 @@ public class DriveTrain {
         } else {
             stop();
         }
+    }
+    
+    public static double left, right;
+    public static boolean startLimit;
+    public static void driveLimitLowGear(double leftPower, double rightPower) {
+	if (startLimit) {
+	    left = leftPower;
+	    right = rightPower;
+	    startLimit = false;
+	}
+	
+	if (leftPower > 0.0 && rightPower > 0.0) {
+	    if (DriveMotors.getLeftJag1Current() > 20 || DriveMotors.getLeftJag2Current() > 20
+		    || DriveMotors.getRightJag1Current() > 24 || DriveMotors.getRightJag2Current() > 24) {
+	        humanDrive(leftPower * 0.5, rightPower * 0.5);
+	    } else {
+		left = (left + leftPower) / 2;
+		right = (right + rightPower) / 2;
+		humanDrive(left, right);
+	    }
+	} else {
+	    if (DriveMotors.getLeftJag1Current() > 23 || DriveMotors.getLeftJag2Current() > 23
+		    || DriveMotors.getRightJag1Current() > 24 || DriveMotors.getRightJag2Current() > 24) {
+	        humanDrive(leftPower * 0.5, rightPower * 0.5);
+	    } else {
+                left = (left + leftPower) / 2;
+	        right = (right + rightPower) / 2;
+                humanDrive(left, right);
+	    }
+	}
+    }
+    
+    public static void driveLimitHighGear(double leftPower, double rightPower) {
+	if (DriveMotors.getLeftJag1Current() > 45 || DriveMotors.getLeftJag2Current() > 45
+		|| DriveMotors.getRightJag1Current() > 45 || DriveMotors.getRightJag2Current() > 45) {
+	    left = leftPower * 0.6;
+	    right = rightPower * 0.6;
+	    humanDrive(left, right);
+	} else {
+	    //left = (left + leftPower) / 2;
+	    //right = (right + rightPower) / 2;
+	    humanDrive(leftPower, rightPower);
+	}
     }
     
     /**

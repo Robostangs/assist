@@ -3,6 +3,7 @@
 package com.Robostangs;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -24,6 +25,7 @@ public class RobotMain extends IterativeRobot {
 	Pneumatics.getInstance();
 	Shifting.getInstance();
 	Shooter.getInstance();
+	Log.getInstance();
         
 	LiveWindow.addActuator("Arm", "Motor", ArmMotors.armJag);
 	LiveWindow.addSensor("Arm", "Pot", Arm.apot);
@@ -41,22 +43,20 @@ public class RobotMain extends IterativeRobot {
     }
     
     public void teleopPeriodic() {
-
-	if (xboxDriver.aButton()) {
-	    DriveTrain.resetGyro();
-	}
-	
-	if (xboxDriver.bButton()) {
-            DriveTrain.maintainPosition();
-	} else {
-	    //CheesyDrive.drive(xboxDriver.rightStickYAxis(), xboxDriver.leftStickXAxis());
+	if (xboxDriver.lBumper() && xboxDriver.triggerAxis() < 0.4) {
+	    DriveTrain.driveLimitLowGear(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
+	} else if (xboxDriver.triggerAxis() > 0.4) {
 	    DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
-            DriveTrain.resetBooleans();
+	    DriveTrain.startLimit = false;
+        } else {
+	    //CheesyDrive.drive(xboxDriver.rightStickYAxis(), xboxDriver.leftStickXAxis());
+	    DriveTrain.driveLimitHighGear(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
+	    DriveTrain.startLimit = false;
 	}
         
         if (xboxDriver.lBumper()) {
 	    Shifting.LowGear();
-	} else if (!xboxDriver.bButton()) {
+	} else {
 	    Shifting.HighGear();
 	}
         
@@ -104,49 +104,66 @@ public class RobotMain extends IterativeRobot {
         }
 	
         Pneumatics.checkPressure();
-
-        /*
-        if(xboxDriver.startButton()) {
-            Constants.DT_TURN+=1;
-        } else if (xboxDriver.backButton()) {
-            Constants.DT_TURN-=1;
-        } 
-	if(xboxDriver.backButton()) {
-	    DriveTrain.driveStraightEncoder(-0.8);
-	} else {
-	    DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
+		    /*
+		    if(xboxDriver.startButton()) {
+		    Constants.DT_TURN+=1;
+		    } else if (xboxDriver.backButton()) {
+		    Constants.DT_TURN-=1;
+		    }
+		    if(xboxDriver.backButton()) {
+		    DriveTrain.driveStraightEncoder(-0.8);
+		    } else {
+		    DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
+		    }
+		    
+		    //DRIVE STRAIGHT
+		    if(xboxDriver.bButton()) {
+		    Constants.DT_DELTA_OFFSET += 0.1;
+		    } else if (xboxDriver.aButton()) {
+		    Constants.DT_DELTA_OFFSET -= 0.1;
+		    } else if (xboxDriver.yButton()) {
+		    Constants.DT_ENCODER_SLOW_MOD += 0.01;
+		    } else if (xboxDriver.xButton()) {
+		    Constants.DT_ENCODER_SLOW_MOD -= 0.01;
+		    }
+		    
+		    //ARM PID
+		    if (xboxManip.aButton()) {
+		    Constants.ARM_SHOOT_FINE_P+=0.001;
+		    } else if (xboxManip.bButton()) {
+		    Constants.ARM_SHOOT_FINE_P-=0.001;
+		    } else if (xboxManip.xButton()) {
+		    Constants.ARM_SHOOT_FINE_I+=0.0001;
+		    } else if (xboxManip.yButton()) {
+		    Constants.ARM_SHOOT_FINE_I-=0.0001;
+		    } else if (xboxManip.startButton()) {
+		    Constants.ARM_SHOOT_FINE_D+=0.0005;
+		    } else if (xboxManip.backButton()) {
+		    Constants.ARM_SHOOT_FINE_D-=0.0005;
+		    } else if (xboxManip.lBumper()) {
+		    Constants.ARM_SHOOT_LOWER_BOUNDARY+=1;
+		    } else if (xboxManip.rBumper()) {
+		    Constants.ARM_SHOOT_LOWER_BOUNDARY-=1;
+		    }*/
+		    /*
+		    Log.write(xboxDriver.leftStickYAxis() + "," + DriveTrain.leftEncoder.getRaw() + DriveTrain.leftEncoder.getRate() + "," + xboxDriver.rightStickYAxis() + "," + DriveTrain.rightEncoder.getRaw() + "," + DriveTrain.rightEncoder.getRate() + "," + "a");
+		    */
+        try {
+	    Log.write(xboxDriver.leftStickYAxis() + "," + xboxDriver.rightStickYAxis() + ","
+	    + DriveMotors.leftJag1.getOutputCurrent() + ","
+	    + DriveMotors.leftJag2.getOutputCurrent() + ","
+	    + DriveMotors.rightJag1.getOutputCurrent() + ","
+	    + DriveMotors.rightJag2.getOutputCurrent() + ","
+	    + -DriveTrain.leftEncoder.getRaw() + ","
+	    + DriveTrain.rightEncoder.getRaw() + ","		    
+	    + -DriveTrain.leftEncoder.getRate() + ","
+	    + DriveTrain.rightEncoder.getRate() + "," + "a");
+	} catch (CANTimeoutException ex) {
+	    ex.printStackTrace();
 	}
 	
-	//DRIVE STRAIGHT
-	if(xboxDriver.bButton()) {
-	    Constants.DT_DELTA_OFFSET += 0.1;
-	} else if (xboxDriver.aButton()) {
-	    Constants.DT_DELTA_OFFSET -= 0.1;
-        } else if (xboxDriver.yButton()) {
-	    Constants.DT_ENCODER_SLOW_MOD += 0.01;
-	} else if (xboxDriver.xButton()) {
-	    Constants.DT_ENCODER_SLOW_MOD -= 0.01;
-	}
-        
-	//ARM PID
-	if (xboxManip.aButton()) {
-	    Constants.ARM_SHOOT_FINE_P+=0.001;
-	} else if (xboxManip.bButton()) {
-	    Constants.ARM_SHOOT_FINE_P-=0.001;
-	} else if (xboxManip.xButton()) {
-	    Constants.ARM_SHOOT_FINE_I+=0.0001;
-	} else if (xboxManip.yButton()) {
-	    Constants.ARM_SHOOT_FINE_I-=0.0001;
-	} else if (xboxManip.startButton()) {
-	    Constants.ARM_SHOOT_FINE_D+=0.0005;
-	} else if (xboxManip.backButton()) {
-	    Constants.ARM_SHOOT_FINE_D-=0.0005;
-	} else if (xboxManip.lBumper()) {
-	    Constants.ARM_SHOOT_LOWER_BOUNDARY+=1;
-	} else if (xboxManip.rBumper()) {
-	    Constants.ARM_SHOOT_LOWER_BOUNDARY-=1;
-	}*/
-	
+	SmartDashboard.putNumber("RRate", DriveTrain.rightEncoder.getRate());
+	SmartDashboard.putNumber("LRate", DriveTrain.leftEncoder.getRate());
 	SmartDashboard.putBoolean("Current", Ingestor.hasBall());
 	SmartDashboard.putNumber("Gyro", DriveTrain.getGyro());
     	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
