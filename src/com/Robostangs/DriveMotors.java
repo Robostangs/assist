@@ -56,6 +56,43 @@ public class DriveMotors implements PIDOutput{
             ex.printStackTrace();
         }
     }*/
+        public static double getLeftJag1Current() {
+	    try {
+		    return leftJag1.getOutputCurrent();
+	    } catch (CANTimeoutException ex) {
+		    ex.printStackTrace();
+	    }
+
+	    return -1;
+    }
+    
+    public static double getLeftJag2Current() {
+	    try {
+		    return leftJag2.getOutputCurrent();
+	    } catch (CANTimeoutException ex) {
+		    ex.printStackTrace();
+	    }
+
+	    return -1;
+    }
+    public static double getRightJag1Current() {
+	    try {
+		    return rightJag1.getOutputCurrent();
+	    } catch (CANTimeoutException ex) {
+		    ex.printStackTrace();
+	    }
+
+	    return -1;
+    }
+    public static double getRightJag2Current() {
+	    try {
+		    return rightJag2.getOutputCurrent();
+	    } catch (CANTimeoutException ex) {
+		    ex.printStackTrace();
+	    }
+
+	    return -1;
+    }
     
     public void pidWrite(double output) {
         try {

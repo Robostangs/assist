@@ -17,7 +17,7 @@ public class Shooter {
     private static Solenoid shooterSolenoidOn, shooterSolenoidOff, proxPower;
     private static DigitalInput shooterLimit, proxSwitch;
     private static Timer shooterTimer;
-    public static boolean shooshoo = true, loadCompleted = false, isShooting = false, encoderInit = false;
+    public static boolean shooshoo = true, loadCompleted = false, isShooting = false, encoderInit = false, loading = false;
     
     private Shooter() {
         try {
@@ -79,8 +79,10 @@ public class Shooter {
                 if (proxSwitch.get()) {
                     solenoidDisable();
                     set(Constants.SHOOTER_LOAD_POWER);
+                    loading = true;
                 } else {
                     set(0);
+                    loading = false;
                     loadCompleted = true;
                     shooshoo = false;
                 }

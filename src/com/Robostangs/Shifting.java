@@ -33,8 +33,5 @@ public class Shifting {
         lowGear.set(true);
     	high = false;
     }
-    
-    public static void neutral() {
-	    
-    }
+
 }

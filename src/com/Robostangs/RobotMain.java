@@ -26,6 +26,7 @@ public class RobotMain extends IterativeRobot {
 	Pneumatics.getInstance();
 	Shifting.getInstance();
 	Shooter.getInstance();
+        LED.getInstance();
         //Log.getInstance();
         vision.setPort(Constants.CHEESY_VISION_SERVER_PORT);
         vision.start();
@@ -62,67 +63,76 @@ public class RobotMain extends IterativeRobot {
     }
     
     public void teleopPeriodic() {
-        if (xboxDriver.bButton()) {
-            DriveTrain.maintainPosition();
+	if (xboxDriver.lBumper() && xboxDriver.triggerAxis() < 0.4) {
+	    DriveTrain.driveLimitLowGear(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
+	} else if (xboxDriver.triggerAxis() > 0.4) {
+	    DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
+	    DriveTrain.startLimit = false;
         } else {
-            //CheesyDrive.humanDrive(xboxDriver.rightStickYAxis(), xboxDriver.leftStickXAxis());
-            DriveTrain.humanDrive(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
-            DriveTrain.encoderInit = false;
-        }
-
+	    //CheesyDrive.drive(xboxDriver.rightStickYAxis(), xboxDriver.leftStickXAxis());
+	    DriveTrain.driveLimitHighGear(xboxDriver.leftStickYAxis(), xboxDriver.rightStickYAxis());
+	    DriveTrain.startLimit = false;
+	}
+        
         if (xboxDriver.lBumper()) {
-            Shifting.lowGear();
-        } else if (!xboxDriver.bButton()) {
-            Shifting.highGear();
-        }
-
-        if (Math.abs(xboxManip.rightStickYAxis()) > 0.2) {
-            Arm.setArmCoarseAdjustment(xboxManip.rightStickYAxis());
-        } else if (Math.abs(xboxManip.leftStickYAxis()) > 0.2) {
-            Arm.setArmFineAdjustment(xboxManip.leftStickYAxis());
-        } else if (xboxManip.aButton()) {
+	    Shifting.lowGear();
+	} else {
+	    Shifting.highGear();
+	}
+        
+	if (Math.abs(xboxManip.rightStickYAxis()) > 0.2) {
+	    Arm.setArmCoarseAdjustment(xboxManip.rightStickYAxis());
+	} else if (Math.abs(xboxManip.leftStickYAxis()) > 0.2) {
+	    Arm.setArmFineAdjustment(xboxManip.leftStickYAxis());
+	} else if (xboxManip.aButton()) {
             Arm.setPIDIngest();
-        } else if (xboxManip.bButton()) {
+	} else if (xboxManip.bButton()) {
             Arm.setPIDShot();
         } else if (xboxManip.xButton()) {
             Arm.setPIDHumanLoad();
         } else if (xboxManip.yButton()) {
-            Arm.setPIDCustomShot(510 + Constants.ARM_POT_DIFF);
-        } else if (xboxManip.startButton()) {
-            Arm.setPIDCustomShot(554);
+            Arm.setPIDTrussPass();
+	} else if (xboxManip.startButton()) {
+            Arm.setPIDLongShot();
         } else if (!Arm.isArmInShootAngle() && Arm.isLow) {
             Arm.setPIDShot();
         } else {
-            Arm.stop();
-        }
+	    Arm.stop();
+	}
 
-        if (xboxManip.lBumper()) {
-            Shooter.stop();
+	if (xboxManip.lBumper()) {
+	    Shooter.stop();
         } else if (xboxManip.rBumper()) {
             Shooter.shooShoot();
-        } else if (xboxDriver.rBumper()) {
-            Shooter.shoot();
-        } else if (xboxDriver.startButton()) {
-            Shooter.shooShoot();
-        } else if (xboxManip.backButton()) {
-            Shooter.set(Constants.SHOOTER_LOAD_POWER);
-        } else {
-            Shooter.autoLoad();
+	} else if (xboxDriver.rBumper()) {
+	    Shooter.shoot();
+	} else if (xboxDriver.startButton()) {
+	    Shooter.shooShoot();
+	} else {
+	    Shooter.autoLoad();
         }
-
+        
         if (xboxManip.triggerAxis() > 0.2) {
-            Ingestor.ingest();
+	    Ingestor.ingest();
         } else if (xboxManip.triggerAxis() < -0.2) {
             Ingestor.exgest();
         }
-
+        
         if(!xboxManip.rBumper() && !xboxDriver.rBumper() && Math.abs(xboxManip.triggerAxis()) < 0.2
-                && !xboxDriver.startButton()) {
+		&& !xboxDriver.startButton()) {
             Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
         }
 
         Pneumatics.checkPressureTimer();
 
+        if(Shooter.isShooting) {
+            LED.clear();
+        } else if(Shooter.loadCompleted) {
+            LED.dot();
+        } else if(Shooter.loading) {
+            LED.fill();
+        }
+        
         //Log.write("Teleoperated," + ArmMotors.getBatteryVoltage() + "," + DriveMotors.getTotalJagCurrent() + "," + Arm.pid.isEnable() + "," + Arm.pid.getSetpoint() + "," + Arm.getArmAngle() + "," + Shooter.isShooting);
         SmartDashboard.putNumber("Pot", Arm.getArmAngle());
         SmartDashboard.putBoolean("Shooter Prox Sensor", Shooter.getLimit());
@@ -136,5 +146,9 @@ public class RobotMain extends IterativeRobot {
     public void testPeriodic() {
 	LiveWindow.run();
 	SmartDashboard.putNumber("Pot", Arm.getArmAngle());
+    }
+    
+    public void disabledPeriodic() {
+        LED.rainbow();
     }
 }

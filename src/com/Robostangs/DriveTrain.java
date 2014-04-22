@@ -18,6 +18,8 @@ public class DriveTrain {
     public static double delta = 1.0;
     public static boolean encoderInit = false;
     public static boolean intermediate = false;
+    public static double left, right;
+    public static boolean startLimit;
     
     private DriveTrain() {
         DriveMotors.getInstance();
@@ -26,8 +28,8 @@ public class DriveTrain {
 	leftEncoder = new Encoder(Constants.DT_LEFT_ENCODER_1, Constants.DT_LEFT_ENCODER_2);
         rightEncoder = new Encoder(Constants.DT_RIGHT_ENCODER_1, Constants.DT_RIGHT_ENCODER_2);
         
-        leftEncoder.setDistancePerPulse(Constants.DT_LEFT_ENCODER_DPP);
-        rightEncoder.setDistancePerPulse(Constants.DT_RIGHT_ENCODER_DPP);
+        //leftEncoder.setDistancePerPulse(Constants.DT_LEFT_ENCODER_DPP);
+        //rightEncoder.setDistancePerPulse(Constants.DT_RIGHT_ENCODER_DPP);
         leftEncoder.reset();
 	rightEncoder.reset();
         leftEncoder.start();
@@ -49,29 +51,6 @@ public class DriveTrain {
             rightPower *= Constants.DT_LOW_GEAR_REDUCTION;
         }
         DriveMotors.set(leftPower, leftPower, rightPower, rightPower);
-    }
-    
-    public static void autoDrive (double leftPower, double rightPower) {
-	if(Math.abs(leftEncoder.getRate() + rightEncoder.getRate() / 2) > Constants.DT_AUTO_SHIFT_THRESHOLD) {
-	    if(!intermediate) {
-		Shifting.neutral();
-		intermediate = true;
-	    }
-	    /*&& (autoShift.get() > Constants.DT_AUTO_SHIFT_TIME)) {
-            autoShift.reset();
-	    autoShift.start();*/
-	    Shifting.highGear();
-	} else { 
-	    if(intermediate) {
-                 Shifting.neutral();
-		 intermediate = false;
-	    }
-            /*if (autoShift.get() > Constants.DT_AUTO_SHIFT_TIME) {
-	    autoShift.reset();
-	    autoShift.start();*/
-	    Shifting.lowGear();
-	}
-	drive(leftPower, rightPower);
     }
     
     public static void humanDrive(double leftPower, double rightPower) {
@@ -194,6 +173,47 @@ public class DriveTrain {
         } else {
             stop();
         }
+    }
+    
+    public static void driveLimitLowGear(double leftPower, double rightPower) {
+	if (startLimit) {
+	    left = leftPower;
+	    right = rightPower;
+	    startLimit = false;
+	}
+
+	if (leftPower > 0.0 && rightPower > 0.0) {
+	    if (DriveMotors.getLeftJag1Current() > 20 || DriveMotors.getLeftJag2Current() > 20
+		    || DriveMotors.getRightJag1Current() > 24 || DriveMotors.getRightJag2Current() > 24) {
+	        humanDrive(leftPower * 0.5, rightPower * 0.5);
+	    } else {
+		left = (left + leftPower) / 2;
+		right = (right + rightPower) / 2;
+		humanDrive(left, right);
+	    }
+	} else {
+	    if (DriveMotors.getLeftJag1Current() > 23 || DriveMotors.getLeftJag2Current() > 23
+		    || DriveMotors.getRightJag1Current() > 24 || DriveMotors.getRightJag2Current() > 24) {
+	        humanDrive(leftPower * 0.5, rightPower * 0.5);
+	    } else {
+                left = (left + leftPower) / 2;
+	        right = (right + rightPower) / 2;
+                humanDrive(left, right);
+	    }
+	}
+    }
+    
+    public static void driveLimitHighGear(double leftPower, double rightPower) {
+	if (DriveMotors.getLeftJag1Current() > 45 || DriveMotors.getLeftJag2Current() > 45
+		|| DriveMotors.getRightJag1Current() > 45 || DriveMotors.getRightJag2Current() > 45) {
+	    left = leftPower * 0.6;
+	    right = rightPower * 0.6;
+	    humanDrive(left, right);
+	} else {
+	    //left = (left + leftPower) / 2;
+	    //right = (right + rightPower) / 2;
+	    humanDrive(leftPower, rightPower);
+	}
     }
     
     public static void resetEncoders() {
