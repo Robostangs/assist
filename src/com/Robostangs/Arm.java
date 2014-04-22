@@ -143,6 +143,7 @@ public class Arm {
     }
     
     public static void setPIDCustomShot(int angle) {
+        isLow = false;
         pid.setSetpoint(angle);
 	pidDiff = pid.getError();
 	

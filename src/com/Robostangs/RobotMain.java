@@ -91,9 +91,9 @@ public class RobotMain extends IterativeRobot {
         } else if (xboxManip.xButton()) {
             Arm.setPIDHumanLoad();
         } else if (xboxManip.yButton()) {
-            Arm.setPIDTrussPass();
+            Arm.setPIDCustomShot(Constants.ARM_HALF_SHOT);
 	} else if (xboxManip.startButton()) {
-            Arm.setPIDLongShot();
+            Arm.setPIDCustomShot(Constants.ARM_GOAL_LINE_ANGLE);
         } else if (!Arm.isArmInShootAngle() && Arm.isLow) {
             Arm.setPIDShot();
         } else {
@@ -119,7 +119,7 @@ public class RobotMain extends IterativeRobot {
         }
         
         if(!xboxManip.rBumper() && !xboxDriver.rBumper() && Math.abs(xboxManip.triggerAxis()) < 0.2
-		&& !xboxDriver.startButton()) {
+                && !xboxDriver.startButton()) {
             Ingestor.setSpeed(Constants.INGESTOR_CONSTANT_INGEST_SPEED);
         }
 
@@ -127,13 +127,23 @@ public class RobotMain extends IterativeRobot {
 
         if(Shooter.isShooting) {
             LED.clear();
-        } else if(Shooter.loadCompleted) {
+        } else if (Shooter.loadCompleted) {
             LED.dot();
-        } else if(Shooter.loading) {
+        } else if (Shooter.loading) {
             LED.fill();
         }
         
-        //Log.write("Teleoperated," + ArmMotors.getBatteryVoltage() + "," + DriveMotors.getTotalJagCurrent() + "," + Arm.pid.isEnable() + "," + Arm.pid.getSetpoint() + "," + Arm.getArmAngle() + "," + Shooter.isShooting);
+        /*
+        Log.write(xboxDriver.leftStickYAxis() + "," + xboxDriver.rightStickYAxis() + ","
+            + DriveMotors.getLeftJag1Current() + ","
+            + DriveMotors.getLeftJag2Current() + ","
+            + DriveMotors.getRightJag1Current() + ","
+            + DriveMotors.getRightJag2Current() + ","
+            + DriveTrain.leftEncoder.getRaw() + ","
+            + DriveTrain.rightEncoder.getRaw() + ","
+            + DriveTrain.leftEncoder.getRate() + ","
+            + DriveTrain.rightEncoder.getRate() + "," + "a");
+        */
         SmartDashboard.putNumber("Pot", Arm.getArmAngle());
         SmartDashboard.putBoolean("Shooter Prox Sensor", Shooter.getLimit());
         //SmartDashboard.putBoolean("Is Hot", vision.getLeftStatus());

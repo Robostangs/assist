@@ -45,53 +45,38 @@ public class DriveMotors implements PIDOutput{
         }
     }
    
-    /*
-    public static void setVoltageRate() {
+    public static double getLeftJag1Current() {
         try {
-            leftJag1.setVoltageRampRate(0.05);
-            leftJag2.setVoltageRampRate(0.05);
-            rightJag1.setVoltageRampRate(0.05);
-            rightJag2.setVoltageRampRate(0.05);
+            return leftJag1.getOutputCurrent();
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
-    }*/
-        public static double getLeftJag1Current() {
-	    try {
-		    return leftJag1.getOutputCurrent();
-	    } catch (CANTimeoutException ex) {
-		    ex.printStackTrace();
-	    }
-
-	    return -1;
+        return -1;
     }
     
     public static double getLeftJag2Current() {
-	    try {
-		    return leftJag2.getOutputCurrent();
-	    } catch (CANTimeoutException ex) {
-		    ex.printStackTrace();
-	    }
-
-	    return -1;
+        try {
+            return leftJag2.getOutputCurrent();
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+        return -1;
     }
     public static double getRightJag1Current() {
-	    try {
-		    return rightJag1.getOutputCurrent();
-	    } catch (CANTimeoutException ex) {
-		    ex.printStackTrace();
-	    }
-
-	    return -1;
+        try {
+            return rightJag1.getOutputCurrent();
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+        return -1;
     }
     public static double getRightJag2Current() {
-	    try {
-		    return rightJag2.getOutputCurrent();
-	    } catch (CANTimeoutException ex) {
-		    ex.printStackTrace();
-	    }
-
-	    return -1;
+        try {
+            return rightJag2.getOutputCurrent();
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+        return -1;
     }
     
     public void pidWrite(double output) {

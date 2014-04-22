@@ -47,9 +47,9 @@ public class Constants {
     //Long Shot (Behind the line)
     public static final int ARM_LONG_SHOT_ANGLE = 495 + ARM_POT_DIFF;
     //Goal Line
-    public static final int ARM_GOAL_LINE_ANGLE = 540 + ARM_POT_DIFF;
+    public static final int ARM_GOAL_LINE_ANGLE = 574 + ARM_POT_DIFF;
     //Halfway Shot
-    public static final int ARM_HALF_SHOT = 509 + ARM_POT_DIFF; //365
+    public static final int ARM_HALF_SHOT = 510 + ARM_POT_DIFF; //365
     //Truss Pass
     public static final int ARM_TRUSS_ANGLE = 520 + ARM_POT_DIFF;
     
@@ -92,13 +92,14 @@ public class Constants {
     public static final double DT_ENCODER_FAST_MOD = 1.07;
     public static final double DT_GYRO_SLOW_MOD = 0.93;
     public static final double DT_GYRO_FAST_MOD = 1.15;
-    public static double DT_ENCODER_SLOW_MOD = 0.98;
-    public static double DT_DELTA_OFFSET = 0.0;
-    public static double DT_PUSH_POWER = 0.8;
-    public static double DT_LOW_GEAR_REDUCTION = 0.6;
-    public static double DT_AUTO_SHIFT_TIME = 1.0;
-    public static double DT_AUTO_SHIFT_THRESHOLD = 400;
-    public static double DT_CURRENT_THRESHOLD = -1.0;
+    public static final double DT_ENCODER_SLOW_MOD = 0.98;
+    public static final double DT_DELTA_OFFSET = 0.0;
+    public static final double DT_PUSH_POWER = 0.8;
+    public static final double DT_TRACTION_HIGH_LIMIT = 45.0;
+    public static final double DT_TRACTION_LOW_LEFT_FORWARD_LIMIT = 20.0;
+    public static final double DT_TRACTION_LOW_RIGHT_FORWARD_LIMIT = 24.0;
+    public static final double DT_TRACTION_LOW_LEFT_BACK_LIMIT = 23.0;
+    public static final double DT_TRACTION_LOW_RIGHT_BACK_LIMIT = 24.0;
     
     //Ingestor
     public static final int INGESTOR_LEFT_JAG = 7;

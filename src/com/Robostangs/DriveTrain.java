@@ -2,16 +2,14 @@ package com.Robostangs;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.Timer;
 
 /**
  * @author Laptop
  */
 public class DriveTrain {
     private static DriveTrain instance = null;
-    private static Encoder leftEncoder, rightEncoder;
+    public static Encoder leftEncoder, rightEncoder;
     private static Gyro gyro;
-    private static Timer autoShift;
     private static boolean newGyroReadingDriveStraight = false;
     private static boolean newGyroReadingTurn = false;
     private static double initGyro, currentDistance = 0.0;
@@ -34,8 +32,6 @@ public class DriveTrain {
 	rightEncoder.reset();
         leftEncoder.start();
         rightEncoder.start();
-	//autoShift.reset();
-	//autoShift.start();
     }
     
     public static DriveTrain getInstance() {
@@ -46,10 +42,6 @@ public class DriveTrain {
     }
     
     public static void drive (double leftPower, double rightPower) {
-        if(!Shifting.high && DriveMotors.getTotalJagCurrent() > Constants.DT_CURRENT_THRESHOLD) {
-            leftPower *= Constants.DT_LOW_GEAR_REDUCTION;
-            rightPower *= Constants.DT_LOW_GEAR_REDUCTION;
-        }
         DriveMotors.set(leftPower, leftPower, rightPower, rightPower);
     }
     
@@ -183,8 +175,10 @@ public class DriveTrain {
 	}
 
 	if (leftPower > 0.0 && rightPower > 0.0) {
-	    if (DriveMotors.getLeftJag1Current() > 20 || DriveMotors.getLeftJag2Current() > 20
-		    || DriveMotors.getRightJag1Current() > 24 || DriveMotors.getRightJag2Current() > 24) {
+	    if (DriveMotors.getLeftJag1Current() > Constants.DT_TRACTION_LOW_LEFT_FORWARD_LIMIT
+                    || DriveMotors.getLeftJag2Current() > Constants.DT_TRACTION_LOW_LEFT_FORWARD_LIMIT
+		    || DriveMotors.getRightJag1Current() > Constants.DT_TRACTION_LOW_RIGHT_FORWARD_LIMIT
+                    || DriveMotors.getRightJag2Current() > Constants.DT_TRACTION_LOW_RIGHT_FORWARD_LIMIT) {
 	        humanDrive(leftPower * 0.5, rightPower * 0.5);
 	    } else {
 		left = (left + leftPower) / 2;
@@ -192,8 +186,10 @@ public class DriveTrain {
 		humanDrive(left, right);
 	    }
 	} else {
-	    if (DriveMotors.getLeftJag1Current() > 23 || DriveMotors.getLeftJag2Current() > 23
-		    || DriveMotors.getRightJag1Current() > 24 || DriveMotors.getRightJag2Current() > 24) {
+	    if (DriveMotors.getLeftJag1Current() > Constants.DT_TRACTION_LOW_LEFT_BACK_LIMIT
+                    || DriveMotors.getLeftJag2Current() > Constants.DT_TRACTION_LOW_LEFT_BACK_LIMIT
+		    || DriveMotors.getRightJag1Current() > Constants.DT_TRACTION_LOW_RIGHT_BACK_LIMIT
+                    || DriveMotors.getRightJag2Current() > Constants.DT_TRACTION_LOW_RIGHT_BACK_LIMIT) {
 	        humanDrive(leftPower * 0.5, rightPower * 0.5);
 	    } else {
                 left = (left + leftPower) / 2;
@@ -204,14 +200,12 @@ public class DriveTrain {
     }
     
     public static void driveLimitHighGear(double leftPower, double rightPower) {
-	if (DriveMotors.getLeftJag1Current() > 45 || DriveMotors.getLeftJag2Current() > 45
-		|| DriveMotors.getRightJag1Current() > 45 || DriveMotors.getRightJag2Current() > 45) {
-	    left = leftPower * 0.6;
-	    right = rightPower * 0.6;
-	    humanDrive(left, right);
+	if (DriveMotors.getLeftJag1Current() > Constants.DT_TRACTION_HIGH_LIMIT 
+                || DriveMotors.getLeftJag2Current() > Constants.DT_TRACTION_HIGH_LIMIT
+		|| DriveMotors.getRightJag1Current() > Constants.DT_TRACTION_HIGH_LIMIT
+                || DriveMotors.getRightJag2Current() > Constants.DT_TRACTION_HIGH_LIMIT) {
+	    humanDrive(leftPower * 0.6, rightPower * 0.6);
 	} else {
-	    //left = (left + leftPower) / 2;
-	    //right = (right + rightPower) / 2;
 	    humanDrive(leftPower, rightPower);
 	}
     }

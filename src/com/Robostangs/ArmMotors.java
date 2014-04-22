@@ -51,6 +51,7 @@ public class ArmMotors implements PIDOutput{
             System.out.println("Arm Motor Error");
         }
     }
+    
     public static double getBatteryVoltage() {
         double voltage = 0.0;
         try {

@@ -43,17 +43,6 @@ public class Autonomous {
                     Shooter.shoot();
                 }
             }
-	    /* else {
-		while (timer.get() < 6.0) {
-		    DriveTrain.stop();
-		}
-		while (timer.get() < 7.0) {
-		    if (Shooter.loadCompleted) {
-			Shooter.shooShoot();
-		    }
-		}
-	    }
-	    */
 	    Arm.stop();
 	    timer.stop();
 	    done = true;
@@ -101,7 +90,7 @@ public class Autonomous {
 		if (!Arm.isInPosition(Constants.ARM_INGEST_ANGLE)) {
 		    Arm.setPIDIngest();
 		}
-		//Shooter.autoLoad();
+		Shooter.stop();
 		Ingestor.ingest();
                 
 		//DriveTrain.driveStraightEncoder(Constants.AUTON_2B_DRIVE_POWER);
@@ -126,6 +115,7 @@ public class Autonomous {
 	    while (timer.get() < 9.0 && !Arm.isInPosition(Constants.ARM_SHOOT_ANGLE)) {
 		DriveTrain.stop();
 		Arm.setPIDShot();
+                Shooter.autoLoad();
 	    }
 	    while (timer.get() < 10.0 && Ingestor.hasBall()) {
 		Shooter.shooShoot();
@@ -133,7 +123,6 @@ public class Autonomous {
 	    }
 	    Arm.stop();
             Ingestor.stop();
-	    //Shooter.shooShoot();
 	    timer.stop();
 	    done = true;
         }
