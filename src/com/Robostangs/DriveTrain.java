@@ -109,16 +109,12 @@ public class DriveTrain {
             encoderInit = true;
         }
         
-	if (distance > 0) {
-	    while (currentDistance < distance) {
-                currentDistance = getEncoderAverage();
-		return false;
-	    }
-	} else if (distance < 0) {
-	    while (currentDistance > distance) {
-                currentDistance = getEncoderAverage();
-		return false;
-	    }
+	if ((distance > 0) && (currentDistance < distance)) {
+            currentDistance = getEncoderAverage();
+	    return false;
+	} else if ((distance < 0) && (currentDistance > distance)) {
+            currentDistance = getEncoderAverage();
+	    return false;
 	}
 	
 	return true;
